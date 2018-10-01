@@ -1,6 +1,6 @@
 var demo = {};
 
-var blockLayer, goalLayer, jan, trash;
+var blockLayer, goalLayer, jan, trash, stateText;
 var velocity = 300;
 
 demo.level1 = function(){};
@@ -58,6 +58,15 @@ demo.level1.prototype = {
         trash.body.collideWorldBounds = true;
         
         
+        
+        
+        
+    //Text stuff
+    stateText = game.add.text(game.world.centerX,game.world.centerY,' ', { font: '84px Arial', fill: '#ed0202' });
+    stateText.anchor.setTo(0.5, 0.5);
+    stateText.visible = false;
+        
+        
     },
 	update: function(){
         
@@ -110,6 +119,8 @@ demo.level1.prototype = {
         
         if(hitGoal){
             trash.kill();
+            stateText.text = " Level Complete, \n Click to restart";
+            stateText.visible = true;
         }
         
 
@@ -122,3 +133,4 @@ demo.level1.prototype = {
     
 
 };
+
