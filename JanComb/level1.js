@@ -9,8 +9,7 @@ demo.level1.prototype = {
         game.load.image('Tiles', 'assets/protoTileSet.png');
         game.load.spritesheet('jan', 'assets/characterSpritesheet.png', 230, 405);
         game.load.image('Trash', 'assets/paperBall.png'); // for now
-        //Also load in the character sprite sheet and something to be the trash block for now
-        //  (There should be a paperBall.png in the assets folder that you could use)
+		
     },
 	create: function(){
         //Start Physics
@@ -37,8 +36,8 @@ demo.level1.prototype = {
         jan.scale.setTo(0.2, 0.2);
         
         //letting jan be able to collide
-		game.physics.enable(jan);
-		jan.body.collideWorldBounds = true;
+	game.physics.arcade.enable(jan);
+	jan.body.collideWorldBounds = true;
         
         //walking animation
         jan.animations.add('walk', [0,1,2,3] );
@@ -46,10 +45,13 @@ demo.level1.prototype = {
         
         
         trash = game.add.sprite(500, 100, 'Trash');
+	trash.scale.setTo(0.5, 0.5);
+		
+	// Enable trash physics and stuff
         game.physics.arcade.enable(trash);
         trash.body.bounce.setTo(0.3);   // Can change later
         trash.body.collideWorldBounds = true;
-        trash.scale.setTo(0.5, 0.5);
+        
         
     },
 	update: function(){
