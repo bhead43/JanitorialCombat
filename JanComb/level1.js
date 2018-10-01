@@ -1,13 +1,14 @@
 var demo = {};
 
-var blockLayer, goalLayer, trash;
+var blockLayer, goalLayer, jan, trash;
 
 demo.level1 = function(){};
 demo.level1.prototype = {
 	preload: function(){
         game.load.tilemap('levelOne', 'assets/levelMap.json', null, Phaser.Tilemap.TILED_JSON);
         game.load.image('Tiles', 'assets/protoTileSet.png');
-	game.load.image('Trash', 'assets/paperBall.png'); // for now
+        game.load.spritesheet('jan', 'assets/characterSpritesheet.png', 230, 405);
+        game.load.image('Trash', 'assets/paperBall.png'); // for now
         //Also load in the character sprite sheet and something to be the trash block for now
         //  (There should be a paperBall.png in the assets folder that you could use)
     },
@@ -25,21 +26,68 @@ demo.level1.prototype = {
         
         //Set collision on the 'Blocks' layer
         map.setCollisionBetween(2, 2, true, 'Blocks');
-		
-	// Just making some trash
-	trash = game.add.sprite(centerX, centerY, 'Trash');
-	game.physics.arcade.enable(trash);
-	trash.body.bounce.setTo(0.3); // Can change later
-	trash.body.collideWorldBounds;
         
         //MIGHT need to uncomment this to have some detection when the block hits the goal area
         //map.setCollisonBetween(3, 3, true, 'Goal');
+        
+        
+        //janitor sprite creation and size
+        jan = game.add.sprite(130, 130,'jan');
+        jan.anchor.setTo(0.5,0.5);
+        jan.scale.setTo(0.2, 0.2);
+        
+        //letting jan be able to collide
+		game.physics.enable(jan);
+		jan.body.collideWorldBounds = true;
+        
+        //walking animation
+        jan.animations.add('walk', [0,1,2,3] );
+            
+        
+        
+        trash = game.add.sprite(500, 100, 'Trash');
+        game.physics.arcade.enable(trash);
+        trash.body.bounce.setTo(0.3);   // Can change later
+        trash.body.collideWorldBounds = true;
+        trash.scale.setTo(0.5, 0.5);
+        
     },
 	update: function(){
-        //Fill these in with actual variables instead of the placeholders in there now
-        //----------------------------------------------------------------------------
-        //game.physics.arcade.collide(PLAYER_VARIABLE_HERE, blockLayer);
-        game.physics.arcade.collide(trash, blockLayer);
         
+        
+        //cant get anything to collide thou........!!
+        game.physics.arcade.collide(jan, blockLayer);
+        game.physics.arcade.collide(trash, blockLayer);
+        game.physics.arcade.collide(trash, jan);
+        
+        
+        
+        if(game.input.keyboard.isDown(Phaser.Keyboard.RIGHT)){
+			jan.scale.setTo(0.2, 0.2);
+			jan.x += 4;
+            jan.animations.play('walk', 14, true);
+		}
+		else if(game.input.keyboard.isDown(Phaser.Keyboard.LEFT)){
+			jan.scale.setTo(-0.2, 0.2);
+			jan.x -= 4;
+            jan.animations.play('walk', 14, true);
+		}
+        else{
+            jan.animations.stop('walk');
+            jan.frame = 0
+        }
+
+		if(game.input.keyboard.isDown(Phaser.Keyboard.UP)){
+            jan.scale.setTo(0.2, 0.2);
+			jan.y -= 4;
+			
+		}
+		else if(game.input.keyboard.isDown(Phaser.Keyboard.DOWN)){
+            jan.scale.setTo(0.2, 0.2);
+			jan.y += 4;
+		}
+	           
+        
+
     }
 };
