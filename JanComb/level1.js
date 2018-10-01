@@ -1,6 +1,7 @@
 var demo = {};
 
 var blockLayer, goalLayer, jan, trash;
+var velocity = 300;
 
 demo.level1 = function(){};
 demo.level1.prototype = {
@@ -24,11 +25,10 @@ demo.level1.prototype = {
         goalLayer = map.createLayer('Goal');
         
         //Set collision on the 'Blocks' layer
-        map.setCollisionBetween(2, 2, true, 'Blocks');
+        map.setCollisionBetween(1, 3, true, 'Blocks');
         
         //MIGHT need to uncomment this to have some detection when the block hits the goal area
         //map.setCollisonBetween(3, 3, true, 'Goal');
-        
         
         //janitor sprite creation and size
         jan = game.add.sprite(130, 130,'jan');
@@ -36,8 +36,8 @@ demo.level1.prototype = {
         jan.scale.setTo(0.2, 0.2);
         
         //letting jan be able to collide
-	game.physics.arcade.enable(jan);
-	jan.body.collideWorldBounds = true;
+        game.physics.enable(jan);
+	    jan.body.collideWorldBounds = true;
         
         //walking animation
         jan.animations.add('walk', [0,1,2,3] );
@@ -45,10 +45,10 @@ demo.level1.prototype = {
         
         
         trash = game.add.sprite(500, 100, 'Trash');
-	trash.scale.setTo(0.5, 0.5);
+	    trash.scale.setTo(0.5, 0.5);
 		
-	// Enable trash physics and stuff
-        game.physics.arcade.enable(trash);
+	    // Enable trash physics and stuff
+        game.physics.enable(trash);
         trash.body.bounce.setTo(0.3);   // Can change later
         trash.body.collideWorldBounds = true;
         
@@ -63,32 +63,34 @@ demo.level1.prototype = {
         game.physics.arcade.collide(trash, jan);
         
         
-        
         if(game.input.keyboard.isDown(Phaser.Keyboard.RIGHT)){
 			jan.scale.setTo(0.2, 0.2);
-			jan.x += 4;
+			jan.body.velocity.x = velocity;
             jan.animations.play('walk', 14, true);
 		}
 		else if(game.input.keyboard.isDown(Phaser.Keyboard.LEFT)){
 			jan.scale.setTo(-0.2, 0.2);
-			jan.x -= 4;
+			jan.body.velocity.x = velocity * -1;
             jan.animations.play('walk', 14, true);
 		}
-        else{
-            jan.animations.stop('walk');
-            jan.frame = 0
-        }
 
-		if(game.input.keyboard.isDown(Phaser.Keyboard.UP)){
+
+		else if(game.input.keyboard.isDown(Phaser.Keyboard.UP)){
             jan.scale.setTo(0.2, 0.2);
-			jan.y -= 4;
+			jan.body.velocity.y = velocity * -1;
 			
 		}
 		else if(game.input.keyboard.isDown(Phaser.Keyboard.DOWN)){
             jan.scale.setTo(0.2, 0.2);
-			jan.y += 4;
+			jan.body.velocity.y = velocity;
 		}
-	           
+	   
+        else{
+            jan.animations.stop('walk');
+            jan.frame = 0
+            jan.body.velocity.x = 0;
+            jan.body.velocity.y = 0;
+        }
         
 
     }
