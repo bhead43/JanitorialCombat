@@ -25,7 +25,8 @@ demo.level1.prototype = {
         goalLayer = map.createLayer('Goal');
         
         //Set collision on the 'Blocks' layer
-        map.setCollisionBetween(1, 3, true, 'Blocks');
+        map.setCollisionBetween(2, 2, true, 'Blocks');
+        map.setCollisionBetween(3, 3, true, 'Goal');
         
         //MIGHT need to uncomment this to have some detection when the block hits the goal area
         //map.setCollisonBetween(3, 3, true, 'Goal');
@@ -60,12 +61,18 @@ demo.level1.prototype = {
     },
 	update: function(){
         
+        var hitGoal = game.physics.arcade.collide(trash, goalLayer);
         
+
         //cant get anything to collide thou........!!
         game.physics.arcade.collide(jan, blockLayer);
         game.physics.arcade.collide(trash, blockLayer);
         game.physics.arcade.collide(trash, jan);
+        game.physics.arcade.collide(trash, goalLayer)
         
+        
+       
+            
         
         //Movement stuff
         //  Maybe set x velocity to 0 when moving up/down, and vice versa? Could help with movement weirdness
@@ -101,11 +108,17 @@ demo.level1.prototype = {
             jan.body.velocity.y = 0;
         }
         
+        if(hitGoal){
+            trash.kill();
+        }
+        
 
     },
     
     render: function() {
         game.debug.bodyInfo(jan, 32, 32);
         game.debug.body(jan);
-    }
+    }  
+    
+
 };
