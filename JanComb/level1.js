@@ -32,6 +32,7 @@ demo.level1.prototype = {
         
         //janitor sprite creation and size
         jan = game.add.sprite(130, 130,'jan');
+        
         jan.anchor.setTo(0.5,0.5);
         jan.scale.setTo(0.2, 0.2);
         
@@ -39,6 +40,7 @@ demo.level1.prototype = {
         //  See about either making the player smaller or restricting the hitbox to the feet only.
         //  Latter is probably the better thing to do, but it might also be more of a pain in the ass
         game.physics.enable(jan);
+        jan.body.setSize(128, 128, 32, 256);
 	    jan.body.collideWorldBounds = true;
         
         //walking animation
@@ -80,7 +82,6 @@ demo.level1.prototype = {
             jan.animations.play('walk', 14, true);
 		}
 
-
 		else if(game.input.keyboard.isDown(Phaser.Keyboard.UP)){
             jan.scale.setTo(0.2, 0.2);
             jan.body.velocity.x = 0;
@@ -101,5 +102,10 @@ demo.level1.prototype = {
         }
         
 
+    },
+    
+    render: function() {
+        game.debug.bodyInfo(jan, 32, 32);
+        game.debug.body(jan);
     }
 };
