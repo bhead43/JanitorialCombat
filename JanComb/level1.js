@@ -36,6 +36,8 @@ demo.level1.prototype = {
         jan.scale.setTo(0.2, 0.2);
         
         //letting jan be able to collide
+        //  See about either making the player smaller or restricting the hitbox to the feet only.
+        //  Latter is probably the better thing to do, but it might also be more of a pain in the ass
         game.physics.enable(jan);
 	    jan.body.collideWorldBounds = true;
         
@@ -63,13 +65,17 @@ demo.level1.prototype = {
         game.physics.arcade.collide(trash, jan);
         
         
+        //Movement stuff
+        //  Maybe set x velocity to 0 when moving up/down, and vice versa? Could help with movement weirdness
         if(game.input.keyboard.isDown(Phaser.Keyboard.RIGHT)){
 			jan.scale.setTo(0.2, 0.2);
+            jan.body.velocity.y = 0;
 			jan.body.velocity.x = velocity;
             jan.animations.play('walk', 14, true);
 		}
 		else if(game.input.keyboard.isDown(Phaser.Keyboard.LEFT)){
 			jan.scale.setTo(-0.2, 0.2);
+            jan.body.velocity.y = 0;
 			jan.body.velocity.x = velocity * -1;
             jan.animations.play('walk', 14, true);
 		}
@@ -77,11 +83,13 @@ demo.level1.prototype = {
 
 		else if(game.input.keyboard.isDown(Phaser.Keyboard.UP)){
             jan.scale.setTo(0.2, 0.2);
+            jan.body.velocity.x = 0;
 			jan.body.velocity.y = velocity * -1;
 			
 		}
 		else if(game.input.keyboard.isDown(Phaser.Keyboard.DOWN)){
             jan.scale.setTo(0.2, 0.2);
+            jan.body.velocity.x = 0;
 			jan.body.velocity.y = velocity;
 		}
 	   
