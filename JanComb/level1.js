@@ -43,9 +43,11 @@ demo.level1.prototype = {
         jan.body.setSize(128, 128, 32, 256);
 	    jan.body.collideWorldBounds = true;
         
-        //walking animation
-        jan.animations.add('walk', [0,1,2,3] );
-            
+        //Add animations
+        jan.animations.add('walkRight', [7, 6, 8, 6]);
+        jan.animations.add('walkLeft', [4, 3, 5, 3]);
+        jan.animations.add('walkUp', [10, 9, 11, 9]);
+        jan.animations.add('walkDown', [1, 0, 2, 0]);
         
         
         trash = game.add.sprite(500, 100, 'Trash');
@@ -70,32 +72,34 @@ demo.level1.prototype = {
         //Movement stuff
         //  Maybe set x velocity to 0 when moving up/down, and vice versa? Could help with movement weirdness
         if(game.input.keyboard.isDown(Phaser.Keyboard.RIGHT)){
-			jan.scale.setTo(0.2, 0.2);
+			//jan.scale.setTo(0.2, 0.2);
             jan.body.velocity.y = 0;
 			jan.body.velocity.x = velocity;
-            jan.animations.play('walk', 14, true);
+            jan.animations.play('walkRight', 7, true);
 		}
 		else if(game.input.keyboard.isDown(Phaser.Keyboard.LEFT)){
-			jan.scale.setTo(-0.2, 0.2);
+			//jan.scale.setTo(-0.2, 0.2);
             jan.body.velocity.y = 0;
 			jan.body.velocity.x = velocity * -1;
-            jan.animations.play('walk', 14, true);
+            jan.animations.play('walkLeft', 7, true);
 		}
 
 		else if(game.input.keyboard.isDown(Phaser.Keyboard.UP)){
-            jan.scale.setTo(0.2, 0.2);
+            //jan.scale.setTo(0.2, 0.2);
             jan.body.velocity.x = 0;
 			jan.body.velocity.y = velocity * -1;
+            jan.animations.play('walkUp', 7, true);
 			
 		}
 		else if(game.input.keyboard.isDown(Phaser.Keyboard.DOWN)){
-            jan.scale.setTo(0.2, 0.2);
+            //jan.scale.setTo(0.2, 0.2);
             jan.body.velocity.x = 0;
 			jan.body.velocity.y = velocity;
+            jan.animations.play('walkDown', 7, true);
 		}
 	   
         else{
-            jan.animations.stop('walk');
+            jan.animations.stop();
             jan.frame = 0
             jan.body.velocity.x = 0;
             jan.body.velocity.y = 0;
@@ -105,7 +109,7 @@ demo.level1.prototype = {
     },
     
     render: function() {
-        game.debug.bodyInfo(jan, 32, 32);
+        //game.debug.bodyInfo(jan, 32, 32);
         game.debug.body(jan);
     }
 };
