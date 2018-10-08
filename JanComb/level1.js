@@ -3,7 +3,8 @@ var demo = {};
 var blockLayer, goalLayer, jan, trash, stateText, villain;
 var upChild, downChild, leftChild, rightChild;  //Children for the trash object
 var velocity = 300;
-var trashVelocity = 500;    //Tweak as needed
+var trashVelocity = 500; //Tweak as needed
+var dummyCounter = 0;
 
 demo.level1 = function(){};
 demo.level1.prototype = {
@@ -12,10 +13,9 @@ demo.level1.prototype = {
         game.load.image('Tiles', 'assets/protoTileSet.png');
         game.load.spritesheet('jan', 'assets/characterSpritesheet.png', 230, 405);
         game.load.image('Trash', 'assets/paperBall.png'); // for now
-        game.load.spritesheet('villain', 'assets/villainSpritesheet.png', 300,300,6);
-        
-		
+        game.load.spritesheet('villain', 'assets/villainSpritesheet.png', 300, 300);		
     },
+    
 	create: function(){
         //Start Physics
         game.physics.startSystem(Phaser.Physics.ARCADE);
@@ -39,7 +39,7 @@ demo.level1.prototype = {
         jan = game.add.sprite(130, 130,'jan');
         
         jan.anchor.setTo(0.5,0.5);
-        jan.scale.setTo(0.2, 0.2);
+        jan.scale.setTo(0.25, 0.25);
         
         //letting jan be able to collide
         //  See about either making the player smaller or restricting the hitbox to the feet only.
@@ -72,12 +72,14 @@ demo.level1.prototype = {
         //Handles everything done above
         trash = createTrash(200, 150);
         //Add children to trash
+        //  I *think* that these all need to be made like this, as opposed to doing it through a function.
+        //  Otherwise, I don't know an easy way to handle collision detection later on
         upChild = addChildSprite(trash, 'up');
         downChild = addChildSprite(trash, 'down');
         leftChild = addChildSprite(trash, 'left');
         rightChild = addChildSprite(trash, 'right');
         
-        villain = game.add.sprite(300,300,'villain');
+        villain = game.add.sprite(300, 300, 'villain');
         
         villain.anchor.setTo(0.5,0.5);
         villain.scale.setTo(0.2,0.2);
@@ -103,20 +105,25 @@ demo.level1.prototype = {
 	update: function(){
         
         var hitGoal = game.physics.arcade.collide(trash, goalLayer);
+        var badHit = game.physics.arcade.collide(villain, jan);
         
         game.physics.arcade.collide(jan, blockLayer);
         game.physics.arcade.collide(trash, blockLayer);
-        game.physics.arcade.collide(trash, jan);  //Disabling for now, hopefully will be off for the remainder of the project!
+        //game.physics.arcade.collide(trash, jan);  //Disabling for now, hopefully will be off for the remainder of the project!
         game.physics.arcade.collide(trash, goalLayer)
-        game.physics.arcade.collide(villain, jan);
-        game.physics.arcade.collide(villain,trash);
-        game.physics.arcade.collide(villain, goalLayer);
+        //game.physics.arcade.collide(villain,trash); //Disabling for now, using the children laid out below to check for collision now
+        //game.physics.arcade.collide(villain, goalLayer); //Don't need this one, I think?
         
         //Variables to check collision with trash children
         var upCollide = game.physics.arcade.collide(jan, upChild);
         var downCollide = game.physics.arcade.collide(jan, downChild);
         var leftCollide = game.physics.arcade.collide(jan, leftChild);
         var rightCollide = game.physics.arcade.collide(jan, rightChild);
+        //More variables to check children collision, but this time with the monster
+        var upBadCollide = game.physics.arcade.collide(villain, upChild);
+        var downBadCollide = game.physics.arcade.collide(villain, downChild);
+        var leftBadCollide = game.physics.arcade.collide(villain, leftChild);
+        var rightBadCollide = game.physics.arcade.collide(villain, rightChild);
         
         //Movement stuff
         //  Maybe set x velocity to 0 when moving up/down, and vice versa? Could help with movement weirdness
@@ -184,7 +191,7 @@ demo.level1.prototype = {
             else if(rightCollide){
                 //PUSH_LEFT ANIMATION GOES HERE
                 
-                //Moce trash to the left
+                //Move trash to the left
                 trash.body.velocity.x = trashVelocity * -1;
             }
             else{
@@ -192,19 +199,57 @@ demo.level1.prototype = {
             }
         }
         
+        //Goal Detection
+        //  Ends level once the trash ball hits the goal area
         if(hitGoal){
             trash.kill();
             stateText.text = " Level Complete, \n Click to restart";
             stateText.visible = true;
         }
-        
 
+        //Enemy movement!
+        //  What *should* happen:
+        //      -Enemy moves towards the player at all times
+        //      -If the enemy collides with the player, deal damage!
+        //          --Will probably just be a 'game over' and reset the level on hit for now. Will implement an HP mechanic later on
+        //      -If the enemy collides with the ball, it'll move the ball
+        //          --Will follow the same rules as the player; if it hits from the bottom, move it up, etc.
+        
+        //Moves the villain sprite continuously towards the jan sprite
+        game.physics.arcade.moveToObject(villain, jan, 75);
+        
+        //Check for collision with the character
+        //  --Might just send this to a separate state? Not sure yet
+        if(badHit){
+            //Once hit, game over! Put some text up and prompt the player to restart the level
+            game.state.start('gameOver');
+        }
+         
+        //Check for collision with trash ball children
+        //  --Making these if-else if instead of just 4 if statements to avoid bad things happening if it hits two at once
+            if(upBadCollide){
+                //Move trash down
+                trash.body.velocity.y = trashVelocity;
+            }
+            else if(downBadCollide){
+                //Move trash up
+                trash.body.velocity.y = trashVelocity * -1;
+            }
+            else if(leftBadCollide){
+                //Move trash to the right
+                trash.body.velocity.x = trashVelocity;
+            }
+            else if(rightBadCollide){
+                //Move trash to the left
+                trash.body.velocity.x = trashVelocity * -1;
+            }
     },
     
     render: function() {
         //game.debug.bodyInfo(jan, 32, 32);
         game.debug.body(jan);
         game.debug.body(trash);
+        game.debug.body(villain);
         
         //Every now and then, these don't look like they actually initialize?
         //  Look into this later! I have no clue what causes this right now.
@@ -233,13 +278,16 @@ function createTrash(spawnX, spawnY){
 
 function addChildSprite(parent, direction){
     var child;
-    var currentX = parent.x - 208;
-    var currentY = parent.y - 158;
+    //I have no clue why I have to fudge these numbers to make it work.
+    var currentX = parent.body.x - 208;
+    var currentY = parent.body.y - 158;
     
     switch(direction){
         case 'left':
             child = parent.addChild(game.make.sprite(currentX - 62, currentY));
             game.physics.enable(child);
+            //Set the body of the child sprite to just barely surround the parent.
+            //Might make these even smaller later to make things better
             child.body.setSize(10, 30, 22, 1);
             child.body.moves = false;
             break;
