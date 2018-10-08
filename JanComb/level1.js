@@ -81,7 +81,7 @@ demo.level1.prototype = {
         leftChild = addChildSprite(trash, 'left');
         rightChild = addChildSprite(trash, 'right');
         
-        villain = game.add.sprite(300, 300, 'villain');
+        villain = game.add.sprite(300, 800, 'villain');
         
         villain.anchor.setTo(0.5,0.5);
         villain.scale.setTo(0.2,0.2);
@@ -105,6 +105,7 @@ demo.level1.prototype = {
         
     },
 	update: function(){
+        villain.frame = 2;
         
         var hitGoal = game.physics.arcade.collide(trash, goalLayer);
         var badHit = game.physics.arcade.collide(villain, jan);
@@ -206,12 +207,7 @@ demo.level1.prototype = {
         //  Ends level once the trash ball hits the goal area
         if(hitGoal){
             trash.kill();
-            game.state.start('nextLevel');
-                    
-            
-            
-          
-            
+            game.state.start('nextLevel');  
         }
 
         //Enemy movement!

@@ -7,7 +7,7 @@ demo.nextLevel.prototype = {
         game.stage.backgroundColor = '#26b7ad';
         
         //Text stuff
-        stateText = game.add.text(game.world.centerX,game.world.centerY,' ', { font: '84px Arial', fill: '#ed0202' });
+        stateText = game.add.text(game.world.centerX,game.world.centerY,' ', { font: '64px Arial', fill: '#ed0202' });
         stateText.anchor.setTo(0.5, 0.5);
         stateText.visible = false;
     },
