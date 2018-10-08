@@ -45,7 +45,7 @@ demo.level1.prototype = {
         //  See about either making the player smaller or restricting the hitbox to the feet only.
         //  Latter is probably the better thing to do, but it might also be more of a pain in the ass
         game.physics.enable(jan);
-        jan.body.setSize(128, 128, 32, 256);
+        jan.body.setSize(128, 128, 50, 270);
 	    jan.body.collideWorldBounds = true;
         
         //Add animations
@@ -70,7 +70,7 @@ demo.level1.prototype = {
         //trash.body.collideWorldBounds = true;
         
         //Handles everything done above
-        trash = createTrash(200, 100);
+        trash = createTrash(200, 150);
         //Add children to trash
         upChild = addChildSprite(trash, 'up');
         downChild = addChildSprite(trash, 'down');
@@ -208,6 +208,7 @@ demo.level1.prototype = {
         
         //Every now and then, these don't look like they actually initialize?
         //  Look into this later! I have no clue what causes this right now.
+        //  Nevermind! Changing the way the children were created fixed this!
         game.debug.body(upChild);
         game.debug.body(downChild);
         game.debug.body(leftChild);
@@ -233,7 +234,7 @@ function createTrash(spawnX, spawnY){
 function addChildSprite(parent, direction){
     var child;
     var currentX = parent.x - 208;
-    var currentY = parent.y - 110;
+    var currentY = parent.y - 158;
     
     switch(direction){
         case 'left':
