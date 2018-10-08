@@ -10,7 +10,7 @@ demo.level1.prototype = {
         game.load.image('Tiles', 'assets/protoTileSet.png');
         game.load.spritesheet('jan', 'assets/characterSpritesheet.png', 230, 405);
         game.load.image('Trash', 'assets/paperBall.png'); // for now
-        game.load.spritesheet('villain', 'assets/villainSpritesheet.png', 230,405);
+        game.load.spritesheet('villain', 'assets/villainSpritesheet.png', 300,300,6);
         
 		
     },
