@@ -85,7 +85,7 @@ demo.level1.prototype = {
         villain.scale.setTo(0.2,0.2);
         
         game.physics.enable(villain);
-        villain.body.setSize(128,128,32,256);
+        villain.body.setSize(225, 225, 40, 75);
         villain.body.collideWorldBounds = true;
         
         villain.animations.add('walkRight', [4,5]);
