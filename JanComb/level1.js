@@ -1,7 +1,9 @@
 var demo = {};
 
 var blockLayer, goalLayer, jan, trash, stateText, villain;
+var upChild, downChild, leftChild, rightChild;  //Children for the trash object
 var velocity = 300;
+var trashVelocity = 500;    //Tweak as needed
 
 demo.level1 = function(){};
 demo.level1.prototype = {
@@ -53,14 +55,27 @@ demo.level1.prototype = {
         jan.animations.add('walkDown', [1, 0, 2, 0]);
         
         
-        trash = game.add.sprite(500, 100, 'Trash');
-	    trash.scale.setTo(0.5, 0.5);
+        //ALL OBSOLETE, HANDLED WITH FUNCTION NOW
+        
+        //trash = game.add.sprite(500, 100, 'Trash');
+	    //trash.scale.setTo(0.5, 0.5);
 		
 	    // Enable trash physics and stuff
-        game.physics.enable(trash);
-        trash.body.bounce.setTo(0.3);   // Can change later
-        trash.body.collideWorldBounds = true;
         
+        //Trying to make the ball only be moved when you hit a button...
+        //  Idea is to surround the ball with empty collision boxes, and enable a 'push' action when you're in one of those boxes
+        //  Add empty child sprites to the main trash ball? Also, moving the trash creation to its own function to make things cleaner later
+        //game.physics.enable(trash);
+        //trash.body.bounce.setTo(0.3);   // Can change later
+        //trash.body.collideWorldBounds = true;
+        
+        //Handles everything done above
+        trash = createTrash(200, 100);
+        //Add children to trash
+        upChild = addChildSprite(trash, 'up');
+        downChild = addChildSprite(trash, 'down');
+        leftChild = addChildSprite(trash, 'left');
+        rightChild = addChildSprite(trash, 'right');
         
         villain = game.add.sprite(300,300,'villain');
         
@@ -89,19 +104,19 @@ demo.level1.prototype = {
         
         var hitGoal = game.physics.arcade.collide(trash, goalLayer);
         
-
-        //cant get anything to collide thou........!!
         game.physics.arcade.collide(jan, blockLayer);
         game.physics.arcade.collide(trash, blockLayer);
-        game.physics.arcade.collide(trash, jan);
+        game.physics.arcade.collide(trash, jan);  //Disabling for now, hopefully will be off for the remainder of the project!
         game.physics.arcade.collide(trash, goalLayer)
         game.physics.arcade.collide(villain, jan);
         game.physics.arcade.collide(villain,trash);
         game.physics.arcade.collide(villain, goalLayer);
         
-        
-       
-            
+        //Variables to check collision with trash children
+        var upCollide = game.physics.arcade.collide(jan, upChild);
+        var downCollide = game.physics.arcade.collide(jan, downChild);
+        var leftCollide = game.physics.arcade.collide(jan, leftChild);
+        var rightCollide = game.physics.arcade.collide(jan, rightChild);
         
         //Movement stuff
         //  Maybe set x velocity to 0 when moving up/down, and vice versa? Could help with movement weirdness
@@ -139,6 +154,44 @@ demo.level1.prototype = {
             jan.body.velocity.y = 0;
         }
         
+        //Trash movement!
+        //  What *should* happen:
+        //      -Only gets moved when you hit a button (making it 'E' for now) while next to the ball
+        //      -Direction of movement depends on where you hit it from
+        //      -Only ever moves on one axis
+        
+        //First check to see if the 'E' key is pressed...
+        if(game.input.keyboard.isDown(Phaser.Keyboard.E)){
+            if(upCollide){
+                //Put a pushing animation here! At some point
+                //PUSH_DOWN ANIMATION GOES HERE
+                
+                //Move trash down
+                trash.body.velocity.y = trashVelocity;
+            }
+            else if(downCollide){
+                //PUSH_UP ANIMATION GOES HERE
+                
+                //Move trash up
+                trash.body.velocity.y = trashVelocity * -1;
+            }
+            else if(leftCollide){
+                //PUSH_RIGHT ANIMATION GOES HERE
+                
+                //Move trash to the right
+                trash.body.velocity.x = trashVelocity;
+            }
+            else if(rightCollide){
+                //PUSH_LEFT ANIMATION GOES HERE
+                
+                //Moce trash to the left
+                trash.body.velocity.x = trashVelocity * -1;
+            }
+            else{
+                //PUSH_BAD ANIMATION GOES HERE
+            }
+        }
+        
         if(hitGoal){
             trash.kill();
             stateText.text = " Level Complete, \n Click to restart";
@@ -151,9 +204,67 @@ demo.level1.prototype = {
     render: function() {
         //game.debug.bodyInfo(jan, 32, 32);
         game.debug.body(jan);
-    }  
-    
-
+        game.debug.body(trash);
+        
+        //Every now and then, these don't look like they actually initialize?
+        //  Look into this later! I have no clue what causes this right now.
+        game.debug.body(upChild);
+        game.debug.body(downChild);
+        game.debug.body(leftChild);
+        game.debug.body(rightChild);
+        
+        game.debug.body(goalLayer);
+    }
 };
+
+function createTrash(spawnX, spawnY){
+    var trash;
+    
+    trash = game.add.sprite(spawnX, spawnY, 'Trash');
+    trash.scale.setTo(0.5, 0.5);
+    
+    game.physics.enable(trash);
+//    trash.body.bounce.setTo(0.3);   // Can change later, probably don't want any bounce in the end?
+    trash.body.collideWorldBounds = true;
+    
+    return trash;
+}
+
+function addChildSprite(parent, direction){
+    var child;
+    var currentX = parent.x - 208;
+    var currentY = parent.y - 110;
+    
+    switch(direction){
+        case 'left':
+            child = parent.addChild(game.make.sprite(currentX - 62, currentY));
+            game.physics.enable(child);
+            child.body.setSize(10, 30, 22, 1);
+            child.body.moves = false;
+            break;
+        case 'right':
+            child = parent.addChild(game.make.sprite(currentX + 62, currentY));
+            game.physics.enable(child);
+            child.body.setSize(10, 30, 0, 1);
+            child.body.moves = false;
+            break;
+        case 'up':
+            child = parent.addChild(game.make.sprite(currentX, currentY - 62));
+            game.physics.enable(child);
+            child.body.setSize(30, 10, 1, 22);
+            child.body.moves = false;
+            break;
+        case 'down':
+            child = parent.addChild(game.make.sprite(currentX, currentY + 62));
+            game.physics.enable(child);
+            child.body.setSize(30, 10, 1, 0);
+            child.body.moves = false;
+            break;
+        default:
+            console.log('Please enter \'up\', \'down\', \'left\', or \'right\'');
+    }
+    return child;
+}
+
 
 
