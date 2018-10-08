@@ -1,6 +1,6 @@
 var demo = {};
 
-var blockLayer, goalLayer, jan, trash, stateText;
+var blockLayer, goalLayer, jan, trash, stateText, villain;
 var velocity = 300;
 
 demo.level1 = function(){};
@@ -10,6 +10,8 @@ demo.level1.prototype = {
         game.load.image('Tiles', 'assets/protoTileSet.png');
         game.load.spritesheet('jan', 'assets/characterSpritesheet.png', 230, 405);
         game.load.image('Trash', 'assets/paperBall.png'); // for now
+        game.load.spritesheet('villain', 'assets/villainSpritesheet.png', 230,405);
+        
 		
     },
 	create: function(){
@@ -31,7 +33,7 @@ demo.level1.prototype = {
         //MIGHT need to uncomment this to have some detection when the block hits the goal area
         //map.setCollisonBetween(3, 3, true, 'Goal');
         
-        //janitor sprite creation and size
+        //janitor sprite creation and size 
         jan = game.add.sprite(130, 130,'jan');
         
         jan.anchor.setTo(0.5,0.5);
@@ -60,6 +62,19 @@ demo.level1.prototype = {
         trash.body.collideWorldBounds = true;
         
         
+        villain = game.add.sprite(300,300,'villain');
+        
+        villain.anchor.setTo(0.5,0.5);
+        villain.scale.setTo(0.2,0.2);
+        
+        game.physics.enable(villain);
+        villain.body.setSize(128,128,32,256);
+        villain.body.collideWorldBounds = true;
+        
+        villain.animations.add('walkRight', [4,5]);
+        villain.animations.add('walkLeft', [0,1]);
+        villain.animations.add('walkUp', [3]);
+        villain.animations.add('walkDown', [2]);
         
         
         
@@ -80,6 +95,9 @@ demo.level1.prototype = {
         game.physics.arcade.collide(trash, blockLayer);
         game.physics.arcade.collide(trash, jan);
         game.physics.arcade.collide(trash, goalLayer)
+        game.physics.arcade.collide(villain, jan);
+        game.physics.arcade.collide(villain,trash);
+        game.physics.arcade.collide(villain, goalLayer);
         
         
        
@@ -137,4 +155,5 @@ demo.level1.prototype = {
     
 
 };
+
 
