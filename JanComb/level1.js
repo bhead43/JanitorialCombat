@@ -1,4 +1,5 @@
 var demo = {};
+document.cookie = "level = 1"; 
 
 var blockLayer, goalLayer, jan, trash, stateText, villain;
 var upChild, downChild, leftChild, rightChild;  //Children for the trash object
@@ -265,6 +266,9 @@ demo.level1.prototype = {
         game.debug.body(goalLayer);
     }
 };
+
+
+
 
 function createTrash(spawnX, spawnY){
     var trash;
