@@ -74,6 +74,8 @@ demo.level1.prototype = {
         //Add children to trash
         //  I *think* that these all need to be made like this, as opposed to doing it through a function.
         //  Otherwise, I don't know an easy way to handle collision detection later on
+       
+        
         upChild = addChildSprite(trash, 'up');
         downChild = addChildSprite(trash, 'down');
         leftChild = addChildSprite(trash, 'left');
@@ -111,6 +113,7 @@ demo.level1.prototype = {
         game.physics.arcade.collide(trash, blockLayer);
         //game.physics.arcade.collide(trash, jan);  //Disabling for now, hopefully will be off for the remainder of the project!
         game.physics.arcade.collide(trash, goalLayer)
+        game.physics.arcade.collide(villain, blockLayer)
         //game.physics.arcade.collide(villain,trash); //Disabling for now, using the children laid out below to check for collision now
         //game.physics.arcade.collide(villain, goalLayer); //Don't need this one, I think?
         
@@ -203,8 +206,12 @@ demo.level1.prototype = {
         //  Ends level once the trash ball hits the goal area
         if(hitGoal){
             trash.kill();
-            stateText.text = " Level Complete, \n Click to restart";
-            stateText.visible = true;
+            game.state.start('nextLevel');
+                    
+            
+            
+          
+            
         }
 
         //Enemy movement!
