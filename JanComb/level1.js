@@ -94,7 +94,7 @@ demo.level1.prototype = {
         villain = game.add.sprite(300, 800, 'villain');
         
         villain.anchor.setTo(0.5,0.5);
-        villain.scale.setTo(0.2,0.2);
+        villain.scale.setTo(0.3,0.3);
         
         game.physics.enable(villain);
         villain.body.setSize(225, 225, 40, 75);
