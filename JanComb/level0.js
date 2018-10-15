@@ -1,16 +1,16 @@
-//var demo = {};
-//document.cookie = "level = 1"; 
+var demo = {};
+document.cookie = "level = 0"; 
 
-//var blockLayer, goalLayer, jan, trash, stateText, villain;
-//var upChild, downChild, leftChild, rightChild;  //Children for the trash object
-//var velocity = 300;
-//var trashVelocity = 500; //Tweak as needed
-//var dummyCounter = 0;
+var blockLayer, goalLayer, jan, trash, stateText, villain;
+var upChild, downChild, leftChild, rightChild;  //Children for the trash object
+var velocity = 300;
+var trashVelocity = 500; //Tweak as needed
+var dummyCounter = 0;
 
-demo.level1 = function(){};
-demo.level1.prototype = {
+demo.level0 = function(){};
+demo.level0.prototype = {
 	preload: function(){
-        game.load.tilemap('levelOne', 'assets/levelMap.json', null, Phaser.Tilemap.TILED_JSON);
+        game.load.tilemap('levelZero', 'assets/tutorialLevelMap.json', null, Phaser.Tilemap.TILED_JSON);
         game.load.image('Tiles', 'assets/protoTileSet.png');
         game.load.spritesheet('jan', 'assets/characterSpritesheet.png', 230, 405);
         game.load.image('Trash', 'assets/paperBall.png'); // for now
@@ -22,10 +22,10 @@ demo.level1.prototype = {
         game.physics.startSystem(Phaser.Physics.ARCADE);
         
         //Add tilemap and layers to state
-        map = game.add.tilemap('levelOne');
+        var map = game.add.tilemap('levelZero');
         map.addTilesetImage('Tiles');
         
-        baseLayer = map.createLayer('Floor');
+        var baseLayer = map.createLayer('Floor');
         blockLayer = map.createLayer('Blocks');
         goalLayer = map.createLayer('Goal');
         
@@ -300,18 +300,18 @@ demo.level1.prototype = {
 
 
 
-//function createTrash(spawnX, spawnY){
-//    var trash;
-//    
-//    trash = game.add.sprite(spawnX, spawnY, 'Trash');
-//    trash.scale.setTo(0.5, 0.5);
-//    
-//    game.physics.enable(trash);
-//    //trash.body.bounce.setTo(0.05);   // Can change later, probably don't want any bounce in the end?
-//    trash.body.collideWorldBounds = true;
-//    
-//    return trash;
-//}
+function createTrash(spawnX, spawnY){
+    var trash;
+    
+    trash = game.add.sprite(spawnX, spawnY, 'Trash');
+    trash.scale.setTo(0.5, 0.5);
+    
+    game.physics.enable(trash);
+    //trash.body.bounce.setTo(0.05);   // Can change later, probably don't want any bounce in the end?
+    trash.body.collideWorldBounds = true;
+    
+    return trash;
+}
 
 //Might need to COPMLETELY rework how this is handled
 //  -Currently, these children all have physics enabled to make collision possible
@@ -320,44 +320,44 @@ demo.level1.prototype = {
 //  -Instead, I think that its better to use the isOverlapping (or whatever it's called) function that comes with the sprite object
 //      -That'll let us check if the player is overlapping with the child sprite without messing with physics enabled bodies moving everywhere
 //      -Mostly, this'll make a pull action more viable, as it'll (hopefully) allow the ball to pass through the player without breaking everything (as it does now)
-//function addChildSprite(parent, direction){
-//    var child;
-//    //I have no clue why I have to fudge these numbers to make it work.
-//    var currentX = parent.body.x - 208;
-//    var currentY = parent.body.y - 158;//
-//    
-//    switch(direction){
-//        case 'left':
-//            child = parent.addChild(game.make.sprite(currentX - 62, currentY));
-//            game.physics.enable(child);
-//            //Set the body of the child sprite to just barely surround the parent.
-//            //Might make these even smaller later to make things better
-//            child.body.setSize(10, 30, 22, 1);
-//            child.body.moves = false;
-//            break;
-//        case 'right':
-//            child = parent.addChild(game.make.sprite(currentX + 62, currentY));
-//            game.physics.enable(child);
-//            child.body.setSize(10, 30, 0, 1);
-//            child.body.moves = false;
-//            break;
-//        case 'up':
-//            child = parent.addChild(game.make.sprite(currentX, currentY - 62));
-//            game.physics.enable(child);
-//            child.body.setSize(30, 10, 1, 22);
-//            child.body.moves = false;
-//            break;
-//        case 'down':
-//            child = parent.addChild(game.make.sprite(currentX, currentY + 62));
-//            game.physics.enable(child);
-//            child.body.setSize(30, 10, 1, 0);
-//            child.body.moves = false;
-//            break;
-//        default:
-//            console.log('Please enter \'up\', \'down\', \'left\', or \'right\'');
-//    }
-//    return child;
-//}
+function addChildSprite(parent, direction){
+    var child;
+    //I have no clue why I have to fudge these numbers to make it work.
+    var currentX = parent.body.x - 208;
+    var currentY = parent.body.y - 158;
+    
+    switch(direction){
+        case 'left':
+            child = parent.addChild(game.make.sprite(currentX - 62, currentY));
+            game.physics.enable(child);
+            //Set the body of the child sprite to just barely surround the parent.
+            //Might make these even smaller later to make things better
+            child.body.setSize(10, 30, 22, 1);
+            child.body.moves = false;
+            break;
+        case 'right':
+            child = parent.addChild(game.make.sprite(currentX + 62, currentY));
+            game.physics.enable(child);
+            child.body.setSize(10, 30, 0, 1);
+            child.body.moves = false;
+            break;
+        case 'up':
+            child = parent.addChild(game.make.sprite(currentX, currentY - 62));
+            game.physics.enable(child);
+            child.body.setSize(30, 10, 1, 22);
+            child.body.moves = false;
+            break;
+        case 'down':
+            child = parent.addChild(game.make.sprite(currentX, currentY + 62));
+            game.physics.enable(child);
+            child.body.setSize(30, 10, 1, 0);
+            child.body.moves = false;
+            break;
+        default:
+            console.log('Please enter \'up\', \'down\', \'left\', or \'right\'');
+    }
+    return child;
+}
 
 
 

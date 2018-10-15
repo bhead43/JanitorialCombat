@@ -1,26 +1,29 @@
-var stateText;
-var y = addLevel();  
+var stateText; 
+var y = addLevel(); 
 
 demo.nextLevel = function(){};
 demo.nextLevel.prototype = {
 	preload: function(){},
 	create: function(){
         game.stage.backgroundColor = '#26b7ad';
-        
         //Text stuff
         stateText = game.add.text(game.world.centerX,game.world.centerY,' ', { font: '64px Arial', fill: '#ed0202' });
         stateText.anchor.setTo(0.5, 0.5);
         stateText.visible = false;
     },
 	update: function(){
-        
         stateText.text = "Level Complete! \nPress \'N\' to Start next Level!";
         stateText.visible = true;
         
+        var N = game.input.keyboard.addKey(Phaser.Keyboard.N);
         
-        if(game.input.keyboard.isDown(Phaser.Keyboard.N)){
+        N.onDown.add(function(){
             game.state.start('level' + y);
-        }
+        });
+        
+//        if(game.input.keyboard.isDown(Phaser.Keyboard.N)){
+//            game.state.start('level' + y);
+//        }
     }    
    
 };
@@ -31,10 +34,10 @@ function addLevel(){
     x++;
     x = x.toString();
     document.cookie = 'level = ' + x;
+    console.log(x);
     return(x)
-
 }
-s
+
 function getCookie(cname) {
         var name = cname + "=";
         var decodedCookie = decodeURIComponent(document.cookie);

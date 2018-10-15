@@ -1,11 +1,8 @@
+//document.cookie = 'level = 2';
+
 demo.level2 = function(){};
 demo.level2.prototype = {
 	preload: function(){},
-	create: function(){
-		game.stage.backgroundColor = '#321321';
-
-		//addChangeStateEventListeners();
-		
-	},
+	create: function(){},
 	update: function(){}
 };
