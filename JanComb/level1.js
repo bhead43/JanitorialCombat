@@ -15,6 +15,10 @@ demo.level1.prototype = {
         game.load.spritesheet('jan', 'assets/characterSpritesheet.png', 230, 405);
         game.load.image('Trash', 'assets/paperBall.png'); // for now
         game.load.spritesheet('villain', 'assets/villainSpritesheet.png', 300, 300);
+	
+	game.load.audio('bgMusic', 'assets/audio/CrEEP.mp3');
+		
+		
     },
     
 	create: function(){
@@ -56,6 +60,11 @@ demo.level1.prototype = {
         jan.animations.add('walkLeft', [4, 3, 5, 3]);
         jan.animations.add('walkUp', [10, 9, 11, 9]);
         jan.animations.add('walkDown', [1, 0, 2, 0]);
+		
+		
+	//play background music	
+	bgMusic = game.add.audio('bgMusic');
+        bgMusic.play();
         
         //ALL OBSOLETE, HANDLED WITH FUNCTION NOW
         
@@ -238,6 +247,7 @@ demo.level1.prototype = {
         //  Ends level once the trash ball hits the goal area
         if(hitGoal){
             trash.kill();
+            bgMusic.pause();
             game.state.start('nextLevel');  
         }
 
