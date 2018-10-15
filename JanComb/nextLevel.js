@@ -3,14 +3,21 @@ var y = addLevel();
 
 demo.nextLevel = function(){};
 demo.nextLevel.prototype = {
-	preload: function(){},
+	preload: function(){
+		 game.load.audio('lvlComp', 'assets/audio/completetask.mp3');
+	},
 	create: function(){
-        game.stage.backgroundColor = '#26b7ad';
-        //Text stuff
-        stateText = game.add.text(game.world.centerX,game.world.centerY,' ', { font: '64px Arial', fill: '#ed0202' });
-        stateText.anchor.setTo(0.5, 0.5);
-        stateText.visible = false;
-    },
+        	game.stage.backgroundColor = '#26b7ad';
+		
+        	//Text stuff
+        	stateText = game.add.text(game.world.centerX,game.world.centerY,' ', { font: '64px Arial', fill: '#ed0202' });
+        	stateText.anchor.setTo(0.5, 0.5);
+        	stateText.visible = false;
+		
+		lvlComp = game.add.audio('lvlComp');
+        	lvlComp.play();
+		
+    	},
 	update: function(){
         stateText.text = "Level Complete! \nPress \'N\' to Start next Level!";
         stateText.visible = true;
