@@ -13,7 +13,7 @@ demo.level1.prototype = {
         game.load.image('Tiles', 'assets/protoTileSet.png');
         game.load.spritesheet('jan', 'assets/characterSpritesheet.png', 230, 405);
         game.load.image('Trash', 'assets/paperBall.png'); // for now
-        game.load.spritesheet('villain', 'assets/villainSpritesheet.png', 300, 300);		
+        game.load.spritesheet('villain', 'assets/villainSpritesheet.png', 300, 300);
     },
     
 	create: function(){
@@ -54,7 +54,6 @@ demo.level1.prototype = {
         jan.animations.add('walkUp', [10, 9, 11, 9]);
         jan.animations.add('walkDown', [1, 0, 2, 0]);
         
-        
         //ALL OBSOLETE, HANDLED WITH FUNCTION NOW
         
         //trash = game.add.sprite(500, 100, 'Trash');
@@ -75,7 +74,6 @@ demo.level1.prototype = {
         //  I *think* that these all need to be made like this, as opposed to doing it through a function.
         //  Otherwise, I don't know an easy way to handle collision detection later on
        
-        
         upChild = addChildSprite(trash, 'up');
         downChild = addChildSprite(trash, 'down');
         leftChild = addChildSprite(trash, 'left');
@@ -94,8 +92,6 @@ demo.level1.prototype = {
         villain.animations.add('walkLeft', [0,1]);
         villain.animations.add('walkUp', [3]);
         villain.animations.add('walkDown', [2]);
-        
-        
         
     //Text stuff
     stateText = game.add.text(game.world.centerX,game.world.centerY,' ', { font: '84px Arial', fill: '#ed0202' });
@@ -273,7 +269,7 @@ function createTrash(spawnX, spawnY){
     trash.scale.setTo(0.5, 0.5);
     
     game.physics.enable(trash);
-//    trash.body.bounce.setTo(0.3);   // Can change later, probably don't want any bounce in the end?
+    trash.body.bounce.setTo(0.05);   // Can change later, probably don't want any bounce in the end?
     trash.body.collideWorldBounds = true;
     
     return trash;
