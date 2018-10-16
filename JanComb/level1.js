@@ -24,6 +24,11 @@ demo.level1.prototype = {
 	create: function(){
         //Start Physics
         game.physics.startSystem(Phaser.Physics.ARCADE);
+    
+
+        
+        // Sound
+      //  game.time.events.loop(Phaser.Timer.SECOND * getRandomInt(15,20), playMonSound, this);
         
         //Add tilemap and layers to state
         map = game.add.tilemap('levelOne');
@@ -262,6 +267,23 @@ demo.level1.prototype = {
         //Moves the villain sprite continuously towards the jan sprite
         game.physics.arcade.moveToObject(villain, jan, 75);
         
+        
+        if(villain.body.velocity.y < 0){
+            villain.animations.play('walkUp', 7, true);
+        }
+        else if(villain.body.velocity.x < 0){
+            villain.animations.play('walkLeft', 7, true);
+        } else if(villain.body.velocity.x > 0){
+            villain.animations.play('walkRight', 7, true);
+        }
+        else {
+            villain.animations.play('walkDown', 7, true);
+        }
+        
+      
+        
+        
+        
         //Check for collision with the character
         //  --Might just send this to a separate state? Not sure yet
         if(badHit){
@@ -308,8 +330,13 @@ demo.level1.prototype = {
 };
 
 
-
-
+//function playMonSound(){
+  //  
+    //monSound = game.add.audio('monSound');
+    //monSound.play();
+    
+    
+//}
 //function createTrash(spawnX, spawnY){
 //    var trash;
 //    
@@ -368,6 +395,3 @@ demo.level1.prototype = {
 //    }
 //    return child;
 //}
-
-
-
