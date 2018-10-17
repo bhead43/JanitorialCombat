@@ -17,6 +17,7 @@ demo.level1.prototype = {
         game.load.spritesheet('villain', 'assets/villainSpritesheet.png', 300, 300);
 	
 	game.load.audio('bgMusic', 'assets/audio/CrEEP.mp3');
+	game.load.audio('monSound', 'qubodup-BigMonster.7z');
 		
 		
     },
@@ -330,10 +331,9 @@ demo.level1.prototype = {
 };
 
 
-//function playMonSound(){
-  //  
-    //monSound = game.add.audio('monSound');
-    //monSound.play();
+function playMonSound(){  
+    monSound = game.add.audio('monSound');
+    monSound.play();
     
     
 //}
