@@ -270,12 +270,12 @@ demo.level1.prototype = {
         game.physics.arcade.moveToObject(villain, jan, 75);
         
         
-        if(villain.body.velocity.y < 0){
+        if(jan.body.velocity.y < 0){
             villain.animations.play('walkUp', 7, true);
         }
-        else if(villain.body.velocity.x < 0){
+        else if(jan.body.velocity.x < 0){
             villain.animations.play('walkLeft', 7, true);
-        } else if(villain.body.velocity.x > 0){
+        } else if(jan.body.velocity.x > 0){
             villain.animations.play('walkRight', 7, true);
         }
         else {
