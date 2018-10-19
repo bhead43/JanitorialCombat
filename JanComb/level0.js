@@ -138,12 +138,14 @@ demo.level0.prototype = {
             jan.body.velocity.y = 0;
 			jan.body.velocity.x = velocity;
             jan.animations.play('walkRight', 7, true);
+		villain.animations.play('walkRight', 7, true);
 		}
 		else if(game.input.keyboard.isDown(Phaser.Keyboard.LEFT)){
 			//jan.scale.setTo(-0.2, 0.2);
             jan.body.velocity.y = 0;
 			jan.body.velocity.x = velocity * -1;
             jan.animations.play('walkLeft', 7, true);
+		villain.animations.play('walkLeft', 7, true);
 		}
 
 		else if(game.input.keyboard.isDown(Phaser.Keyboard.UP)){
@@ -151,6 +153,7 @@ demo.level0.prototype = {
             jan.body.velocity.x = 0;
 			jan.body.velocity.y = velocity * -1;
             jan.animations.play('walkUp', 7, true);
+	villain.animations.play('walkUp', 7, true);
 			
 		}
 		else if(game.input.keyboard.isDown(Phaser.Keyboard.DOWN)){
@@ -158,6 +161,7 @@ demo.level0.prototype = {
             jan.body.velocity.x = 0;
 			jan.body.velocity.y = velocity;
             jan.animations.play('walkDown', 7, true);
+	villain.animations.play('walkDown', 7, true);
 		}
 	   
         else{
