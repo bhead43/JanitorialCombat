@@ -15,11 +15,14 @@ demo.level0.prototype = {
         game.load.spritesheet('jan', 'assets/characterSpritesheet.png', 230, 405);
         game.load.image('Trash', 'assets/paperBall.png'); // for now
         game.load.spritesheet('villain', 'assets/villainSpritesheet.png', 300, 300);
+	game.load.audio('monSound', 'assets/qubodup-BigMonster01.flac');
     },
     
 	create: function(){
         //Start Physics
         game.physics.startSystem(Phaser.Physics.ARCADE);
+		
+	game.time.events.loop(Phaser.Timer.SECOND * getRandomInt(20,25), playMonSound, this);
         
         //Add tilemap and layers to state
         var map = game.add.tilemap('levelZero');
@@ -312,7 +315,11 @@ function createTrash(spawnX, spawnY){
     
     return trash;
 }
-
+function playMonSound(){  
+   	monSound = game.add.audio('monSound');
+ 	monSound.play();
+	
+}
 //Might need to COPMLETELY rework how this is handled
 //  -Currently, these children all have physics enabled to make collision possible
 //      -It kind of works, but can be a bit wonky, especially if you're looking at the debug info on the bodies of the children
