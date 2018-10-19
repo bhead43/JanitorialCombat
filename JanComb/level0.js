@@ -107,7 +107,7 @@ demo.level0.prototype = {
         
     },
 	update: function(){
-        villain.frame = 2;
+        //villain.frame = 2;
         
         var hitGoal = game.physics.arcade.collide(trash, goalLayer);
         var badHit = game.physics.arcade.collide(villain, jan);
