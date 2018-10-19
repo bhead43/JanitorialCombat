@@ -18,6 +18,7 @@ demo.level0.prototype = {
         game.load.spritesheet('villain', 'assets/villainSpritesheet.png', 300, 300);
         
         game.load.audio('bgMusic', 'assets/audio/CrEEP.mp3');
+	game.load.audio('monSound', 'assets/audio/qubodup-BigMonster01.flac');
         
     },
     
@@ -320,7 +321,11 @@ function createTrash(spawnX, spawnY){
     
     return trash;
 }
-
+function getRandomInt(min, max) {
+  min = Math.ceil(min);
+  max = Math.floor(max);
+  return Math.floor(Math.random() * (max - min)) + min; //The maximum is exclusive and the minimum is inclusive
+}
 //Might need to COPMLETELY rework how this is handled
 //  -Currently, these children all have physics enabled to make collision possible
 //      -It kind of works, but can be a bit wonky, especially if you're looking at the debug info on the bodies of the children
