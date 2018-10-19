@@ -19,11 +19,14 @@ demo.level0.prototype = {
         
         game.load.audio('bgMusic', 'assets/audio/CrEEP.mp3');
         
+	game.load.audio('monSound', 'assets/qubodup-BigMonster01.flac');
     },
     
 	create: function(){
         //Start Physics
         game.physics.startSystem(Phaser.Physics.ARCADE);
+        
+	    game.time.events.loop(Phaser.Timer.SECOND * getRandomInt(20,25), playMonSound, this);
         
         //Add tilemap and layers to state
         var map = game.add.tilemap('levelZero');
@@ -111,7 +114,7 @@ demo.level0.prototype = {
         
     },
 	update: function(){
-        villain.frame = 2;
+        //villain.frame = 2;
         
         var hitGoal = game.physics.arcade.collide(trash, goalLayer);
         var badHit = game.physics.arcade.collide(villain, jan);
@@ -142,12 +145,14 @@ demo.level0.prototype = {
             jan.body.velocity.y = 0;
 			jan.body.velocity.x = velocity;
             jan.animations.play('walkRight', 7, true);
+		//villain.animations.play('walkRight', 7, true);
 		}
 		else if(game.input.keyboard.isDown(Phaser.Keyboard.LEFT)){
 			//jan.scale.setTo(-0.2, 0.2);
             jan.body.velocity.y = 0;
 			jan.body.velocity.x = velocity * -1;
             jan.animations.play('walkLeft', 7, true);
+		//villain.animations.play('walkLeft', 7, true);
 		}
 
 		else if(game.input.keyboard.isDown(Phaser.Keyboard.UP)){
@@ -155,6 +160,7 @@ demo.level0.prototype = {
             jan.body.velocity.x = 0;
 			jan.body.velocity.y = velocity * -1;
             jan.animations.play('walkUp', 7, true);
+	//villain.animations.play('walkUp', 7, true);
 			
 		}
 		else if(game.input.keyboard.isDown(Phaser.Keyboard.DOWN)){
@@ -162,6 +168,7 @@ demo.level0.prototype = {
             jan.body.velocity.x = 0;
 			jan.body.velocity.y = velocity;
             jan.animations.play('walkDown', 7, true);
+	//villain.animations.play('walkDown', 7, true);
 		}
 	   
         else{
@@ -169,6 +176,18 @@ demo.level0.prototype = {
             jan.frame = 0
             jan.body.velocity.x = 0;
             jan.body.velocity.y = 0;
+        }
+		
+	 if(villain.body.velocity.y < 0){
+             villain.animations.play('walkUp', 7, true);
+        }
+        else if(villain.body.velocity.x < 0){
+            villain.animations.play('walkLeft', 7, true);
+        } else if(villain.body.velocity.x > 0){
+            villain.animations.play('walkRight', 7, true);
+        }
+        else {
+            villain.animations.play('walkDown', 7, true);
         }
         
         //Trash movement!
@@ -305,9 +324,6 @@ demo.level0.prototype = {
     }
 };
 
-
-
-
 function createTrash(spawnX, spawnY){
     var trash;
     
@@ -321,6 +337,11 @@ function createTrash(spawnX, spawnY){
     return trash;
 }
 
+function playMonSound(){  
+  	monSound = game.add.audio('monSound');
+ 	monSound.play();
+	
+}
 //Might need to COPMLETELY rework how this is handled
 //  -Currently, these children all have physics enabled to make collision possible
 //      -It kind of works, but can be a bit wonky, especially if you're looking at the debug info on the bodies of the children

@@ -284,7 +284,7 @@ demo.level1.prototype = {
         //}
         //else {
           //  villain.animations.play('walkDown', 7, true);
-      /  }
+      //  }
         
       
         
