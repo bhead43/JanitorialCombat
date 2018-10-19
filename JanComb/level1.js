@@ -62,8 +62,8 @@ demo.level1.prototype = {
         jan.animations.add('walkDown', [1, 0, 2, 0]);
 		
 		
-	//play background music	
-	bgMusic = game.add.audio('bgMusic');
+	    //play background music	
+	    bgMusic = game.add.audio('bgMusic');
         bgMusic.play();
         
         //ALL OBSOLETE, HANDLED WITH FUNCTION NOW

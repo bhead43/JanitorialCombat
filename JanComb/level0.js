@@ -5,7 +5,7 @@ var blockLayer, goalLayer, jan, trash, stateText, villain;
 var upChild, downChild, leftChild, rightChild;  //Children for the trash object
 var velocity = 300;
 var trashVelocity = 500; //Tweak as needed
-var dummyCounter = 0;
+var dummyCounter = 0;   //Is this at all necessary? I don't even know why this was added in the first place
 
 demo.level0 = function(){};
 demo.level0.prototype = {
@@ -13,8 +13,12 @@ demo.level0.prototype = {
         game.load.tilemap('levelZero', 'assets/tutorialLevelMap.json', null, Phaser.Tilemap.TILED_JSON);
         game.load.image('Tiles', 'assets/protoTileSet.png');
         game.load.spritesheet('jan', 'assets/characterSpritesheet.png', 230, 405);
+        //game.load.spritesheet('jan', 'assets/characterSpriteSheetNEW.png', 230, 405);
         game.load.image('Trash', 'assets/paperBall.png'); // for now
         game.load.spritesheet('villain', 'assets/villainSpritesheet.png', 300, 300);
+        
+        game.load.audio('bgMusic', 'assets/audio/CrEEP.mp3');
+        
     },
     
 	create: function(){
@@ -70,6 +74,9 @@ demo.level0.prototype = {
         //game.physics.enable(trash);
         //trash.body.bounce.setTo(0.3);   // Can change later
         //trash.body.collideWorldBounds = true;
+        
+        bgMusic = game.add.audio('bgMusic');
+        bgMusic.play();
         
         //Handles everything done above
         trash = createTrash(200, 150);
@@ -238,6 +245,7 @@ demo.level0.prototype = {
         //  Ends level once the trash ball hits the goal area
         if(hitGoal){
             trash.kill();
+            bgMusic.stop();
             game.state.start('nextLevel');  
         }
 
