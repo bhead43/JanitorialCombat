@@ -30,7 +30,7 @@ demo.level1.prototype = {
         
         // Sound 
 		// prob doesnt work
-        game.time.events.loop(Phaser.Timer.SECOND * getRandomInt(20,25), playMonSound, this);
+      //  game.time.events.loop(Phaser.Timer.SECOND * getRandomInt(20,25), playMonSound, this);
         
         //Add tilemap and layers to state
         map = game.add.tilemap('levelOne');
@@ -333,9 +333,9 @@ demo.level1.prototype = {
 
 // not sure if this even works
 // how to get sound to stop after
-function playMonSound(){  
-    monSound = game.add.audio('monSound');
-    monSound.play();
+//function playMonSound(){  
+  //  monSound = game.add.audio('monSound');
+    //monSound.play();
     
     
 //}
