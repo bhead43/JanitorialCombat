@@ -15,7 +15,7 @@ demo.level0.prototype = {
         game.load.spritesheet('jan', 'assets/characterSpritesheet.png', 230, 405);
         game.load.image('Trash', 'assets/paperBall.png'); // for now
         game.load.spritesheet('villain', 'assets/villainSpritesheet.png', 300, 300);
-	//game.load.audio('monSound', 'assets/qubodup-BigMonster01.flac');
+	game.load.audio('monSound', 'assets/qubodup-BigMonster01.flac');
     },
     
 	create: function(){
