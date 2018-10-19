@@ -22,7 +22,7 @@ demo.level0.prototype = {
         //Start Physics
         game.physics.startSystem(Phaser.Physics.ARCADE);
 		
-	//game.time.events.loop(Phaser.Timer.SECOND * getRandomInt(20,25), playMonSound, this);
+	game.time.events.loop(Phaser.Timer.SECOND * getRandomInt(20,25), playMonSound, this);
         
         //Add tilemap and layers to state
         var map = game.add.tilemap('levelZero');
@@ -329,8 +329,8 @@ function createTrash(spawnX, spawnY){
     return trash;
 }
 function playMonSound(){  
-  	//monSound = game.add.audio('monSound');
- 	//monSound.play();
+  	monSound = game.add.audio('monSound');
+ 	monSound.play();
 	
 }
 //Might need to COPMLETELY rework how this is handled
