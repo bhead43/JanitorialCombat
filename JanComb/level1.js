@@ -17,7 +17,7 @@ demo.level1.prototype = {
         game.load.spritesheet('villain', 'assets/villainSpritesheet.png', 300, 300);
 	
 	game.load.audio('bgMusic', 'assets/audio/CrEEP.mp3');
-	game.load.audio('monSound', 'qubodup-BigMonster.7z');
+	game.load.audio('monSound', 'assets/qubodup-BigMonster01.flac');
 		
 		
     },
@@ -30,7 +30,7 @@ demo.level1.prototype = {
         
         // Sound 
 		// prob doesnt work
-      //  game.time.events.loop(Phaser.Timer.SECOND * getRandomInt(20,25), playMonSound, this);
+        game.time.events.loop(Phaser.Timer.SECOND * getRandomInt(20,25), playMonSound, this);
         
         //Add tilemap and layers to state
         map = game.add.tilemap('levelOne');
@@ -151,12 +151,14 @@ demo.level1.prototype = {
             jan.body.velocity.y = 0;
 			jan.body.velocity.x = velocity;
             jan.animations.play('walkRight', 7, true);
+	    villain.animations.play('walkRight', 7, true);
 		}
 		else if(game.input.keyboard.isDown(Phaser.Keyboard.LEFT)){
 			//jan.scale.setTo(-0.2, 0.2);
             jan.body.velocity.y = 0;
 			jan.body.velocity.x = velocity * -1;
             jan.animations.play('walkLeft', 7, true);
+	    villain.animations.play('walkLeft', 7, true);
 		}
 
 		else if(game.input.keyboard.isDown(Phaser.Keyboard.UP)){
@@ -164,6 +166,7 @@ demo.level1.prototype = {
             jan.body.velocity.x = 0;
 			jan.body.velocity.y = velocity * -1;
             jan.animations.play('walkUp', 7, true);
+	    villain.animations.play('walkUp', 7, true);
 			
 		}
 		else if(game.input.keyboard.isDown(Phaser.Keyboard.DOWN)){
@@ -171,6 +174,7 @@ demo.level1.prototype = {
             jan.body.velocity.x = 0;
 			jan.body.velocity.y = velocity;
             jan.animations.play('walkDown', 7, true);
+	    villain.animations.play('walkDown', 7, true);
 		}
 	   
         else{
@@ -270,17 +274,17 @@ demo.level1.prototype = {
         game.physics.arcade.moveToObject(villain, jan, 75);
         
         
-        if(jan.body.velocity.y < 0){
-            villain.animations.play('walkUp', 7, true);
-        }
-        else if(jan.body.velocity.x < 0){
-            villain.animations.play('walkLeft', 7, true);
-        } else if(jan.body.velocity.x > 0){
-            villain.animations.play('walkRight', 7, true);
-        }
-        else {
-            villain.animations.play('walkDown', 7, true);
-        }
+      //  if(jan.body.velocity.y < 0){
+         //    villain.animations.play('walkUp', 7, true);
+       // }
+        //else if(jan.body.velocity.x < 0){
+          //  villain.animations.play('walkLeft', 7, true);
+        //} else if(jan.body.velocity.x > 0){
+          //  villain.animations.play('walkRight', 7, true);
+        //}
+        //else {
+          //  villain.animations.play('walkDown', 7, true);
+      /  }
         
       
         
@@ -333,11 +337,11 @@ demo.level1.prototype = {
 
 // not sure if this even works
 // how to get sound to stop after
-//function playMonSound(){  
-  //  monSound = game.add.audio('monSound');
-    //monSound.play();
+function playMonSound(){  
+   	monSound = game.add.audio('monSound');
+ 	monSound.play();
     
-    
+}
 //}
 //function createTrash(spawnX, spawnY){
 //    var trash;
