@@ -284,7 +284,7 @@ demo.level1.prototype = {
         //}
         //else {
           //  villain.animations.play('walkDown', 7, true);
-      /  }
+      //  }
         
       
         
@@ -342,6 +342,13 @@ function playMonSound(){
  	monSound.play();
     
 }
+
+function getRandomInt(min, max) {
+  min = Math.ceil(min);
+  max = Math.floor(max);
+  return Math.floor(Math.random() * (max - min)) + min; //The maximum is exclusive and the minimum is inclusive
+}
+
 //}
 //function createTrash(spawnX, spawnY){
 //    var trash;
