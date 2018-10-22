@@ -53,9 +53,8 @@ demo.level1.prototype = {
         jan.anchor.setTo(0.5,0.5);
         jan.scale.setTo(0.25, 0.25);
         
-        //letting jan be able to collide
-        //  See about either making the player smaller or restricting the hitbox to the feet only.
-        //  Latter is probably the better thing to do, but it might also be more of a pain in the ass
+        //jan be able to collide
+       
         game.physics.enable(jan);
         jan.body.setSize(128, 128, 50, 270);
 	    jan.body.collideWorldBounds = true;
@@ -294,6 +293,7 @@ demo.level1.prototype = {
         //  --Might just send this to a separate state? Not sure yet
         if(badHit){
             //Once hit, game over! Put some text up and prompt the player to restart the level
+            bgMusic.pause();
             game.state.start('gameOver');
         }
          

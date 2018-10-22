@@ -1,5 +1,4 @@
 var stateText;
-var y = currentLevel();
 
 demo.gameOver = function(){};
 demo.gameOver.prototype = {
@@ -17,20 +16,14 @@ demo.gameOver.prototype = {
         stateText.visible = true;
         
         if (game.input.keyboard.isDown(Phaser.Keyboard.R)){
+            var y = getCookie('level');
+            console.log(y)
             game.state.start('level' + y);
         }
     }
 };
 
-function currentLevel(){
-    var x = getCookie('level');
-    x = Number(x);
-    //x++;
-    x = x.toString();
-    document.cookie = 'level = ' + x;
-    console.log(x);
-    return(x)
-}
+
 
 function getCookie(cname) {
         var name = cname + "=";

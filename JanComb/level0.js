@@ -1,5 +1,6 @@
 var demo = {};
 document.cookie = "level = 0"; 
+var y = getCookie('level')
 
 var blockLayer, goalLayer, jan, trash, stateText, villain;
 var upChild, downChild, leftChild, rightChild;  //Children for the trash object
@@ -24,6 +25,9 @@ demo.level0.prototype = {
     },
     
 	create: function(){
+        
+        
+        console.log(y)
         //Start Physics
         game.physics.startSystem(Phaser.Physics.ARCADE);
         
@@ -284,7 +288,7 @@ demo.level0.prototype = {
         //  --Might just send this to a separate state? Not sure yet
         if(badHit){
             //Once hit, game over! Put some text up and prompt the player to restart the level
-	    bgMusic.stop();	
+            bgMusic.stop();
             game.state.start('gameOver');
         }
          
@@ -393,4 +397,20 @@ function addChildSprite(parent, direction){
             console.log('Please enter \'up\', \'down\', \'left\', or \'right\'');
     }
     return child;
+}
+
+function getCookie(cname) {
+        var name = cname + "=";
+        var decodedCookie = decodeURIComponent(document.cookie);
+        var ca = decodedCookie.split(';');
+        for(var i = 0; i <ca.length; i++) {
+            var c = ca[i];
+            while (c.charAt(0) == ' ') {
+                c = c.substring(1);
+            }
+            if (c.indexOf(name) == 0) {
+                return c.substring(name.length, c.length);
+            }
+        }
+        return "";
 }

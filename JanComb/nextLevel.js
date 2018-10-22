@@ -1,5 +1,4 @@
-var stateText; 
-var y = addLevel(); 
+var stateText;
 
 demo.nextLevel = function(){};
 demo.nextLevel.prototype = {
@@ -22,15 +21,11 @@ demo.nextLevel.prototype = {
         stateText.text = "Level Complete! \nPress \'N\' to Start next Level!";
         stateText.visible = true;
         
-        var N = game.input.keyboard.addKey(Phaser.Keyboard.N);
-        
-        N.onDown.add(function(){
+        if(game.input.keyboard.isDown(Phaser.Keyboard.N)){
+            addLevel();
+            var y = getCookie('level')
             game.state.start('level' + y);
-        });
-        
-//        if(game.input.keyboard.isDown(Phaser.Keyboard.N)){
-//            game.state.start('level' + y);
-//        }
+        }
     }    
    
 };
