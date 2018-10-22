@@ -1,5 +1,6 @@
 var stateText; 
-var y = addLevel(); 
+//var y = addLevel();
+var counter = 0;
 
 demo.nextLevel = function(){};
 demo.nextLevel.prototype = {
@@ -25,6 +26,10 @@ demo.nextLevel.prototype = {
         var N = game.input.keyboard.addKey(Phaser.Keyboard.N);
         
         N.onDown.add(function(){
+            if (counter == 0){
+                y = addLevel();
+            }
+            counter++;
             game.state.start('level' + y);
         });
         

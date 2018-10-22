@@ -284,16 +284,13 @@ demo.level1.prototype = {
         //}
         //else {
           //  villain.animations.play('walkDown', 7, true);
-      //  }
-        
-      
-        
-        
+      //  }       
         
         //Check for collision with the character
         //  --Might just send this to a separate state? Not sure yet
         if(badHit){
             //Once hit, game over! Put some text up and prompt the player to restart the level
+            jan.kill();
             game.state.start('gameOver');
         }
          
