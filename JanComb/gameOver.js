@@ -19,6 +19,9 @@ demo.gameOver.prototype = {
         var R = game.input.keyboard.addKey(Phaser.Keyboard.R);
 
         R.onDown.add(function(){
+        //if (game.input.keyboard.isDown(Phaser.Keyboard.R)){
+            var y = getCookie('level');
+            console.log(y)
             game.state.start('level' + y);
         });        
 //        if (game.input.keyboard.isDown(Phaser.Keyboard.R)){

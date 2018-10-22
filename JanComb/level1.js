@@ -16,8 +16,8 @@ demo.level1.prototype = {
         game.load.image('Trash', 'assets/paperBall.png'); // for now
         game.load.spritesheet('villain', 'assets/villainSpritesheet.png', 300, 300);
 	
-	game.load.audio('bgMusic', 'assets/audio/CrEEP.mp3');
-	game.load.audio('monSound', 'assets/qubodup-BigMonster01.flac');
+        game.load.audio('bgMusic', 'assets/audio/CrEEP.mp3');
+        game.load.audio('monSound', 'assets/audio/monsterSound.mp3');
 		
 		
     },
@@ -28,9 +28,8 @@ demo.level1.prototype = {
     
 
         
-        // Sound 
-		// prob doesnt work
-       // game.time.events.loop(Phaser.Timer.SECOND * getRandomInt(20,25), playMonSound, this);
+        // Sound, works now
+        game.time.events.loop(Phaser.Timer.SECOND * getRandomInt(4,10), playMonSound, this);
         
         //Add tilemap and layers to state
         map = game.add.tilemap('levelOne');
@@ -53,9 +52,8 @@ demo.level1.prototype = {
         jan.anchor.setTo(0.5,0.5);
         jan.scale.setTo(0.25, 0.25);
         
-        //letting jan be able to collide
-        //  See about either making the player smaller or restricting the hitbox to the feet only.
-        //  Latter is probably the better thing to do, but it might also be more of a pain in the ass
+        //jan be able to collide
+       
         game.physics.enable(jan);
         jan.body.setSize(128, 128, 50, 270);
 	    jan.body.collideWorldBounds = true;
@@ -72,6 +70,8 @@ demo.level1.prototype = {
 	    //play background music	
 	    bgMusic = game.add.audio('bgMusic');
         bgMusic.play();
+        
+        monSound = game.add.audio('monSound');
         
         //ALL OBSOLETE, HANDLED WITH FUNCTION NOW
         
@@ -183,6 +183,19 @@ demo.level1.prototype = {
             jan.body.velocity.x = 0;
             jan.body.velocity.y = 0;
         }
+		
+		
+	 if(villain.body.velocity.y > 0){
+             villain.animations.play('walkDown', 7, true);
+        }
+        else if(villain.body.velocity.x < 0){
+            villain.animations.play('walkLeft', 7, true);
+        } else if(villain.body.velocity.x > 0){
+            villain.animations.play('walkRight', 7, true);
+        }
+        else {
+            villain.animations.play('walkUp', 7, true);
+        }
         
         //Trash movement!
         //  What *should* happen:
@@ -291,6 +304,7 @@ demo.level1.prototype = {
         if(badHit){
             //Once hit, game over! Put some text up and prompt the player to restart the level
             jan.kill();
+            bgMusic.pause();
             game.state.start('gameOver');
         }
          
@@ -332,12 +346,8 @@ demo.level1.prototype = {
     }
 };
 
-// not sure if this even works
-// how to get sound to stop after
-function playMonSound(){  
-   	monSound = game.add.audio('monSound');
+function playMonSound(){
  	monSound.play();
-    
 }
 
 function getRandomInt(min, max) {
