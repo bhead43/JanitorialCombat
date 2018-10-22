@@ -183,6 +183,19 @@ demo.level1.prototype = {
             jan.body.velocity.x = 0;
             jan.body.velocity.y = 0;
         }
+		
+		
+	 if(villain.body.velocity.y > 0){
+             villain.animations.play('walkDown', 7, true);
+        }
+        else if(villain.body.velocity.x < 0){
+            villain.animations.play('walkLeft', 7, true);
+        } else if(villain.body.velocity.x > 0){
+            villain.animations.play('walkRight', 7, true);
+        }
+        else {
+            villain.animations.play('walkUp', 7, true);
+        }
         
         //Trash movement!
         //  What *should* happen:
