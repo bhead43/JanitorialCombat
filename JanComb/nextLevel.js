@@ -21,7 +21,7 @@ demo.nextLevel.prototype = {
 		
     	},
 	update: function(){
-        stateText.text = "Level Complete! \nPress \'N\' to Start next Level!";
+        stateText.text = "Level Complete! \nPress \'N\' to Start Next Level!";
         stateText.visible = true;
         
         var N = game.input.keyboard.addKey(Phaser.Keyboard.N);
