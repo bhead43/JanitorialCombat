@@ -12,7 +12,8 @@ demo.level1.prototype = {
 	preload: function(){
         game.load.tilemap('levelOne', 'assets/levelMap.json', null, Phaser.Tilemap.TILED_JSON);
         game.load.image('Tiles', 'assets/protoTileSet.png');
-        game.load.spritesheet('jan', 'assets/characterSpritesheet.png', 230, 405);
+        //game.load.spritesheet('jan', 'assets/characterSpritesheet.png', 230, 405);
+        game.load.spritesheet('jan', 'assets/characterSpriteSheetNEW.png', 230, 405);
         //game.load.image('Trash', 'assets/paperBall.png'); // for now
         game.load.image('Trash', 'assets/paperBallRESIZED.png');
         game.load.spritesheet('villain', 'assets/villainSpritesheet.png', 300, 300);
@@ -61,11 +62,21 @@ demo.level1.prototype = {
         //This kinda break the hitboxes on the trash ball. Maybe rethink how to handle collision detection there entirely? Look into scrapping physics on the trash ball children entirely
         //jan.body.immovable = true;  //maybe this'll not break the pull?
         
-        //Add animations
-        jan.animations.add('walkRight', [7, 6, 8, 6]);
-        jan.animations.add('walkLeft', [4, 3, 5, 3]);
-        jan.animations.add('walkUp', [10, 9, 11, 9]);
+//        //Add animations
+//        jan.animations.add('walkRight', [7, 6, 8, 6]);
+//        jan.animations.add('walkLeft', [4, 3, 5, 3]);
+//        jan.animations.add('walkUp', [10, 9, 11, 9]);
+//        jan.animations.add('walkDown', [1, 0, 2, 0]);
+        
+        //Add animations --- NEW ANIMATIONS, USE WITH characterSpriteSheetNEW.png
+        jan.animations.add('walkUp', [16, 15, 17, 15]);
         jan.animations.add('walkDown', [1, 0, 2, 0]);
+        jan.animations.add('walkLeft', [6, 5, 7, 5]);
+        jan.animations.add('walkRight', [11, 10, 12, 10]);
+        jan.animations.add('pushUp', [18]);
+        jan.animations.add('pushDown', [3, 4]);
+        jan.animations.add('pushLeft', [8, 9]);
+        jan.animations.add('pushRight', [13, 14]);
 		
 		
 	    //play background music	
@@ -209,30 +220,35 @@ demo.level1.prototype = {
             if(upCollide){
                 //Put a pushing animation here! At some point
                 //PUSH_DOWN ANIMATION GOES HERE
+                jan.animations.play('pushDown', 3, false);
                 
                 //Move trash down
                 trash.body.velocity.y = trashVelocity;
             }
             else if(downCollide){
                 //PUSH_UP ANIMATION GOES HERE
+                jan.animations.play('pushUp', 3, false);
                 
                 //Move trash up
                 trash.body.velocity.y = trashVelocity * -1;
             }
             else if(leftCollide){
                 //PUSH_RIGHT ANIMATION GOES HERE
+                jan.animations.play('pushRight', 3, false);
                 
                 //Move trash to the right
                 trash.body.velocity.x = trashVelocity;
             }
             else if(rightCollide){
                 //PUSH_LEFT ANIMATION GOES HERE
+                jan.animations.play('pushLeft', 3, false);
                 
                 //Move trash to the left
                 trash.body.velocity.x = trashVelocity * -1;
             }
             else{
                 //PUSH_BAD ANIMATION GOES HERE
+                jan.animations.play('pushDown', 3, false);
             }
         }
         
