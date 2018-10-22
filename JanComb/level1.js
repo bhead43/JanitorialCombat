@@ -16,8 +16,8 @@ demo.level1.prototype = {
         game.load.image('Trash', 'assets/paperBall.png'); // for now
         game.load.spritesheet('villain', 'assets/villainSpritesheet.png', 300, 300);
 	
-	game.load.audio('bgMusic', 'assets/audio/CrEEP.mp3');
-	game.load.audio('monSound', 'assets/qubodup-BigMonster01.flac');
+        game.load.audio('bgMusic', 'assets/audio/CrEEP.mp3');
+        game.load.audio('monSound', 'assets/audio/monsterSound.mp3');
 		
 		
     },
@@ -28,9 +28,8 @@ demo.level1.prototype = {
     
 
         
-        // Sound 
-		// prob doesnt work
-       // game.time.events.loop(Phaser.Timer.SECOND * getRandomInt(20,25), playMonSound, this);
+        // Sound, works now
+        game.time.events.loop(Phaser.Timer.SECOND * getRandomInt(4,10), playMonSound, this);
         
         //Add tilemap and layers to state
         map = game.add.tilemap('levelOne');
@@ -71,6 +70,8 @@ demo.level1.prototype = {
 	    //play background music	
 	    bgMusic = game.add.audio('bgMusic');
         bgMusic.play();
+        
+        monSound = game.add.audio('monSound');
         
         //ALL OBSOLETE, HANDLED WITH FUNCTION NOW
         
@@ -335,12 +336,8 @@ demo.level1.prototype = {
     }
 };
 
-// not sure if this even works
-// how to get sound to stop after
-function playMonSound(){  
-   	monSound = game.add.audio('monSound');
+function playMonSound(){
  	monSound.play();
-    
 }
 
 function getRandomInt(min, max) {

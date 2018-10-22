@@ -19,19 +19,17 @@ demo.level0.prototype = {
         game.load.spritesheet('villain', 'assets/villainSpritesheet.png', 300, 300);
         
         game.load.audio('bgMusic', 'assets/audio/CrEEP.mp3');
-	game.load.audio('monSound', 'assets/audio/qubodup-BigMonster01.flac');
+        game.load.audio('monSound', 'assets/audio/monsterSound.mp3');
         
-	game.load.audio('monSound', 'assets/qubodup-BigMonster01.flac');
     },
     
 	create: function(){
         
         
-        console.log(y)
         //Start Physics
         game.physics.startSystem(Phaser.Physics.ARCADE);
         
-	    game.time.events.loop(Phaser.Timer.SECOND * getRandomInt(20,25), playMonSound, this);
+	    game.time.events.loop(Phaser.Timer.SECOND * getRandomInt(4,10), playMonSound, this);
         
         //Add tilemap and layers to state
         var map = game.add.tilemap('levelZero');
@@ -85,6 +83,8 @@ demo.level0.prototype = {
         
         bgMusic = game.add.audio('bgMusic');
         bgMusic.play();
+        
+        monSound = game.add.audio('monSound');
         
         //Handles everything done above
         trash = createTrash(200, 150);
@@ -343,8 +343,7 @@ function createTrash(spawnX, spawnY){
     return trash;
 }
 
-function playMonSound(){  
-  	monSound = game.add.audio('monSound');
+function playMonSound(){
  	monSound.play();
 }
 	
