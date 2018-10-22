@@ -13,7 +13,7 @@ demo.gameOver.prototype = {
         stateText.visible = false;
     },
 	update: function(){
-        stateText.text = "Eaten by trash monsters! \nPress \'R\' to restart";
+        stateText.text = "You were eaten by a trash monster! \nPress \'R\' to Restart";
         stateText.visible = true;
         
         var R = game.input.keyboard.addKey(Phaser.Keyboard.R);
