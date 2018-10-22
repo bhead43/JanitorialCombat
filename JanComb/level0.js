@@ -15,12 +15,15 @@ demo.level0.prototype = {
         game.load.image('Tiles', 'assets/protoTileSet.png');
         //game.load.spritesheet('jan', 'assets/characterSpritesheet.png', 230, 405);    //This is the old spritesheet, don't use unless EVERYTHING breaks with character
         game.load.spritesheet('jan', 'assets/characterSpriteSheetNEW.png', 230, 405);
-        game.load.image('Trash', 'assets/paperBall.png'); // for now
+        //game.load.image('Trash', 'assets/paperBall.png'); //Old trash ball, just a higher res version of the new one
+        game.load.image('Trash', 'assets/paperBallRESIZED.png');
         game.load.spritesheet('villain', 'assets/villainSpritesheet.png', 300, 300);
-        
         game.load.audio('bgMusic', 'assets/audio/CrEEP.mp3');
         game.load.audio('monSound', 'assets/audio/monsterSound.mp3');
         
+        //Sprites for trash child sprites
+        game.load.image('collideHorizontal', 'assets/collideCheckHorizontal.png');
+        game.load.image('collideVertical', 'assets/collideCheckVertical.png');
     },
     
 	create: function(){
@@ -141,6 +144,7 @@ demo.level0.prototype = {
         //game.physics.arcade.collide(villain,trash); //Disabling for now, using the children laid out below to check for collision now
         //game.physics.arcade.collide(villain, goalLayer); //Don't need this one, I think?
         
+        //OLD TRASH COLLISION DETECTION -- CLUNKY AND BAD AND SHOULD NEVER BE USED AGAIN
         //Variables to check collision with trash children
         var upCollide = game.physics.arcade.collide(jan, upChild);
         var downCollide = game.physics.arcade.collide(jan, downChild);
@@ -152,6 +156,16 @@ demo.level0.prototype = {
         var leftBadCollide = game.physics.arcade.collide(villain, leftChild);
         var rightBadCollide = game.physics.arcade.collide(villain, rightChild);
         
+//        //NEW TRASH COLLISION DETECTION -- USES SPRITE OVERLAP INSTEAD OF PHYSICS COLLISION
+//        var upCollide = checkOverlap(jan, upChild);
+//        var downCollide = checkOverlap(jan, downChild);
+//        var leftCollide = checkOverlap(jan, leftChild);
+//        var rightCollide = checkOverlap(jan, rightChild);
+//        //Monster overlap checks
+//        var upBadCollide = checkOverlap(villain, upChild);
+//        var downBadCollide = checkOverlap(villain, downChild);
+//        var leftBadCollide = checkOverlap(villain, leftChild);
+//        var rightBadCollide = checkOverlap(villain, rightChild);
         //Movement stuff
         //  Maybe set x velocity to 0 when moving up/down, and vice versa? Could help with movement weirdness
         if(game.input.keyboard.isDown(Phaser.Keyboard.RIGHT)){
@@ -348,7 +362,7 @@ function createTrash(spawnX, spawnY){
     var trash;
     
     trash = game.add.sprite(spawnX, spawnY, 'Trash');
-    trash.scale.setTo(0.5, 0.5);
+    //trash.scale.setTo(0.5, 0.5);    //May get rid of this and half the size of the actual trash png
     
     game.physics.enable(trash);
     //trash.body.bounce.setTo(0.05);   // Can change later, probably don't want any bounce in the end?
@@ -370,46 +384,55 @@ function getRandomInt(min, max) {
 //  -Currently, these children all have physics enabled to make collision possible
 //      -It kind of works, but can be a bit wonky, especially if you're looking at the debug info on the bodies of the children
 //      -It straight up breaks once you make the player an immovable object. The bodies on all the objects clash, and you lose the ability to dictate which direction the push will be applied in
-//  -Instead, I think that its better to use the isOverlapping (or whatever it's called) function that comes with the sprite object
+//  -Instead, I think that its better to use the checkOverlap (or whatever it's called) function that comes with the sprite object
 //      -That'll let us check if the player is overlapping with the child sprite without messing with physics enabled bodies moving everywhere
 //      -Mostly, this'll make a pull action more viable, as it'll (hopefully) allow the ball to pass through the player without breaking everything (as it does now)
 function addChildSprite(parent, direction){
     var child;
     //I have no clue why I have to fudge these numbers to make it work.
-    var currentX = parent.body.x - 208;
-    var currentY = parent.body.y - 158;
+    var currentX = parent.body.x - 208;     //-208
+    var currentY = parent.body.y - 158;     //-158
     
     switch(direction){
         case 'left':
-            child = parent.addChild(game.make.sprite(currentX - 62, currentY));
-            game.physics.enable(child);
+            child = parent.addChild(game.make.sprite(currentX - 35, currentY));
+            game.physics.enable(child); //Only enabled to see what the sprite actually looks like
             //Set the body of the child sprite to just barely surround the parent.
             //Might make these even smaller later to make things better
-            child.body.setSize(10, 30, 22, 1);
+            child.body.setSize(10, 15, 30, 12);
             child.body.moves = false;
             break;
         case 'right':
-            child = parent.addChild(game.make.sprite(currentX + 62, currentY));
+            child = parent.addChild(game.make.sprite(currentX + 35, currentY));
             game.physics.enable(child);
-            child.body.setSize(10, 30, 0, 1);
+            child.body.setSize(10, 15, 0, 12);
             child.body.moves = false;
             break;
         case 'up':
-            child = parent.addChild(game.make.sprite(currentX, currentY - 62));
+            child = parent.addChild(game.make.sprite(currentX, currentY - 35));
             game.physics.enable(child);
-            child.body.setSize(30, 10, 1, 22);
+            child.body.setSize(15, 10, 12, 30);
             child.body.moves = false;
             break;
         case 'down':
-            child = parent.addChild(game.make.sprite(currentX, currentY + 62));
+            child = parent.addChild(game.make.sprite(currentX, currentY + 35));
             game.physics.enable(child);
-            child.body.setSize(30, 10, 1, 0);
+            child.body.setSize(15, 10, 12, 0);
             child.body.moves = false;
             break;
         default:
             console.log('Please enter \'up\', \'down\', \'left\', or \'right\'');
     }
     return child;
+}
+
+function checkOverlap(spriteA, spriteB) {
+
+    var boundsA = spriteA.getBounds();
+    var boundsB = spriteB.getBounds();
+
+    return Phaser.Rectangle.intersects(boundsA, boundsB);
+
 }
 
 function getCookie(cname) {
