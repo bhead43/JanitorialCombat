@@ -284,6 +284,7 @@ demo.level0.prototype = {
         //  --Might just send this to a separate state? Not sure yet
         if(badHit){
             //Once hit, game over! Put some text up and prompt the player to restart the level
+	    bgMusic.stop();	
             game.state.start('gameOver');
         }
          
