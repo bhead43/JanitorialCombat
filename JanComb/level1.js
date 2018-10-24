@@ -51,7 +51,7 @@ demo.level1.prototype = {
         //janitor sprite creation and size 
         jan = game.add.sprite(130, 130,'jan');
         
-        jan.anchor.setTo(0.5,0.5);
+        jan.anchor.setTo(0.5, 0.5);
         jan.scale.setTo(0.25, 0.25);
         
         //jan be able to collide
