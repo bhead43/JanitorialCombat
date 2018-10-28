@@ -32,7 +32,7 @@ demo.level0.prototype = {
         //Start Physics
         game.physics.startSystem(Phaser.Physics.ARCADE);
         
-	    game.time.events.loop(Phaser.Timer.SECOND * getRandomInt(4,10), playMonSound, this);
+	game.time.events.loop(Phaser.Timer.SECOND * getRandomInt(4,10), playMonSound, this);
         
         //Add tilemap and layers to state
         var map = game.add.tilemap('levelZero');
@@ -60,7 +60,7 @@ demo.level0.prototype = {
         //  Latter is probably the better thing to do, but it might also be more of a pain in the ass
         game.physics.enable(jan);
         jan.body.setSize(128, 128, 50, 270);
-	    jan.body.collideWorldBounds = true;
+	jan.body.collideWorldBounds = true;
         //This kinda break the hitboxes on the trash ball. Maybe rethink how to handle collision detection there entirely? Look into scrapping physics on the trash ball children entirely
         //jan.body.immovable = true;  //maybe this'll not break the pull?
         
@@ -267,25 +267,25 @@ demo.level0.prototype = {
                 //PULL_UP ANIMATION GOES HERE
                 
                 //Pull trash up
-                trash.body.velocity.y = trashVelocity * -1;
+                trash.position.y = trash.position.y - 10;
             }
             else if(downCollide){
                 //PULL_DOWN ANIMATION GOES HERE
                 
                 //Pull trash down
-                trash.body.velocity.y = trashVelocity;
+                trash.position.y = trash.position.y + 10;
             }
             else if(leftCollide){
                 //PULL_LEFT ANIMATION GOES HERE
                 
                 //Pull trash to the left
-                trash.body.velocity.x = trashVelocity * -1;
+                trash.position.x = trash.position.x - 10;
             }
             else if(rightCollide){
                 //PULL_RIGHT ANIMATION GOES HERE
                 
                 //Pull trash to the right
-                trash.body.velocity.x = trashVelocity;
+                trash.position.x = trash.position.x + 10;
             }
             else{
                 //PULL_BAD ANIMATION GOES HERE
