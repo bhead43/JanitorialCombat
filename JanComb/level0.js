@@ -267,25 +267,25 @@ demo.level0.prototype = {
                 //PULL_UP ANIMATION GOES HERE
                 
                 //Pull trash up
-                trash.position.y = trash.position.y - 10;
+                trash.position.y = trash.position.y - 5;
             }
             else if(downCollide){
                 //PULL_DOWN ANIMATION GOES HERE
                 
                 //Pull trash down
-                trash.position.y = trash.position.y + 10;
+                trash.position.y = trash.position.y + 5;
             }
             else if(leftCollide){
                 //PULL_LEFT ANIMATION GOES HERE
                 
                 //Pull trash to the left
-                trash.position.x = trash.position.x - 10;
+                trash.position.x = trash.position.x - 5;
             }
             else if(rightCollide){
                 //PULL_RIGHT ANIMATION GOES HERE
                 
                 //Pull trash to the right
-                trash.position.x = trash.position.x + 10;
+                trash.position.x = trash.position.x + 5;
             }
             else{
                 //PULL_BAD ANIMATION GOES HERE
