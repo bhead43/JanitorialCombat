@@ -135,6 +135,7 @@ demo.level0.prototype = {
         
         var hitGoal = game.physics.arcade.collide(trash, goalLayer);
         var badHit = game.physics.arcade.collide(villain, jan);
+	var hitWall = game.physics.arcade.collide(trash, blockLayer);
         
         game.physics.arcade.collide(jan, blockLayer);
         game.physics.arcade.collide(trash, blockLayer);
@@ -262,26 +263,26 @@ demo.level0.prototype = {
         
         //Check to see if the 'F' key is pressed...
         if(game.input.keyboard.isDown(Phaser.Keyboard.F)){
-            if(upCollide){
+            if(upCollide && hitWall){
                 //Put a pulling animation here! At some point
                 //PULL_UP ANIMATION GOES HERE
                 
                 //Pull trash up
                 trash.position.y = trash.position.y - 5;
             }
-            else if(downCollide){
+            else if(downCollide && hitWall){
                 //PULL_DOWN ANIMATION GOES HERE
                 
                 //Pull trash down
                 trash.position.y = trash.position.y + 5;
             }
-            else if(leftCollide){
+            else if(leftCollide && hitWall){
                 //PULL_LEFT ANIMATION GOES HERE
                 
                 //Pull trash to the left
                 trash.position.x = trash.position.x - 5;
             }
-            else if(rightCollide){
+            else if(rightCollide && hitWall){
                 //PULL_RIGHT ANIMATION GOES HERE
                 
                 //Pull trash to the right
