@@ -11,8 +11,13 @@ var dummyCounter = 0;   //Is this at all necessary? I don't even know why this w
 demo.level0 = function(){};
 demo.level0.prototype = {
 	preload: function(){
-        game.load.tilemap('levelZero', 'assets/tutorialLevelMap.json', null, Phaser.Tilemap.TILED_JSON);
-        game.load.image('Tiles', 'assets/protoTileSet.png');
+        //game.load.tilemap('levelZero', 'assets/tutorialLevelMap.json', null, Phaser.Tilemap.TILED_JSON);  //Old tilemap
+        game.load.tilemap('levelZero', 'assets/tutorialNEW.json', null, Phaser.Tilemap.TILED_JSON); //New tilemap, smaller, different tileset used
+        //game.load.tilemap('levelZero', 'assets/tutorialALT.json', null, Phaser.Tilemap.TILED_JSON); //Resized tilemap with old tileset
+        //game.load.image('Tiles', 'assets/protoTileSet.png');
+        game.load.image('Floor Tiles', 'assets/protoTileSet.png');
+        game.load.image('Floor Tiles 2', 'assets/newTiles.png');
+        game.load.image('Goal Tiles', 'assets/goalTiles_TOGETHER.png');
         //game.load.spritesheet('jan', 'assets/characterSpritesheet.png', 230, 405);    //This is the old spritesheet, don't use unless EVERYTHING breaks with character
         game.load.spritesheet('jan', 'assets/characterSpriteSheetNEW.png', 230, 405);
         //game.load.image('Trash', 'assets/paperBall.png'); //Old trash ball, just a higher res version of the new one
@@ -36,15 +41,17 @@ demo.level0.prototype = {
         
         //Add tilemap and layers to state
         var map = game.add.tilemap('levelZero');
-        map.addTilesetImage('Tiles');
+        map.addTilesetImage('Floor Tiles');
+        map.addTilesetImage('Floor Tiles 2');
+        map.addTilesetImage('Goal Tiles');
         
         var baseLayer = map.createLayer('Floor');
         blockLayer = map.createLayer('Blocks');
         goalLayer = map.createLayer('Goal');
         
         //Set collision on the 'Blocks' layer
-        map.setCollisionBetween(2, 2, true, 'Blocks');
-        map.setCollisionBetween(3, 3, true, 'Goal');
+        map.setCollisionBetween(2, 7, true, 'Blocks');
+        map.setCollisionBetween(3, 4, true, 'Goal');
         
         //MIGHT need to uncomment this to have some detection when the block hits the goal area
         //map.setCollisonBetween(3, 3, true, 'Goal');
