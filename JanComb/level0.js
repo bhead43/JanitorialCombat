@@ -263,26 +263,26 @@ demo.level0.prototype = {
         
         //Check to see if the 'F' key is pressed...
         if(game.input.keyboard.isDown(Phaser.Keyboard.F)){
-            if(upCollide && hitWall){
+            if(upCollide){
                 //Put a pulling animation here! At some point
                 //PULL_UP ANIMATION GOES HERE
                 
                 //Pull trash up
                 trash.position.y = trash.position.y - 5;
             }
-            else if(downCollide && hitWall){
+            else if(downCollide){
                 //PULL_DOWN ANIMATION GOES HERE
                 
                 //Pull trash down
                 trash.position.y = trash.position.y + 5;
             }
-            else if(leftCollide && hitWall){
+            else if(leftCollide){
                 //PULL_LEFT ANIMATION GOES HERE
                 
                 //Pull trash to the left
                 trash.position.x = trash.position.x - 5;
             }
-            else if(rightCollide && hitWall){
+            else if(rightCollide){
                 //PULL_RIGHT ANIMATION GOES HERE
                 
                 //Pull trash to the right
