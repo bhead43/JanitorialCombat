@@ -215,30 +215,35 @@ demo.level1.prototype = {
         
         //Check to see if the 'F' key is pressed...
         if(game.input.keyboard.isDown(Phaser.Keyboard.F)){
-            if(upCollide){
+            console.log(totalMove)
+            if(upCollide && totalMove < 20){
                 //Put a pulling animation here! At some point
                 //PULL_UP ANIMATION GOES HERE
                 
                 //Pull trash up
-                trash.body.velocity.y = trashVelocity * -1;
+                trash.position.y = trash.position.y - 5;
+                totalMove++;
             }
-            else if(downCollide){
+            else if(downCollide && totalMove < 20){
                 //PULL_DOWN ANIMATION GOES HERE
                 
                 //Pull trash down
-                trash.body.velocity.y = trashVelocity;
+                trash.position.y = trash.position.y + 5;
+                totalMove++;
             }
-            else if(leftCollide){
+            else if(leftCollide && totalMove < 20){
                 //PULL_LEFT ANIMATION GOES HERE
                 
                 //Pull trash to the left
-                trash.body.velocity.x = trashVelocity * -1;
+                trash.position.x = trash.position.x - 5;
+                totalMove++;
             }
-            else if(rightCollide){
+            else if(rightCollide && totalMove < 20){
                 //PULL_RIGHT ANIMATION GOES HERE
                 
                 //Pull trash to the right
-                trash.body.velocity.x = trashVelocity;
+                trash.position.x = trash.position.x + 5;
+                totalMove++;
             }
             else{
                 //PULL_BAD ANIMATION GOES HERE
