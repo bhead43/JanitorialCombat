@@ -26,6 +26,9 @@ demo.level0.prototype = {
         game.load.audio('bgMusic', 'assets/audio/CrEEP.mp3');
         game.load.audio('monSound', 'assets/audio/monsterSound.mp3');
         
+        //Tutorial Sprite
+        game.load.image('Tutorial', 'assets/TutorialSpriteOne.png');
+        
         //Sprites for trash child sprites
         game.load.image('collideHorizontal', 'assets/collideCheckHorizontal.png');
         game.load.image('collideVertical', 'assets/collideCheckVertical.png');
@@ -37,7 +40,7 @@ demo.level0.prototype = {
         //Start Physics
         game.physics.startSystem(Phaser.Physics.ARCADE);
         
-	game.time.events.loop(Phaser.Timer.SECOND * getRandomInt(4,10), playMonSound, this);
+	    game.time.events.loop(Phaser.Timer.SECOND * getRandomInt(4,10), playMonSound, this);
         
         //Add tilemap and layers to state
         var map = game.add.tilemap('levelZero');
@@ -51,10 +54,7 @@ demo.level0.prototype = {
         
         //Set collision on the 'Blocks' layer
         map.setCollisionBetween(2, 7, true, 'Blocks');
-        map.setCollisionBetween(3, 4, true, 'Goal');
-        
-        //MIGHT need to uncomment this to have some detection when the block hits the goal area
-        //map.setCollisonBetween(3, 3, true, 'Goal');
+        map.setCollisionBetween(4, 4, true, 'Goal');
         
         //janitor sprite creation and size 
         jan = game.add.sprite(130, 130,'jan');
@@ -67,7 +67,7 @@ demo.level0.prototype = {
         //  Latter is probably the better thing to do, but it might also be more of a pain in the ass
         game.physics.enable(jan);
         jan.body.setSize(128, 128, 50, 270);
-	jan.body.collideWorldBounds = true;
+	    jan.body.collideWorldBounds = true;
         //This kinda break the hitboxes on the trash ball. Maybe rethink how to handle collision detection there entirely? Look into scrapping physics on the trash ball children entirely
         //jan.body.immovable = true;  //maybe this'll not break the pull?
         
@@ -130,10 +130,13 @@ demo.level0.prototype = {
         villain.animations.add('walkUp', [3]);
         villain.animations.add('walkDown', [2]);
         
-    //Text stuff
-    stateText = game.add.text(game.world.centerX,game.world.centerY,' ', { font: '84px Arial', fill: '#ed0202' });
-    stateText.anchor.setTo(0.5, 0.5);
-    stateText.visible = false;
+        //Text stuff
+        stateText = game.add.text(game.world.centerX,game.world.centerY,' ', { font: '84px Arial', fill: '#ed0202' });
+        stateText.anchor.setTo(0.5, 0.5);
+        stateText.visible = false;
+        
+        //Tutorial Sprite
+        var tutorial = game.add.sprite(0, 568, 'Tutorial');
         
         
     },
