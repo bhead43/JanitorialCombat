@@ -346,24 +346,24 @@ demo.level0.prototype = {
                 //Move trash to the left
                 trash.body.velocity.x = trashVelocity * -1;
             }
-    },
-    
-    render: function() {
-        //game.debug.bodyInfo(jan, 32, 32);
-        game.debug.body(jan);
-        game.debug.body(trash);
-        game.debug.body(villain);
-        
-        //Every now and then, these don't look like they actually initialize?
-        //  Look into this later! I have no clue what causes this right now.
-        //  Nevermind! Changing the way the children were created fixed this!
-        game.debug.body(upChild);
-        game.debug.body(downChild);
-        game.debug.body(leftChild);
-        game.debug.body(rightChild);
-        
-        game.debug.body(goalLayer);
     }
+    
+//    render: function() {
+//        //game.debug.bodyInfo(jan, 32, 32);
+//        game.debug.body(jan);
+//        game.debug.body(trash);
+//        game.debug.body(villain);
+//        
+//        //Every now and then, these don't look like they actually initialize?
+//        //  Look into this later! I have no clue what causes this right now.
+//        //  Nevermind! Changing the way the children were created fixed this!
+//        game.debug.body(upChild);
+//        game.debug.body(downChild);
+//        game.debug.body(leftChild);
+//        game.debug.body(rightChild);
+//        
+//        game.debug.body(goalLayer);
+//    }
 };
 
 function createTrash(spawnX, spawnY){
