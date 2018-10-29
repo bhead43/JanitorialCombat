@@ -3,18 +3,22 @@ var y = getCookie('level');
 
 demo.gameOver = function(){};
 demo.gameOver.prototype = {
-	preload: function(){},
+	preload: function(){
+        game.load.image('GameOver', 'assets/GameOverScreen.png');
+    },
 	create: function(){
-        game.stage.backgroundColor = '#26b7ad';
+        //game.stage.backgroundColor = '#26b7ad';
+        var gameOver = game.add.sprite(0, 0, 'GameOver');
+        
         
         //Text stuff
-        stateText = game.add.text(game.world.centerX,game.world.centerY,' ', { font: '84px Arial', fill: '#ed0202' });
-        stateText.anchor.setTo(0.5, 0.5);
-        stateText.visible = false;
+//        stateText = game.add.text(game.world.centerX,game.world.centerY,' ', { font: '84px Arial', fill: '#ed0202' });
+//        stateText.anchor.setTo(0.5, 0.5);
+//        stateText.visible = false;
     },
 	update: function(){
-        stateText.text = "Eaten by trash monsters! \nPress \'R\' to restart";
-        stateText.visible = true;
+//        stateText.text = "Eaten by trash monsters! \nPress \'R\' to restart";
+//        stateText.visible = true;
         
         var R = game.input.keyboard.addKey(Phaser.Keyboard.R);
 

@@ -6,23 +6,26 @@ var stateText;
 demo.nextLevel = function(){};
 demo.nextLevel.prototype = {
 	preload: function(){
-		 game.load.audio('lvlComp', 'assets/audio/completetask.mp3');
+        game.load.audio('lvlComp', 'assets/audio/completetask.mp3');
+        game.load.image('NextLevel', 'assets/NextLevelScreen.png');
 	},
 	create: function(){
-        	game.stage.backgroundColor = '#26b7ad';
+        	//game.stage.backgroundColor = '#26b7ad';
 		
         	//Text stuff
-        	stateText = game.add.text(game.world.centerX,game.world.centerY,' ', { font: '64px Arial', fill: '#ed0202' });
-        	stateText.anchor.setTo(0.5, 0.5);
-        	stateText.visible = false;
+//        	stateText = game.add.text(game.world.centerX,game.world.centerY,' ', { font: '64px Arial', fill: '#ed0202' });
+//        	stateText.anchor.setTo(0.5, 0.5);
+//        	stateText.visible = false;
+        var nextLevel = game.add.sprite(0, 0, 'NextLevel');
+        
 		
 		lvlComp = game.add.audio('lvlComp');
         	lvlComp.play();
 		
     	},
 	update: function(){
-        stateText.text = "Level Complete! \nPress \'N\' to Start Next Level!";
-        stateText.visible = true;
+//        stateText.text = "Level Complete! \nPress \'N\' to Start Next Level!";
+//        stateText.visible = true;
         
         var N = game.input.keyboard.addKey(Phaser.Keyboard.N);
         
