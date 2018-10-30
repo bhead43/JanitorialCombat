@@ -274,7 +274,7 @@ demo.level0.prototype = {
         //Check to see if the 'F' key is pressed...
        if(game.input.keyboard.isDown(Phaser.Keyboard.F)){
             console.log(totalMove)
-            if(upCollide && totalMove < 20){
+            if(upCollide && totalMove < 40){
                 //Put a pulling animation here! At some point
                 //PULL_UP ANIMATION GOES HERE
                 
@@ -282,21 +282,21 @@ demo.level0.prototype = {
                 trash.position.y = trash.position.y - 5;
                 totalMove++;
             }
-            else if(downCollide && totalMove < 20){
+            else if(downCollide && totalMove < 40){
                 //PULL_DOWN ANIMATION GOES HERE
                 
                 //Pull trash down
                 trash.position.y = trash.position.y + 5;
                 totalMove++;
             }
-            else if(leftCollide && totalMove < 20){
+            else if(leftCollide && totalMove < 40){
                 //PULL_LEFT ANIMATION GOES HERE
                 
                 //Pull trash to the left
                 trash.position.x = trash.position.x - 5;
                 totalMove++;
             }
-            else if(rightCollide && totalMove < 20){
+            else if(rightCollide && totalMove < 40){
                 //PULL_RIGHT ANIMATION GOES HERE
                 
                 //Pull trash to the right
@@ -313,7 +313,9 @@ demo.level0.prototype = {
         if(hitGoal){
             trash.kill();
             bgMusic.stop();
-            game.state.start('nextLevel');  
+            totalMove = 0;
+            game.state.start('nextLevel'); 
+            
         }
 
         //Enemy movement!
@@ -333,6 +335,7 @@ demo.level0.prototype = {
             //Once hit, game over! Put some text up and prompt the player to restart the level
             jan.kill();
             bgMusic.stop();
+            totalMove = 0;
             game.state.start('gameOver');
         }
          

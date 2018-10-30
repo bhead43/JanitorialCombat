@@ -34,18 +34,6 @@ demo.gameOver.prototype = {
     }
 };
 
-////why the fuck does this return 1 all the time
-//function currentLevel(){
-//    var x = getCookie('level');
-//    x = Number(x);
-//    //x++;
-//    x = x.toString();
-//    document.cookie = 'level = ' + x;
-//    console.log(x);
-//    console.log(document.cookie);
-//    return(x)
-//}
-
 function getCookie(cname) {
         var name = cname + "=";
         var decodedCookie = decodeURIComponent(document.cookie);
