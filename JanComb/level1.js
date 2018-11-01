@@ -11,8 +11,12 @@ var totalMove = 0;
 demo.level1 = function(){};
 demo.level1.prototype = {
 	preload: function(){
-        game.load.tilemap('levelOne', 'assets/levelMap.json', null, Phaser.Tilemap.TILED_JSON);
-        game.load.image('Tiles', 'assets/protoTileSet.png');
+        //game.load.tilemap('levelOne', 'assets/levelMap.json', null, Phaser.Tilemap.TILED_JSON);
+        game.load.tilemap('levelOne', 'assets/levelOneNEW.json', null, Phaser.Tilemap.TILED_JSON);  //New tilemap
+        //game.load.image('Tiles', 'assets/protoTileSet.png');
+        game.load.image('Floor Tiles', 'assets/protoTileSet.png');
+        game.load.image('Floor Tiles 2', 'assets/newTiles.png');
+        game.load.image('Goal Tiles', 'assets/goalTiles_TOGETHER.png');
         //game.load.spritesheet('jan', 'assets/characterSpritesheet.png', 230, 405);
         game.load.spritesheet('jan', 'assets/characterSpriteSheetNEW.png', 230, 405);
         //game.load.image('Trash', 'assets/paperBall.png'); // for now
@@ -21,8 +25,6 @@ demo.level1.prototype = {
 	
         game.load.audio('bgMusic', 'assets/audio/CrEEP.mp3');
         game.load.audio('monSound', 'assets/audio/monsterSound.mp3');
-		
-		
     },
     
 	create: function(){
@@ -36,15 +38,18 @@ demo.level1.prototype = {
         
         //Add tilemap and layers to state
         map = game.add.tilemap('levelOne');
-        map.addTilesetImage('Tiles');
+        //map.addTilesetImage('Tiles');
+        map.addTilesetImage('Floor Tiles');
+        map.addTilesetImage('Floor Tiles 2');
+        map.addTilesetImage('Goal Tiles');
         
         baseLayer = map.createLayer('Floor');
         blockLayer = map.createLayer('Blocks');
         goalLayer = map.createLayer('Goal');
         
         //Set collision on the 'Blocks' layer
-        map.setCollisionBetween(2, 2, true, 'Blocks');
-        map.setCollisionBetween(3, 3, true, 'Goal');
+        map.setCollisionBetween(3, 5, true, 'Blocks');
+        map.setCollisionBetween(7, 7, true, 'Goal');
         
         //MIGHT need to uncomment this to have some detection when the block hits the goal area
         //map.setCollisonBetween(3, 3, true, 'Goal');
