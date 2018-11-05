@@ -49,7 +49,10 @@ demo.level1.prototype = {
         monSound = game.add.audio('monSound'); 
     },
 	update: function(){
-	    var hitGoal = game.physics.arcade.collide(trash.trash, goalLayer);
+	    //Var to hold current animation being played
+        var currentAnim;
+        
+        var hitGoal = game.physics.arcade.collide(trash.trash, goalLayer);
         var badHit = game.physics.arcade.collide(villain, jan);
         
 	    // Basic collisions
@@ -91,8 +94,10 @@ demo.level1.prototype = {
             jan.animations.play('walkDown', 7, true);
         }
         else{
-            jan.animations.stop();
-            jan.frame = 0
+//            jan.animations.stop();
+//            jan.frame = 0
+            //Trying something different for stopping the animation
+            currentAnim = jan.animations.currentAnimation.name;
             jan.body.velocity.x = 0;
             jan.body.velocity.y = 0;
         }

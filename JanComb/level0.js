@@ -66,7 +66,9 @@ demo.level0.prototype = {
         var tutorial = game.add.sprite(0, 568, 'Tutorial');
     },
 	update: function(){
-     	//Collision checks
+     	//Variable to hold current animation
+        var currentAnim;
+        //Collision checks
         var hitGoal = game.physics.arcade.collide(trash.trash, goalLayer);
         var badHit = game.physics.arcade.collide(villain, jan);
 	    var hitWall = game.physics.arcade.collide(trash.trash, blockLayer);
@@ -93,26 +95,28 @@ demo.level0.prototype = {
         if(game.input.keyboard.isDown(Phaser.Keyboard.RIGHT)){
 		    jan.body.velocity.y = 0;
 		    jan.body.velocity.x = velocity;
-           	jan.animations.play('walkRight', 7, true);
+           	jan.animations.play('walkRight', 7, false);
         }
         else if(game.input.keyboard.isDown(Phaser.Keyboard.LEFT)){
             jan.body.velocity.y = 0;
             jan.body.velocity.x = velocity * -1;
-            jan.animations.play('walkLeft', 7, true);
+            jan.animations.play('walkLeft', 7, false);
         }
         else if(game.input.keyboard.isDown(Phaser.Keyboard.UP)){
             jan.body.velocity.x = 0;
             jan.body.velocity.y = velocity * -1;
-            jan.animations.play('walkUp', 7, true);
+            jan.animations.play('walkUp', 7, false);
         }
         else if(game.input.keyboard.isDown(Phaser.Keyboard.DOWN)){
             jan.body.velocity.x = 0;
             jan.body.velocity.y = velocity;
-            jan.animations.play('walkDown', 7, true);
+            jan.animations.play('walkDown', 7, false);
         }
         else{
-            jan.animations.stop();
-            jan.frame = 0
+//            jan.animations.stop();
+//            jan.frame = 0
+            //currentAnim = jan.animations.currentAnim.name;
+            //while (jan.animations.currentAnim.isFinished)
             jan.body.velocity.x = 0;
             jan.body.velocity.y = 0;
         }
@@ -152,9 +156,9 @@ demo.level0.prototype = {
                 jan.animations.play('pushLeft', 3, false);
                 trash.trash.body.velocity.x = trashVelocity * -1;
             }
-            else{
-                jan.animations.play('pushDown', 3, false);
-            }
+//            else{
+//                jan.animations.play('pushDown', 3, false);
+//            }
         }
 		
        // PULL
@@ -238,10 +242,10 @@ function createJanitor(spawnX, spawnY){
     jan.body.collideWorldBounds = true;
     
     //Add animations
-    jan.animations.add('walkUp', [16, 15, 17, 15]);
-    jan.animations.add('walkDown', [1, 0, 2, 0]);
-    jan.animations.add('walkLeft', [6, 5, 7, 5]);
-    jan.animations.add('walkRight', [11, 10, 12, 10]);
+    jan.animations.add('walkUp', [16, 15]);
+    jan.animations.add('walkDown', [1, 0]);
+    jan.animations.add('walkLeft', [6, 5]);
+    jan.animations.add('walkRight', [11, 10]);
     jan.animations.add('pushUp', [18]);
     jan.animations.add('pushDown', [3, 4]);
     jan.animations.add('pushLeft', [8, 9]);
