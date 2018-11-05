@@ -22,7 +22,7 @@ demo.level0.prototype = {
         game.load.spritesheet('jan', 'assets/characterSpriteSheetNEW.png', 230, 405);
         //game.load.image('Trash', 'assets/paperBall.png'); //Old trash ball, just a higher res version of the new one
         game.load.image('Trash', 'assets/paperBallRESIZED.png');
-        game.load.spritesheet('villain', 'assets/villainSpritesheet.png', 300, 300);
+        game.load.spritesheet('villain', 'assets/trashMonsterSpritesheet.png', 300, 300);
         game.load.audio('bgMusic', 'assets/audio/CrEEP.mp3');
         game.load.audio('monSound', 'assets/audio/monsterSound.mp3');
         
@@ -125,10 +125,10 @@ demo.level0.prototype = {
         villain.body.setSize(225, 225, 40, 75);
         villain.body.collideWorldBounds = true;
         
-        villain.animations.add('walkRight', [4,5]);
+        villain.animations.add('walkRight', [6,7]);
         villain.animations.add('walkLeft', [0,1]);
-        villain.animations.add('walkUp', [3]);
-        villain.animations.add('walkDown', [2]);
+        villain.animations.add('walkUp', [5]);
+        villain.animations.add('walkDown', [2,3,4]);
         
         //Text stuff
         stateText = game.add.text(game.world.centerX,game.world.centerY,' ', { font: '84px Arial', fill: '#ed0202' });
