@@ -11,16 +11,11 @@ var dummyCounter = 0;   //Is this at all necessary? I don't even know why this w
 demo.level0 = function(){};
 demo.level0.prototype = {
 	preload: function(){
-        //game.load.tilemap('levelZero', 'assets/tutorialLevelMap.json', null, Phaser.Tilemap.TILED_JSON);  //Old tilemap
         game.load.tilemap('levelZero', 'assets/tutorialNEW.json', null, Phaser.Tilemap.TILED_JSON); //New tilemap, smaller, different tileset used
-        //game.load.tilemap('levelZero', 'assets/tutorialALT.json', null, Phaser.Tilemap.TILED_JSON); //Resized tilemap with old tileset
-        //game.load.image('Tiles', 'assets/protoTileSet.png');
         game.load.image('Floor Tiles', 'assets/protoTileSet.png');
         game.load.image('Floor Tiles 2', 'assets/newTiles.png');
         game.load.image('Goal Tiles', 'assets/goalTiles_TOGETHER.png');
-        //game.load.spritesheet('jan', 'assets/characterSpritesheet.png', 230, 405);    //This is the old spritesheet, don't use unless EVERYTHING breaks with character
         game.load.spritesheet('jan', 'assets/characterSpriteSheetNEW.png', 230, 405);
-        //game.load.image('Trash', 'assets/paperBall.png'); //Old trash ball, just a higher res version of the new one
         game.load.image('Trash', 'assets/paperBallRESIZED.png');
         game.load.spritesheet('villain', 'assets/trashMonsterSpritesheet.png', 300, 300);
         game.load.audio('bgMusic', 'assets/audio/CrEEP.mp3');
@@ -40,14 +35,11 @@ demo.level0.prototype = {
         //Start Physics
         game.physics.startSystem(Phaser.Physics.ARCADE);
         
-	    game.time.events.loop(Phaser.Timer.SECOND * getRandomInt(4,10), playMonSound, this);
-        
         //Add tilemap and layers to state
         var map = game.add.tilemap('levelZero');
         map.addTilesetImage('Floor Tiles');
         map.addTilesetImage('Floor Tiles 2');
         map.addTilesetImage('Goal Tiles');
-        
         var baseLayer = map.createLayer('Floor');
         blockLayer = map.createLayer('Blocks');
         goalLayer = map.createLayer('Goal');
@@ -56,28 +48,15 @@ demo.level0.prototype = {
         map.setCollisionBetween(2, 7, true, 'Blocks');
         map.setCollisionBetween(4, 4, true, 'Goal');
         
-        //janitor sprite creation and size 
+        // Everything janitor
+	// Creation, sizing, and collision
         jan = game.add.sprite(130, 130,'jan');
-        
-        jan.anchor.setTo(0.5,0.5);
+	jan.anchor.setTo(0.5,0.5);
         jan.scale.setTo(0.25, 0.25);
-        
-        //letting jan be able to collide
-        //  See about either making the player smaller or restricting the hitbox to the feet only.
-        //  Latter is probably the better thing to do, but it might also be more of a pain in the ass
         game.physics.enable(jan);
         jan.body.setSize(128, 128, 50, 270);
-	    jan.body.collideWorldBounds = true;
-        //This kinda break the hitboxes on the trash ball. Maybe rethink how to handle collision detection there entirely? Look into scrapping physics on the trash ball children entirely
-        //jan.body.immovable = true;  //maybe this'll not break the pull?
-        
-        //Add animations --- OLD ANIMATIONS, ONLY USE W/ OLD SPRITESHEET
-//        jan.animations.add('walkRight', [7, 6, 8, 6]);
-//        jan.animations.add('walkLeft', [4, 3, 5, 3]);
-//        jan.animations.add('walkUp', [10, 9, 11, 9]);
-//        jan.animations.add('walkDown', [1, 0, 2, 0]);
-        
-        //Add animations --- NEW ANIMATIONS, USE WITH characterSpriteSheetNEW.png
+	jan.body.collideWorldBounds = true;
+        // Animations
         jan.animations.add('walkUp', [16, 15, 17, 15]);
         jan.animations.add('walkDown', [1, 0, 2, 0]);
         jan.animations.add('walkLeft', [6, 5, 7, 5]);
@@ -86,45 +65,32 @@ demo.level0.prototype = {
         jan.animations.add('pushDown', [3, 4]);
         jan.animations.add('pushLeft', [8, 9]);
         jan.animations.add('pushRight', [13, 14]);
-        
-        //ALL OBSOLETE, HANDLED WITH FUNCTION NOW
-        //trash = game.add.sprite(500, 100, 'Trash');
-	    //trash.scale.setTo(0.5, 0.5);
+
 		
-	    // Enable trash physics and stuff
-        
-        //Trying to make the ball only be moved when you hit a button...
-        //  Idea is to surround the ball with empty collision boxes, and enable a 'push' action when you're in one of those boxes
-        //  Add empty child sprites to the main trash ball? Also, moving the trash creation to its own function to make things cleaner later
-        //game.physics.enable(trash);
-        //trash.body.bounce.setTo(0.3);   // Can change later
-        //trash.body.collideWorldBounds = true;
-        
+	// Audio stuff
+	// Background
         bgMusic = game.add.audio('bgMusic');
         bgMusic.play();
-        
+        // Monster sound
+	game.time.events.loop(Phaser.Timer.SECOND * getRandomInt(4,10), playMonSound, this); // starts loop
         monSound = game.add.audio('monSound');
         
-        //Handles everything done above
+        // Trash stuff
         trash = createTrash(200, 150);
-        //Add children to trash
-        //  I *think* that these all need to be made like this, as opposed to doing it through a function.
-        //  Otherwise, I don't know an easy way to handle collision detection later on
-       
         upChild = addChildSprite(trash, 'up');
         downChild = addChildSprite(trash, 'down');
         leftChild = addChildSprite(trash, 'left');
         rightChild = addChildSprite(trash, 'right');
         
-        villain = game.add.sprite(300, 800, 'villain');
-        
+	// Everything trash monster
+	// Creation, sizing, collision
+        villain = game.add.sprite(300, 800, 'villain'); 
         villain.anchor.setTo(0.5,0.5);
         villain.scale.setTo(0.2,0.2);
-        
         game.physics.enable(villain);
         villain.body.setSize(225, 225, 40, 75);
         villain.body.collideWorldBounds = true;
-        
+        // Animations
         villain.animations.add('walkRight', [6,7]);
         villain.animations.add('walkLeft', [0,1]);
         villain.animations.add('walkUp', [5]);
@@ -138,25 +104,22 @@ demo.level0.prototype = {
         //Tutorial Sprite
         var tutorial = game.add.sprite(0, 568, 'Tutorial');
         
+		
+		
         
     },
 	update: function(){
-        //villain.frame = 2;
         
         var hitGoal = game.physics.arcade.collide(trash, goalLayer);
         var badHit = game.physics.arcade.collide(villain, jan);
-	var hitWall = game.physics.arcade.collide(trash, blockLayer);
         
+	// Basic collisions
         game.physics.arcade.collide(jan, blockLayer);
         game.physics.arcade.collide(trash, blockLayer);
-        //game.physics.arcade.collide(trash, jan);  //Disabling for now, hopefully will be off for the remainder of the project!
         game.physics.arcade.collide(trash, goalLayer)
         game.physics.arcade.collide(villain, blockLayer)
-        //game.physics.arcade.collide(villain,trash); //Disabling for now, using the children laid out below to check for collision now
-        //game.physics.arcade.collide(villain, goalLayer); //Don't need this one, I think?
         
-        //OLD TRASH COLLISION DETECTION -- CLUNKY AND BAD AND SHOULD NEVER BE USED AGAIN
-        //Variables to check collision with trash children
+        // Trash collision
         var upCollide = game.physics.arcade.collide(jan, upChild);
         var downCollide = game.physics.arcade.collide(jan, downChild);
         var leftCollide = game.physics.arcade.collide(jan, leftChild);
@@ -167,248 +130,164 @@ demo.level0.prototype = {
         var leftBadCollide = game.physics.arcade.collide(villain, leftChild);
         var rightBadCollide = game.physics.arcade.collide(villain, rightChild);
         
-//        //NEW TRASH COLLISION DETECTION -- USES SPRITE OVERLAP INSTEAD OF PHYSICS COLLISION
-//        var upCollide = checkOverlap(jan, upChild);
-//        var downCollide = checkOverlap(jan, downChild);
-//        var leftCollide = checkOverlap(jan, leftChild);
-//        var rightCollide = checkOverlap(jan, rightChild);
-//        //Monster overlap checks
-//        var upBadCollide = checkOverlap(villain, upChild);
-//        var downBadCollide = checkOverlap(villain, downChild);
-//        var leftBadCollide = checkOverlap(villain, leftChild);
-//        var rightBadCollide = checkOverlap(villain, rightChild);
-        //Movement stuff
-        //  Maybe set x velocity to 0 when moving up/down, and vice versa? Could help with movement weirdness
-        if(game.input.keyboard.isDown(Phaser.Keyboard.RIGHT)){
-			//jan.scale.setTo(0.2, 0.2);
-            jan.body.velocity.y = 0;
-			jan.body.velocity.x = velocity;
-            jan.animations.play('walkRight', 7, true);
-		//villain.animations.play('walkRight', 7, true);
-		}
-		else if(game.input.keyboard.isDown(Phaser.Keyboard.LEFT)){
-			//jan.scale.setTo(-0.2, 0.2);
-            jan.body.velocity.y = 0;
-			jan.body.velocity.x = velocity * -1;
-            jan.animations.play('walkLeft', 7, true);
-		//villain.animations.play('walkLeft', 7, true);
-		}
 
-		else if(game.input.keyboard.isDown(Phaser.Keyboard.UP)){
-            //jan.scale.setTo(0.2, 0.2);
-            jan.body.velocity.x = 0;
-			jan.body.velocity.y = velocity * -1;
-            jan.animations.play('walkUp', 7, true);
-	//villain.animations.play('walkUp', 7, true);
-			
-		}
-		else if(game.input.keyboard.isDown(Phaser.Keyboard.DOWN)){
-            //jan.scale.setTo(0.2, 0.2);
-            jan.body.velocity.x = 0;
-			jan.body.velocity.y = velocity;
-            jan.animations.play('walkDown', 7, true);
-	//villain.animations.play('walkDown', 7, true);
-		}
-	   
-        else{
-            jan.animations.stop();
-            jan.frame = 0
-            jan.body.velocity.x = 0;
-            jan.body.velocity.y = 0;
+        // Janitor movement
+        if(game.input.keyboard.isDown(Phaser.Keyboard.RIGHT)){
+		jan.body.velocity.y = 0;
+		jan.body.velocity.x = velocity;
+           	jan.animations.play('walkRight', 7, true);
+	}
+	else if(game.input.keyboard.isDown(Phaser.Keyboard.LEFT)){
+		jan.body.velocity.y = 0;
+		jan.body.velocity.x = velocity * -1;
+           	jan.animations.play('walkLeft', 7, true);
+	}
+	else if(game.input.keyboard.isDown(Phaser.Keyboard.UP)){
+            	jan.body.velocity.x = 0;
+		jan.body.velocity.y = velocity * -1;
+                jan.animations.play('walkUp', 7, true);
+	}
+	else if(game.input.keyboard.isDown(Phaser.Keyboard.DOWN)){
+           	jan.body.velocity.x = 0;
+		jan.body.velocity.y = velocity;
+            	jan.animations.play('walkDown', 7, true);
+	}
+	else{
+		jan.animations.stop();
+            	jan.frame = 0
+          	jan.body.velocity.x = 0;
+            	jan.body.velocity.y = 0;
         }
-		
-	 if(villain.body.velocity.y > 0){
-             villain.animations.play('walkDown', 7, true);
+	
+	// Trash monster movement
+	if(villain.body.velocity.y > 0){
+		villain.animations.play('walkDown', 7, true);
         }
         else if(villain.body.velocity.x < 0){
-            villain.animations.play('walkLeft', 7, true);
-        } else if(villain.body.velocity.x > 0){
-            villain.animations.play('walkRight', 7, true);
-        }
+            	villain.animations.play('walkLeft', 7, true);
+        } 
+	else if(villain.body.velocity.x > 0){
+            	villain.animations.play('walkRight', 7, true);
+	}
         else {
             villain.animations.play('walkUp', 7, true);
         }
         
-        //Trash movement!
-        //  What *should* happen:
-        //      -Only gets moved when you hit a button (making it 'E' for now) while next to the ball
-        //      -Direction of movement depends on where you hit it from
-        //      -Only ever moves on one axis
         
-        //First check to see if the 'E' key is pressed...
+        // Trash movement
+	
+	// PUSH
+        // First check to see if the 'E' key is pressed...
         if(game.input.keyboard.isDown(Phaser.Keyboard.E)){
-            if(upCollide){
-                //Put a pushing animation here! At some point
-                jan.animations.play('pushDown', 1, false);  //How to make this not listen to the animations.stop?
-                
-                //Move trash down
-                trash.body.velocity.y = trashVelocity;
+	// Now collisions
+            if(upCollide){	// move trash down
+                jan.animations.play('pushDown', 1, false); 
+  		trash.body.velocity.y = trashVelocity;
             }
-            else if(downCollide){
-                //PUSH_UP ANIMATION GOES HERE
+            else if(downCollide){	// move trash up
                 jan.animations.play('pushUp', 3, false);
-                
-                //Move trash up
                 trash.body.velocity.y = trashVelocity * -1;
             }
-            else if(leftCollide){
-                //PUSH_RIGHT ANIMATION GOES HERE
+            else if(leftCollide){	// move trash right
                 jan.animations.play('pushRight', 3, false);
-                
-                //Move trash to the right
                 trash.body.velocity.x = trashVelocity;
             }
-            else if(rightCollide){
-                //PUSH_LEFT ANIMATION GOES HERE
-                jan.animations.play('pushLeft', 3, false);
-                
-                //Move trash to the left
+            else if(rightCollide){	// move trash left
+                jan.animations.play('pushLeft', 3, false);\
                 trash.body.velocity.x = trashVelocity * -1;
             }
             else{
-                //PUSH_BAD ANIMATION GOES HERE
                 jan.animations.play('pushDown', 3, false);
             }
         }
-        
-        //Check to see if the 'F' key is pressed...
+		
+       // PULL
+       // Check to see if the 'F' key is pressed...
        if(game.input.keyboard.isDown(Phaser.Keyboard.F)){
             console.log(totalMove)
-            if(upCollide && totalMove < 40){
-                //Put a pulling animation here! At some point
-                //PULL_UP ANIMATION GOES HERE
-                
-                //Pull trash up
+            if(upCollide && totalMove < 40){	// pull trash up
                 trash.position.y = trash.position.y - 5;
                 totalMove++;
             }
-            else if(downCollide && totalMove < 40){
-                //PULL_DOWN ANIMATION GOES HERE
-                
-                //Pull trash down
+            else if(downCollide && totalMove < 40){	// pull trash down
                 trash.position.y = trash.position.y + 5;
                 totalMove++;
             }
-            else if(leftCollide && totalMove < 40){
-                //PULL_LEFT ANIMATION GOES HERE
-                
-                //Pull trash to the left
+            else if(leftCollide && totalMove < 40){	// pull trash left
                 trash.position.x = trash.position.x - 5;
                 totalMove++;
             }
-            else if(rightCollide && totalMove < 40){
-                //PULL_RIGHT ANIMATION GOES HERE
-                
-                //Pull trash to the right
+            else if(rightCollide && totalMove < 40){	// pull trash right
                 trash.position.x = trash.position.x + 5;
                 totalMove++;
             }
             else{
-                //PULL_BAD ANIMATION GOES HERE
             }
         }
         
-        //Goal Detection
-        //  Ends level once the trash ball hits the goal area
+		
+        // Goal Detection
+        // Ends level once the trash ball hits the goal area
         if(hitGoal){
             trash.kill();
-            bgMusic.stop();
+            bgMusic.stop();	// stop background music
             totalMove = 0;
-            game.state.start('nextLevel'); 
-            
+            game.state.start('nextLevel');     
         }
-
-        //Enemy movement!
-        //  What *should* happen:
-        //      -Enemy moves towards the player at all times
-        //      -If the enemy collides with the player, deal damage!
-        //          --Will probably just be a 'game over' and reset the level on hit for now. Will implement an HP mechanic later on
-        //      -If the enemy collides with the ball, it'll move the ball
-        //          --Will follow the same rules as the player; if it hits from the bottom, move it up, etc.
         
-        //Moves the villain sprite continuously towards the jan sprite
+	// Monster actions
+        // Moves trash monster continuously towards the janitor
         game.physics.arcade.moveToObject(villain, jan, 75);
-        
-        //Check for collision with the character
-        //  --Might just send this to a separate state? Not sure yet
+		
+        // Check for collision with janitor
         if(badHit){
-            //Once hit, game over! Put some text up and prompt the player to restart the level
             jan.kill();
-            bgMusic.stop();
+            bgMusic.stop();	// stop background music
             totalMove = 0;
             game.state.start('gameOver');
         }
          
-        //Check for collision with trash ball children
-        //  --Making these if-else if instead of just 4 if statements to avoid bad things happening if it hits two at once
-            if(upBadCollide){
-                //Move trash down
+        // Check for collision with trash ball children
+            if(upBadCollide){	// move trash down
                 trash.body.velocity.y = trashVelocity;
             }
-            else if(downBadCollide){
-                //Move trash up
+            else if(downBadCollide){	// move trash up
                 trash.body.velocity.y = trashVelocity * -1;
             }
-            else if(leftBadCollide){
-                //Move trash to the right
+            else if(leftBadCollide){	// move trash to the right
                 trash.body.velocity.x = trashVelocity;
             }
-            else if(rightBadCollide){
-                //Move trash to the left
+            else if(rightBadCollide){	// move trash to the left
                 trash.body.velocity.x = trashVelocity * -1;
             }
     }
     
-//    render: function() {
-//        //game.debug.bodyInfo(jan, 32, 32);
-//        game.debug.body(jan);
-//        game.debug.body(trash);
-//        game.debug.body(villain);
-//        
-//        //Every now and then, these don't look like they actually initialize?
-//        //  Look into this later! I have no clue what causes this right now.
-//        //  Nevermind! Changing the way the children were created fixed this!
-//        game.debug.body(upChild);
-//        game.debug.body(downChild);
-//        game.debug.body(leftChild);
-//        game.debug.body(rightChild);
-//        
-//        game.debug.body(goalLayer);
-//    }
 };
 
+// Creates Trash 
 function createTrash(spawnX, spawnY){
-    var trash;
-    
-    trash = game.add.sprite(spawnX, spawnY, 'Trash');
-    //trash.scale.setTo(0.5, 0.5);    //May get rid of this and half the size of the actual trash png
-    
-    game.physics.enable(trash);
-    //trash.body.bounce.setTo(0.05);   // Can change later, probably don't want any bounce in the end?
-    trash.body.collideWorldBounds = true;
-    
-    return trash;
+	var trash;
+	trash = game.add.sprite(spawnX, spawnY, 'Trash');
+	game.physics.enable(trash);
+	trash.body.collideWorldBounds = true;
+	return trash;
 }
 
+// Plays monster sounds
 function playMonSound(){
  	monSound.play();
 }
-	
+
+// Function to get random integers
 function getRandomInt(min, max) {
     min = Math.ceil(min);
     max = Math.floor(max);
     return Math.floor(Math.random() * (max - min)) + min; //The maximum is exclusive and the minimum is inclusive
 }
-//Might need to COPMLETELY rework how this is handled
-//  -Currently, these children all have physics enabled to make collision possible
-//      -It kind of works, but can be a bit wonky, especially if you're looking at the debug info on the bodies of the children
-//      -It straight up breaks once you make the player an immovable object. The bodies on all the objects clash, and you lose the ability to dictate which direction the push will be applied in
-//  -Instead, I think that its better to use the checkOverlap (or whatever it's called) function that comes with the sprite object
-//      -That'll let us check if the player is overlapping with the child sprite without messing with physics enabled bodies moving everywhere
-//      -Mostly, this'll make a pull action more viable, as it'll (hopefully) allow the ball to pass through the player without breaking everything (as it does now)
+
+// Trash children
 function addChildSprite(parent, direction){
     var child;
-    //I have no clue why I have to fudge these numbers to make it work.
     var currentX = parent.body.x - 208;     //-208
     var currentY = parent.body.y - 158;     //-158
     
@@ -445,13 +324,11 @@ function addChildSprite(parent, direction){
     return child;
 }
 
+// Checks overlap
 function checkOverlap(spriteA, spriteB) {
-
-    var boundsA = spriteA.getBounds();
-    var boundsB = spriteB.getBounds();
-
-    return Phaser.Rectangle.intersects(boundsA, boundsB);
-
+	var boundsA = spriteA.getBounds();
+    	var boundsB = spriteB.getBounds();
+	return Phaser.Rectangle.intersects(boundsA, boundsB);
 }
 
 function getCookie(cname) {
