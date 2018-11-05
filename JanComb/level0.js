@@ -30,9 +30,7 @@ demo.level0.prototype = {
     },
     
 	create: function(){
-        
-        
-        //Start Physics
+	//Start Physics
         game.physics.startSystem(Phaser.Physics.ARCADE);
         
         //Add tilemap and layers to state
@@ -109,8 +107,7 @@ demo.level0.prototype = {
         
     },
 	update: function(){
-        
-        var hitGoal = game.physics.arcade.collide(trash, goalLayer);
+     	var hitGoal = game.physics.arcade.collide(trash, goalLayer);
         var badHit = game.physics.arcade.collide(villain, jan);
         
 	// Basic collisions
