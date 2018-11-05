@@ -128,7 +128,7 @@ demo.level0.prototype = {
         villain.animations.add('walkRight', [6,7]);
         villain.animations.add('walkLeft', [0,1]);
         villain.animations.add('walkUp', [5]);
-        villain.animations.add('walkDown', [2,3,4]);
+        villain.animations.add('walkDown', [2,3,2,4]);
         
         //Text stuff
         stateText = game.add.text(game.world.centerX,game.world.centerY,' ', { font: '84px Arial', fill: '#ed0202' });
