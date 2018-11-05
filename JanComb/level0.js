@@ -145,7 +145,7 @@ demo.level0.prototype = {
         
         var hitGoal = game.physics.arcade.collide(trash, goalLayer);
         var badHit = game.physics.arcade.collide(villain, jan);
-	var hitWall = game.physics.arcade.collide(trash, blockLayer);
+	    var hitWall = game.physics.arcade.collide(trash, blockLayer);
         
         game.physics.arcade.collide(jan, blockLayer);
         game.physics.arcade.collide(trash, blockLayer);
