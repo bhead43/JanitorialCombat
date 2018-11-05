@@ -23,14 +23,10 @@ demo.level0.prototype = {
         
         //Tutorial Sprite
         game.load.image('Tutorial', 'assets/TutorialSpriteOne.png');
-        
-        //Sprites for trash child sprites
-        game.load.image('collideHorizontal', 'assets/collideCheckHorizontal.png');
-        game.load.image('collideVertical', 'assets/collideCheckVertical.png');
     },
     
 	create: function(){
-	//Start Physics
+	   //Start Physics
         game.physics.startSystem(Phaser.Physics.ARCADE);
         
         //Add tilemap and layers to state
@@ -49,6 +45,14 @@ demo.level0.prototype = {
         // Everything janitor
         //  All done via a function (which can be used in any subsesquent levels as well)
         jan = createJanitor(130, 130)
+        
+        // Trash stuff
+        //  All handled via an object now (see bottom of file)
+        trash = new Trash(200, 150);
+        
+	    // Everything trash monster
+	    // All handled via a function (see bottom of file)
+        villain = createMonster(300, 800);
 		
 	    // Audio stuff
 	    // Background
@@ -58,39 +62,12 @@ demo.level0.prototype = {
 	    game.time.events.loop(Phaser.Timer.SECOND * getRandomInt(4,10), playMonSound, this); // starts loop
         monSound = game.add.audio('monSound');
         
-        // Trash stuff
-        //  All handled via an object now (see bottom of file)
-        trash = new Trash(200, 150);
-//        trash = createTrash(200, 150);
-//        upChild = addChildSprite(trash, 'up');
-//        downChild = addChildSprite(trash, 'down');
-//        leftChild = addChildSprite(trash, 'left');
-//        rightChild = addChildSprite(trash, 'right');
-        
-	    // Everything trash monster
-	    // Creation, sizing, collision
-        villain = game.add.sprite(300, 800, 'villain'); 
-        villain.anchor.setTo(0.5,0.5);
-        villain.scale.setTo(0.2,0.2);
-        game.physics.enable(villain);
-        villain.body.setSize(225, 225, 40, 75);
-        villain.body.collideWorldBounds = true;
-        // Animations
-        villain.animations.add('walkRight', [6,7]);
-        villain.animations.add('walkLeft', [0,1]);
-        villain.animations.add('walkUp', [5]);
-        villain.animations.add('walkDown', [2,3,2,4]);
-        
-        //Text stuff    //Is this being used at all?
-        stateText = game.add.text(game.world.centerX,game.world.centerY,' ', { font: '84px Arial', fill: '#ed0202' });
-        stateText.anchor.setTo(0.5, 0.5);
-        stateText.visible = false;
-        
         //Tutorial Sprite
         var tutorial = game.add.sprite(0, 568, 'Tutorial');
     },
 	update: function(){
-     	var hitGoal = game.physics.arcade.collide(trash.trash, goalLayer);
+     	//Collision checks
+        var hitGoal = game.physics.arcade.collide(trash.trash, goalLayer);
         var badHit = game.physics.arcade.collide(villain, jan);
 	    var hitWall = game.physics.arcade.collide(trash.trash, blockLayer);
         
@@ -100,17 +77,17 @@ demo.level0.prototype = {
         game.physics.arcade.collide(trash.trash, goalLayer)
         game.physics.arcade.collide(villain, blockLayer)
         
-        // Trash collision
-        var upCollide = game.physics.arcade.collide(jan, trash.upChild);    //This *should* work... so why isn't it working? trash.upChild should reference the same thing as before, right?
+        // Trash collision with player
+        var upCollide = game.physics.arcade.collide(jan, trash.upChild); 
         var downCollide = game.physics.arcade.collide(jan, trash.downChild);
         var leftCollide = game.physics.arcade.collide(jan, trash.leftChild);
         var rightCollide = game.physics.arcade.collide(jan, trash.rightChild);
-        //More variables to check children collision, but this time with the monster
+        
+        // Trash collision with monster
         var upBadCollide = game.physics.arcade.collide(villain, trash.upChild);
         var downBadCollide = game.physics.arcade.collide(villain, trash.downChild);
         var leftBadCollide = game.physics.arcade.collide(villain, trash.leftChild);
         var rightBadCollide = game.physics.arcade.collide(villain, trash.rightChild);
-        
 
         // Janitor movement
         if(game.input.keyboard.isDown(Phaser.Keyboard.RIGHT)){
@@ -213,7 +190,7 @@ demo.level0.prototype = {
         
 	    // Monster actions
         // Moves trash monster continuously towards the janitor
-        //game.physics.arcade.moveToObject(villain, jan, 75);
+        game.physics.arcade.moveToObject(villain, jan, 75);
 		
         // Check for collision with janitor
         if(badHit){
@@ -237,12 +214,13 @@ demo.level0.prototype = {
             trash.trash.body.velocity.x = trashVelocity * -1;
         }
     },
+    //DON'T DELETE THIS STUFF! Uncomment it all if you need to check what the trash is doing in regards to collision boxes and all that
     render: function(){
-        game.debug.body(trash.trash);
-        game.debug.body(trash.leftChild);
-        game.debug.body(trash.rightChild);
-        game.debug.body(trash.upChild);
-        game.debug.body(trash.downChild);
+//        game.debug.body(trash.trash);
+//        game.debug.body(trash.leftChild);
+//        game.debug.body(trash.rightChild);
+//        game.debug.body(trash.upChild);
+//        game.debug.body(trash.downChild);
     }
 };
 
@@ -272,6 +250,27 @@ function createJanitor(spawnX, spawnY){
     return jan;
 }
 
+// Creates villain
+function createMonster(spawnX, spawnY){
+    var monster;
+    
+    //Create monster, set scale and collision
+    monster = game.add.sprite(spawnX, spawnY, 'villain'); 
+    monster.anchor.setTo(0.5,0.5);
+    monster.scale.setTo(0.2,0.2);
+    game.physics.enable(monster);
+    monster.body.setSize(225, 225, 40, 75);
+    monster.body.collideWorldBounds = true;
+    
+    //Add animations
+    monster.animations.add('walkRight', [6,7]);
+    monster.animations.add('walkLeft', [0,1]);
+    monster.animations.add('walkUp', [5]);
+    monster.animations.add('walkDown', [2,3,2,4]);
+    
+    return monster;
+}
+
 // Plays monster sounds
 function playMonSound(){
  	monSound.play();
@@ -284,13 +283,15 @@ function getRandomInt(min, max) {
     return Math.floor(Math.random() * (max - min)) + min; //The maximum is exclusive and the minimum is inclusive
 }
 
-// Checks overlap
+// Checks overlap between sprites
+//  --NOT CURRENTLY BEING USED
 function checkOverlap(spriteA, spriteB) {
 	var boundsA = spriteA.getBounds();
     	var boundsB = spriteB.getBounds();
 	return Phaser.Rectangle.intersects(boundsA, boundsB);
 }
 
+// Gets the cookie for level chaning purposes
 function getCookie(cname) {
         var name = cname + "=";
         var decodedCookie = decodeURIComponent(document.cookie);
