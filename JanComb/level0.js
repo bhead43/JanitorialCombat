@@ -7,6 +7,8 @@ var upChild, downChild, leftChild, rightChild;  //Children for the trash object
 var velocity = 300;
 var trashVelocity = 500; //Tweak as needed
 var dummyCounter = 0;   //Is this at all necessary? I don't even know why this was added in the first place
+var monsterCounter = 0;
+var broomCounter = 0;
 
 demo.level0 = function(){};
 demo.level0.prototype = {
@@ -180,6 +182,9 @@ function setupUpdate(jan, trash, villain, blockLayer, goalLayer){
     var leftBadCollide = game.physics.arcade.collide(villain, trash.leftChild);
     var rightBadCollide = game.physics.arcade.collide(villain, trash.rightChild);
     
+    //Broom collision with monster
+    var broomMonsterCollide = game.physics.arcade.collide(villain, broom);
+    
     // Janitor movement
     if(game.input.keyboard.isDown(Phaser.Keyboard.RIGHT)){
         jan.body.velocity.y = 0;
@@ -290,6 +295,24 @@ function setupUpdate(jan, trash, villain, blockLayer, goalLayer){
         }
     }
     
+    //ATTACKS (!!!)
+    if (game.input.keyboard.isDown(Phaser.Keyboard.Z)){
+        if (broomCounter == 0){
+            janitor.attack(janitor.heading);
+            broomCounter = 24;
+        }
+        if (broomMonsterCollide){
+            monsterCounter = 72;
+            console.log('Broom hit!');
+        }
+    }
+    //Reset after attack if needed
+    if (broomCounter > 0){
+        broomCounter--;
+        if (broomCounter == 0){
+            janitor.returnPush();
+        }
+    }
     
     // PULL
     // Check to see if the 'F' key is pressed...
@@ -324,7 +347,14 @@ function setupUpdate(jan, trash, villain, blockLayer, goalLayer){
     
     // Monster actions
     // Moves trash monster continuously towards the janitor
-    game.physics.arcade.moveToObject(villain, jan, 75);
+    //Check if the monster should be moving or not
+    if (monsterCounter > 0){
+        console.log(monsterCounter);
+        monsterCounter--;
+    }
+    if (monsterCounter == 0){
+        game.physics.arcade.moveToObject(villain, jan, 75);        
+    }
     
     // Check for collision with janitor
     if(badHit){
@@ -461,6 +491,7 @@ function Janitor(spawnX, spawnY){
         game.physics.enable(broom);
         //Fine tune stuff (if needed) down here later
         //broom.body.setSize(25, 75, 10, -50);
+        broom.body.moves = false;
         
         console.log('Broom has been created!')
         return broom;
@@ -533,6 +564,33 @@ function Janitor(spawnX, spawnY){
         this.broom.position.y = this.broomOriginalY;
         //Allow for another push
         //this.canPush = true;
+    }
+    
+    this.attack = function(heading){
+        switch(heading){
+            case 0:   //Facing LEFT
+                //Play some sort of attack animation here
+                this.broomOriginalX = this.broom.position.x;
+                this.broom.position.x -= 80;
+                //Find a way to add a delay here. Or just add animations for the visual effect to not be jarring
+                //this.broom.position.x += 15;
+                break;
+            case 1:   //Facing UP
+                this.broomOriginalY = this.broom.position.y;
+                this.broom.position.y -= 80;
+                //this.broom.position.y += 15;
+                break;
+            case 2:   //Facing RIGHT
+                this.broomOriginalX = this.broom.position.x;
+                this.broom.position.x += 80;
+                //this.broom.position.x -= 15;
+                break;
+            case 3:   //Facing DOWN
+                this.broomOriginalY = this.broom.position.y;
+                this.broom.position.y += 80;
+                //this.broom.position.y -= 15;
+                break;
+        }
     }
     
     this.janitor = this.createJanitor(spawnX, spawnY);
