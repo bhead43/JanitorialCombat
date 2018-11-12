@@ -23,10 +23,13 @@ demo.level0.prototype = {
         
         //Tutorial Sprite
         game.load.image('Tutorial', 'assets/TutorialSpriteOne.png');
+        
+        //Placeholder sprite for broom
+        game.load.image('broom', 'assets/broom_PLACEHOLDER.png');
     },
     
 	create: function(){
-	   //Start Physics
+        //Start Physics
         game.physics.startSystem(Phaser.Physics.ARCADE);
         
         //Add tilemap and layers to state
@@ -44,7 +47,8 @@ demo.level0.prototype = {
         
         // Everything janitor
         //  All done via a function (which can be used in any subsesquent levels as well)
-        jan = createJanitor(130, 130)
+        //jan = createJanitor(130, 130) //OLD
+        janitor = new Janitor(130, 130);    //NEW
         
         // Trash stuff
         //  All handled via an object now (see bottom of file)
@@ -66,7 +70,7 @@ demo.level0.prototype = {
         var tutorial = game.add.sprite(0, 568, 'Tutorial');
     },
 	update: function(){
-     	//Variable to hold current animation
+        //Variable to hold current animation
         //  --All handled via function now (see bottom of file)
         setupUpdate(jan, trash, villain, blockLayer, goalLayer);
     },
@@ -77,11 +81,15 @@ demo.level0.prototype = {
 //        game.debug.body(trash.rightChild);
 //        game.debug.body(trash.upChild);
 //        game.debug.body(trash.downChild);
+        
+        game.debug.body(janitor.janitor);
+        game.debug.body(janitor.broom);
     }
 };
 
 // Creates janitor
 //  --This isn't an object right now, and I don't think it needs to be one, but it might be cleaner if it was? Just a thought
+//  --NO LONGER IN USE!!! See the Janitor object at the bottom of the file
 function createJanitor(spawnX, spawnY){
     var jan;
     
@@ -142,6 +150,9 @@ function getRandomInt(min, max) {
 // Update setup function
 //  --Should hold damn near everything needed in the update loop
 function setupUpdate(jan, trash, villain, blockLayer, goalLayer){
+    var jan = janitor.janitor;
+    var broom = janitor.broom;
+    
     var hitGoal = game.physics.arcade.collide(trash.trash, goalLayer);
     var badHit = game.physics.arcade.collide(villain, jan);
     var hitWall = game.physics.arcade.collide(trash.trash, blockLayer);
@@ -149,8 +160,13 @@ function setupUpdate(jan, trash, villain, blockLayer, goalLayer){
     // Basic collisions
     game.physics.arcade.collide(jan, blockLayer);
     game.physics.arcade.collide(trash.trash, blockLayer);
-    game.physics.arcade.collide(trash.trash, goalLayer)
-    game.physics.arcade.collide(villain, blockLayer)
+    game.physics.arcade.collide(trash.trash, goalLayer);
+    game.physics.arcade.collide(villain, blockLayer);
+    //game.physics.arcade.collide(trash.trash, jan);
+//    game.physics.arcade.collide(trash.upChild, jan);
+//    game.physics.arcade.collide(trash.downChild, jan);
+//    game.physics.arcade.collide(trash.leftChild, jan);
+//    game.physics.arcade.collide(trash.rightChild, jan);
         
     // Trash collision with player
     var upCollide = game.physics.arcade.collide(jan, trash.upChild); 
@@ -169,24 +185,44 @@ function setupUpdate(jan, trash, villain, blockLayer, goalLayer){
         jan.body.velocity.y = 0;
         jan.body.velocity.x = velocity;
         jan.animations.play('walkRight', 7, false);
+        janitor.setHeading(2); 
+        janitor.setBroomDirection(2);
     }
     else if(game.input.keyboard.isDown(Phaser.Keyboard.LEFT)){
         jan.body.velocity.y = 0;
         jan.body.velocity.x = velocity * -1;
         jan.animations.play('walkLeft', 7, false);
+        janitor.setHeading(0);
+        janitor.setBroomDirection(0);
     }
     else if(game.input.keyboard.isDown(Phaser.Keyboard.UP)){
         jan.body.velocity.x = 0;
         jan.body.velocity.y = velocity * -1;
         jan.animations.play('walkUp', 7, false);
+        janitor.setHeading(1);
+        janitor.setBroomDirection(1);
     }
     else if(game.input.keyboard.isDown(Phaser.Keyboard.DOWN)){
         jan.body.velocity.x = 0;
         jan.body.velocity.y = velocity;
         jan.animations.play('walkDown', 7, false);
+        janitor.setHeading(3);
+        janitor.setBroomDirection(3);
     }
     else{
-//        jan.animations.stop();
+        jan.animations.stop();
+        if (janitor.heading == 0){
+            jan.frame = 5;
+        }
+        else if (janitor.heading == 1){
+            jan.frame = 15;
+        }
+        else if (janitor.heading == 2){
+            jan.frame = 10;
+        }
+        else if (janitor.heading == 3){
+            jan.frame = 0;
+        }
 //        jan.frame = 0
 //        currentAnim = jan.animations.currentAnim.name;
 //        while (jan.animations.currentAnim.isFinished)
@@ -211,28 +247,49 @@ function setupUpdate(jan, trash, villain, blockLayer, goalLayer){
     // Trash movement
     // PUSH
     // First check to see if the 'E' key is pressed...
-    if(game.input.keyboard.isDown(Phaser.Keyboard.E)){
-    // Now collisions
+//    if(game.input.keyboard.isDown(Phaser.Keyboard.E)){
+//    // Now collisions
+//        if(upCollide){	// move trash down
+//            //jan.animations.play('pushDown', 1, false); 
+//  		    trash.trash.body.velocity.y = trashVelocity;
+//        }
+//        else if(downCollide){	// move trash up
+//            //jan.animations.play('pushUp', 3, false);
+//            trash.trash.body.velocity.y = trashVelocity * -1;
+//        }
+//        else if(leftCollide){	// move trash right
+//            //jan.animations.play('pushRight', 3, false);
+//            trash.trash.body.velocity.x = trashVelocity;
+//        }
+//        else if(rightCollide){	// move trash left
+//            //jan.animations.play('pushLeft', 3, false);
+//            trash.trash.body.velocity.x = trashVelocity * -1;
+//        }
+////        else{
+////            jan.animations.play('pushDown', 3, false);
+////        }
+//    }
+    //NEW PUSH SYSTEM
+    if (game.input.keyboard.isDown(Phaser.Keyboard.E)){
+        //Check if the push hit the trash
         if(upCollide){	// move trash down
-            jan.animations.play('pushDown', 1, false); 
-  		    trash.trash.body.velocity.y = trashVelocity;
+            //jan.animations.play('pushDown', 1, false); 
+            trash.trash.body.velocity.y = trashVelocity;
         }
         else if(downCollide){	// move trash up
-            jan.animations.play('pushUp', 3, false);
+            //jan.animations.play('pushUp', 3, false);
             trash.trash.body.velocity.y = trashVelocity * -1;
         }
         else if(leftCollide){	// move trash right
-            jan.animations.play('pushRight', 3, false);
+            //jan.animations.play('pushRight', 3, false);
             trash.trash.body.velocity.x = trashVelocity;
         }
         else if(rightCollide){	// move trash left
-            jan.animations.play('pushLeft', 3, false);
+            //jan.animations.play('pushLeft', 3, false);
             trash.trash.body.velocity.x = trashVelocity * -1;
         }
-//        else{
-//            jan.animations.play('pushDown', 3, false);
-//        }
     }
+    
     
     // PULL
     // Check to see if the 'F' key is pressed...
@@ -296,7 +353,7 @@ function setupUpdate(jan, trash, villain, blockLayer, goalLayer){
 //  --NOT CURRENTLY BEING USED
 function checkOverlap(spriteA, spriteB) {
 	var boundsA = spriteA.getBounds();
-    	var boundsB = spriteB.getBounds();
+    var boundsB = spriteB.getBounds();
 	return Phaser.Rectangle.intersects(boundsA, boundsB);
 }
 
@@ -366,4 +423,122 @@ function Trash(spawnX, spawnY){
     this.rightChild = this.createChild('right', this.trash);
     this.upChild = this.createChild('up', this.trash);
     this.downChild = this.createChild('down', this.trash);
+}
+
+//Janitor object
+//  --Making this into a full fledged object to address issues with the broom. It doesn't have its own hitbox in the old model, which makes things like attacking the monster really clunky (if not straight up impossible)
+//  --This works very similarly to the Trash object; there's the main sprite (the janitor) and that has a child attached to it (the broom). Main difference here is that the child is actually visible, as opposed to being an unseen collider like the trash children.
+//  --It's worth noting that this uses an entirely new spritesheet for the janitor, as the current sheet has the broom included in the model.
+//  --Also worth noting that this will change a lot of the logic in the update loop, as it'll be looking to the broom for reference instead of hte janitor as a whole. This *should* result in a bit more precision with hitboxes, but it could very well break some stuff.
+//  --To sum this all up: this is a pretty big change to the game logic, so if things start breaking, look here first.
+function Janitor(spawnX, spawnY){
+    //Functions to create janitor and broom
+    this.createJanitor = function(x, y){
+        var jan = game.add.sprite(x, y, 'jan');
+        //Set size, enable physics
+        jan.anchor.setTo(0.5, 0.5);
+        jan.scale.setTo(0.25, 0.25);    //Probably not the best course of action to set size through in engine scaling, but whatever
+        game.physics.enable(jan);
+        jan.body.setSize(128, 128, 50, 270);    //This will probably be changed when there's a new spritesheet in place, fair warning
+        jan.body.collideWorldBounds = true;
+        //Add animations
+        jan.animations.add('walkUp', [16, 15]);
+        jan.animations.add('walkDown', [1, 0]);
+        jan.animations.add('walkLeft', [6, 5]);
+        jan.animations.add('walkRight', [11, 10]);
+        //OBSOLETE ANIMATIONS, DELETE THIS SHIT WHEN THIS ALL WORKS
+//        jan.animations.add('pushUp', [18]);
+//        jan.animations.add('pushDown', [3, 4]);
+//        jan.animations.add('pushLeft', [8, 9]);
+//        jan.animations.add('pushRight', [13, 14]);
+        
+        return jan;
+    }
+    
+    this.createBroom = function(parent){
+        var broom;
+        broom = parent.addChild(game.add.sprite(0, -64));    //Couple of notes: Those coordinates'll need to be fiddled with, and there'll need to be a third argument for the broom sprite
+        game.physics.enable(broom);
+        //Fine tune stuff (if needed) down here later
+        //broom.body.setSize(25, 75, 10, -50);
+        
+        console.log('Broom has been created!')
+        return broom;
+    }
+    
+    //Other functions
+    this.setHeading = function(num){
+        this.heading = num;
+    }
+    
+    this.setBroomDirection = function(heading){
+        switch(heading){
+            case 0:   //Facing LEFT
+                this.broom.position.x = -150;
+                this.broom.position.y = -64;
+                //console.log('Set broom heading to LEFT');
+                break;
+            case 1:   //Facing UP
+                this.broom.position.x = -75;
+                this.broom.position.y = -150;
+                //console.log('Set broom heading to UP');
+                break;
+            case 2:   //Facing RIGHT
+                this.broom.position.x = 0;
+                this.broom.position.y = -64;
+                //console.log('Set broom heading to RIGHT');
+                break;
+            case 3:   //Facing DOWN
+                this.broom.position.x = -75;
+                this.broom.position.y = 50;
+                //console.log('Set broom heading to DOWN');
+                break;
+        }
+        //console.log('The method did get called, by the by');
+    }
+    
+    //New plan: All this'll do is play animations for the broom. Nothing else.
+    this.push = function(heading){
+        if (this.canPush){
+            switch(heading){
+                case 0:   //Facing LEFT
+                    this.broomOriginalX = this.broom.position.x;
+                    this.broom.position.x -= 1500;
+                    //Find a way to add a delay here. Or just add animations for the visual effect to not be jarring
+                    //this.broom.position.x += 15;
+                    break;
+                case 1:   //Facing UP
+                    this.broomOriginalY = this.broom.position.y;
+                    this.broom.position.y -= 15;
+                    //this.broom.position.y += 15;
+                    break;
+                case 2:   //Facing RIGHT
+                    this.broomOriginalX = this.broom.position.x;
+                    this.broom.position.x += 15;
+                    //this.broom.position.x -= 15;
+                    break;
+                case 3:   //Facing DOWN
+                    this.broomOriginalY = this.broom.position.y;
+                    this.broom.position.y += 15;
+                    //this.broom.position.y -= 15;
+                    break;
+            }
+            //this.canPush = false;
+        }
+    }
+    
+    this.returnPush = function(){
+        //Needs to return broom to original position.
+        this.broom.position.x = this.broomOriginalX;
+        this.broom.position.y = this.broomOriginalY;
+        //Allow for another push
+        //this.canPush = true;
+    }
+    
+    this.janitor = this.createJanitor(spawnX, spawnY);
+    this.broom = this.createBroom(this.janitor);
+    this.broomOriginalX = this.broom.position.x;
+    this.broomOriginalY = this.broom.position.y;
+    this.heading = 0;   //Variable to hold the 'heading' of the janitor; 0 is facing left, 1 is up, 2 is right, 3 is down
+    this.canPush = true;    //Just to make sure you can't break things with the push
 }

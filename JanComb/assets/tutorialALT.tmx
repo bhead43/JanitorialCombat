@@ -4,10 +4,10 @@
   <image source="protoTileSet.png" width="96" height="32"/>
  </tileset>
  <tileset firstgid="4" name="Goal Tiles" tilewidth="96" tileheight="96" tilecount="1" columns="1">
-  <image source="../../../../../JanCombat Files/GoalTiles_TOGETHER.png" width="96" height="96"/>
+  <image source="GoalTiles_TOGETHER.png" width="96" height="96"/>
  </tileset>
  <tileset firstgid="5" name="Floor Tiles 2" tilewidth="32" tileheight="32" tilecount="3" columns="3">
-  <image source="../../../Working Files/newTiles.png" width="96" height="32"/>
+  <image source="newTiles.png" width="96" height="32"/>
  </tileset>
  <layer name="Floor" width="24" height="24">
   <data encoding="csv">
