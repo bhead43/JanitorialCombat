@@ -67,6 +67,6 @@ demo.level2.prototype = {
     }
 }
 };
-
+//
 
 var totalMove = 0;
