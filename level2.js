@@ -1,7 +1,7 @@
 demo.level2 = function(){};
 demo.level2.prototype = {
 	preload: function(){
-	game.load.tilemap('levelOne', 'assets/levelOneNEW.json', null, Phaser.Tilemap.TILED_JSON);
+	game.load.tilemap('levelTwo', 'assets/levelTwo.json', null, Phaser.Tilemap.TILED_JSON);
         game.load.image('Floor Tiles', 'assets/protoTileSet.png');
         game.load.image('Floor Tiles 2', 'assets/newTiles.png');
         game.load.image('Goal Tiles', 'assets/goalTiles_TOGETHER.png');
