@@ -31,11 +31,13 @@ demo.level1.prototype = {
         map.setCollisionBetween(3, 5, true, 'Blocks');
         map.setCollisionBetween(7, 7, true, 'Goal');
         
+        
+        //trash
+        trash = new Trash(200, 150);
+        
         // Everything janitor
         jan = createJanitor(130, 130);
-        
-        // Trash
-        trash = new Trash(200, 150);
+       
         
         // Villain
         villain = createMonster(300, 800);
