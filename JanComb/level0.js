@@ -9,6 +9,7 @@ var trashVelocity = 500; //Tweak as needed
 var dummyCounter = 0;   //Is this at all necessary? I don't even know why this was added in the first place
 var monsterCounter = 0;
 var broomCounter = 0;
+var pullLimit = 40;
 
 demo.level0 = function(){};
 demo.level0.prototype = {
@@ -49,8 +50,7 @@ demo.level0.prototype = {
         
         // Everything janitor
         //  All done via a function (which can be used in any subsesquent levels as well)
-        //jan = createJanitor(130, 130) //OLD
-        janitor = new Janitor(130, 130);    //NEW
+       
         
         // Trash stuff
         //  All handled via an object now (see bottom of file)
@@ -59,6 +59,9 @@ demo.level0.prototype = {
 	    // Everything trash monster
 	    // All handled via a function (see bottom of file)
         villain = createMonster(300, 800);
+        
+        //jan = createJanitor(130, 130) //OLD
+        janitor = new Janitor(130, 130);    //NEW
 		
 	    // Audio stuff
 	    // Background
@@ -317,21 +320,24 @@ function setupUpdate(jan, trash, villain, blockLayer, goalLayer){
     // PULL
     // Check to see if the 'F' key is pressed...
     if(game.input.keyboard.isDown(Phaser.Keyboard.F)){
-        console.log(totalMove)
-        if(upCollide && totalMove < 40){	// pull trash up
+        if(upCollide && totalMove < pullLimit){	// pull trash up
             trash.trash.position.y = trash.trash.position.y - 5;
+            game.physics.arcade.collide(jan, blockLayer);
             totalMove++;
         }
-        else if(downCollide && totalMove < 40){	// pull trash down
+        else if(downCollide && totalMove < pullLimit){	// pull trash down
             trash.trash.position.y = trash.trash.position.y + 5;
+            game.physics.arcade.collide(jan, blockLayer);
             totalMove++;
         }
-        else if(leftCollide && totalMove < 40){	// pull trash left
+        else if(leftCollide && totalMove < pullLimit){	// pull trash left
             trash.trash.position.x = trash.trash.position.x - 5;
+            game.physics.arcade.collide(jan, blockLayer);
             totalMove++;
         }
-        else if(rightCollide && totalMove < 40){	// pull trash right
+        else if(rightCollide && totalMove < pullLimit){	// pull trash right
             trash.trash.position.x = trash.trash.position.x + 5;
+            game.physics.arcade.collide(jan, blockLayer);
             totalMove++;
         }
     }
