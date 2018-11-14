@@ -36,8 +36,8 @@ demo.level1.prototype = {
         trash = new Trash(200, 150);
         
         // Everything janitor
-        jan = createJanitor(130, 130);
-       
+        //jan = createJanitor(130, 130);
+        janitor = new Janitor(130, 130);
         
         // Villain
         villain = createMonster(300, 800);
