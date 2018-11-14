@@ -350,9 +350,11 @@ function setupUpdate(jan, trash, villain, blockLayer, goalLayer){
     //Check if the monster should be moving or not
     if (monsterCounter > 0){
         console.log(monsterCounter);
+        //villain.body.velocity = 0;
         monsterCounter--;
     }
     if (monsterCounter == 0){
+        //villain.body.velocity = 1;
         game.physics.arcade.moveToObject(villain, jan, 75);        
     }
     
