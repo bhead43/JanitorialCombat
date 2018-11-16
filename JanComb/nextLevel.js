@@ -1,5 +1,4 @@
 var stateText; 
-//var y = addLevel();
 var counter = 0;
 var stateText;
 
@@ -19,18 +18,12 @@ demo.nextLevel.prototype = {
     	},
 	update: function(){
         
-        var N = game.input.keyboard.addKey(Phaser.Keyboard.N);
         
-        N.onDown.add(function(){
-            if (counter == 0){
-                y = addLevel();
-            }
-            counter++;
-        //if(game.input.keyboard.isDown(Phaser.Keyboard.N)){
-            //addLevel();
-            //var y = getCookie('level')
+        if(game.input.keyboard.isDown(Phaser.Keyboard.N)){
+            addLevel();
+            var y = getCookie('level')
             game.state.start('level' + y);
-        });
+        };
     }    
    
 };

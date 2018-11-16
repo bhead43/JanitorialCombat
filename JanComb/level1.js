@@ -15,6 +15,7 @@ demo.level1.prototype = {
     },
     
 	create: function(){
+        
         //Start Physics
         game.physics.startSystem(Phaser.Physics.ARCADE);
         
