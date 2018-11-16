@@ -1,4 +1,3 @@
-var demo = {};
 document.cookie = "level = 0"; 
 var y = getCookie('level')
 
@@ -278,7 +277,7 @@ function setupUpdate(jan, trash, villain, blockLayer, goalLayer){
 ////        }
 //    }
     //NEW PUSH SYSTEM
-    if (game.input.keyboard.isDown(Phaser.Keyboard.E)){
+    if (game.input.keyboard.isDown(Phaser.Keyboard.D)){
         //Check if the push hit the trash
         if(upCollide){	// move trash down
             //jan.animations.play('pushDown', 1, false); 
@@ -299,7 +298,7 @@ function setupUpdate(jan, trash, villain, blockLayer, goalLayer){
     }
     
     //ATTACKS (!!!)
-    if (game.input.keyboard.isDown(Phaser.Keyboard.Z)){
+    if (game.input.keyboard.isDown(Phaser.Keyboard.A)){
         if (broomCounter == 0){
             janitor.attack(janitor.heading);
             broomCounter = 24;
@@ -318,8 +317,8 @@ function setupUpdate(jan, trash, villain, blockLayer, goalLayer){
     }
     
     // PULL
-    // Check to see if the 'F' key is pressed...
-    if(game.input.keyboard.isDown(Phaser.Keyboard.F)){
+    // Check to see if the 'S' key is pressed...
+    if(game.input.keyboard.isDown(Phaser.Keyboard.S)){
         if(upCollide && totalMove < pullLimit){	// pull trash up
             trash.trash.position.y = trash.trash.position.y - 5;
             game.physics.arcade.collide(jan, blockLayer);
@@ -341,6 +340,12 @@ function setupUpdate(jan, trash, villain, blockLayer, goalLayer){
             totalMove++;
         }
     }
+    //Restarting the Level
+    if (game.input.keyboard.isDown(Phaser.Keyboard.R)){
+        totalMove = 0;
+        var x = getCookie("level")
+        game.state.start("level"+ x); 
+        }
     
     // Goal Detection
     // Ends level once the trash ball hits the goal area
