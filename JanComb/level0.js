@@ -19,7 +19,7 @@ demo.level0.prototype = {
         game.load.image('Goal Tiles', 'assets/goalTiles_TOGETHER.png');
         game.load.spritesheet('jan', 'assets/characterSpriteSheetNEW.png', 230, 405);
         game.load.image('Trash', 'assets/paperBallRESIZED.png');
-        game.load.spritesheet('villain', 'assets/trashMonsterSpritesheet.png', 300, 300);
+        game.load.spritesheet('villain', 'assets/villainSpritesheet.png', 300, 300);
         game.load.audio('bgMusic', 'assets/audio/CrEEP.mp3');
         game.load.audio('monSound', 'assets/audio/monsterSound.mp3');
         
