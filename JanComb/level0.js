@@ -78,6 +78,8 @@ demo.level0.prototype = {
         let D = game.input.keyboard.addKey(Phaser.Keyboard.D);
         D.onDown.add(function() {
             if (!isPushing){
+                //Zero out the janitor's velocity first
+                jan.body.velocity.setTo(0, 0);
                 isPushing = true;
                 janitor.pushBox.body.enable = true;
                 switch (janitor.heading){
@@ -113,6 +115,8 @@ demo.level0.prototype = {
         let A = game.input.keyboard.addKey(Phaser.Keyboard.A);
         A.onDown.add(function() {
             if (!isAttacking){
+                //Zero out the janitor's velocity first
+                jan.body.velocity.setTo(0, 0);
                 isAttacking = true;
                 janitor.attackBox.body.enable = true;
                 switch (janitor.heading){
@@ -148,9 +152,9 @@ demo.level0.prototype = {
     },
     //DON'T DELETE THIS STUFF! Uncomment it all if you need to check what the trash is doing in regards to collision boxes and all that
     render: function(){
-        game.debug.body(janitor.janitor);
-        game.debug.body(janitor.pushBox);
-        game.debug.body(janitor.attackBox);
+//        game.debug.body(janitor.janitor);
+//        game.debug.body(janitor.pushBox);
+//        game.debug.body(janitor.attackBox);
     }
 };
 

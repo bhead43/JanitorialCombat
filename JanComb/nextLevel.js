@@ -9,21 +9,25 @@ demo.nextLevel.prototype = {
         game.load.image('NextLevel', 'assets/NextLevelScreen.png');
 	},
 	create: function(){
-        	
         var nextLevel = game.add.sprite(0, 0, 'NextLevel');		
 		lvlComp = game.add.audio('lvlComp');
         lvlComp.play();
-		
+        
+        let N = game.input.keyboard.addKey(Phaser.Keyboard.N);
+        N.onDown.add(function() {
+            addLevel();
+            var y = getCookie('level');
+            console.log(y)
+            game.state.start('level' + y);            
+        });
         
     	},
 	update: function(){
-        
-        
-        if(game.input.keyboard.isDown(Phaser.Keyboard.N)){
-            addLevel();
-            var y = getCookie('level')
-            game.state.start('level' + y);
-        };
+//        if(game.input.keyboard.isDown(Phaser.Keyboard.N)){
+//            addLevel();
+//            var y = getCookie('level')
+//            game.state.start('level' + y);
+//        };
     }    
    
 };
