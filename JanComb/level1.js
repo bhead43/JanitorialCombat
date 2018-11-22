@@ -3,14 +3,19 @@ var totalMove = 0;
 demo.level1 = function(){};
 demo.level1.prototype = {
 	preload: function(){
-        game.load.tilemap('levelOne', 'assets/levelOneNEW.json', null, Phaser.Tilemap.TILED_JSON);
-        game.load.image('Floor Tiles', 'assets/protoTileSet.png');
-        game.load.image('Floor Tiles 2', 'assets/newTiles.png');
-        game.load.image('Goal Tiles', 'assets/goalTiles_TOGETHER.png');
+        game.load.tilemap('levelOne', 'assets/level1.json', null, Phaser.Tilemap.TILED_JSON);
+        //game.load.image('Floor Tiles', 'assets/protoTileSet.png');	
+	game.load.image('Floor Tiles', 'assets/path (38).png');
+	game.load.image('Floor Tiles w Shadows', 'assets/shadow.png');
+        //game.load.image('Floor Tiles 2', 'assets/newTiles.png');
+        //game.load.image('Goal Tiles', 'assets/goalTiles_TOGETHER.png');
+	game.load.image('Block Tiles Ceiling', 'assets/path (34) (5).png');
+	game.load.image('Block Tiles Brick', 'assets/brick wall proto.png');
+	game.load.image('Goal Tiles', 'assets/GOAL.png');
         game.load.spritesheet('jan', 'assets/characterSpriteSheetNEW.png', 230, 405);
         game.load.image('Trash', 'assets/paperBallRESIZED.png');
-        game.load.spritesheet('villain', 'assets/trashMonsterSpritesheet.png', 300, 300);
-	    game.load.audio('bgMusic', 'assets/audio/CrEEP.mp3');
+        game.load.spritesheet('villain', 'assets/villainSpritesheet.png', 300, 300);
+	game.load.audio('bgMusic', 'assets/audio/CrEEP.mp3');
         game.load.audio('monSound', 'assets/audio/monsterSound.mp3');
     },
     
@@ -22,9 +27,12 @@ demo.level1.prototype = {
         // Tilemap and layers to state
         map = game.add.tilemap('levelOne');
         map.addTilesetImage('Floor Tiles');
-        map.addTilesetImage('Floor Tiles 2');
+	map.addTilesetImage('Floor Tiles w Shadows');
+	map.addTilesetImage('Block Tiles Ceiling');
+	map.addTilesetImage('Block Tiles Brick');	
+        //map.addTilesetImage('Floor Tiles 2');
         map.addTilesetImage('Goal Tiles');
-	    baseLayer = map.createLayer('Floor');
+	baseLayer = map.createLayer('Floor');
         blockLayer = map.createLayer('Blocks');
         goalLayer = map.createLayer('Goal');
         
