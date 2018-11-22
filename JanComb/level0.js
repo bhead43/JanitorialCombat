@@ -5,13 +5,15 @@ var blockLayer, goalLayer, jan, trash, stateText, villain;
 var upChild, downChild, leftChild, rightChild;  //Children for the trash object
 var velocity = 300;
 var trashVelocity = 500; //Tweak as needed
-var dummyCounter = 0;   //Is this at all necessary? I don't even know why this was added in the first place
+//var dummyCounter = 0;   //Is this at all necessary? I don't even know why this was added in the first place
 var monsterCounter = 0;
 var broomCounter = 0;
 var pullLimit = 40;
 
+//Global variables to help determine when pushes/attacks need to happen
 var isPushing = false;
 var isAttacking = false;
+//Global variable to determine which direction the trash will move in when pushed by the player
 var trashDirection = 0;
 
 demo.level0 = function(){};
@@ -32,6 +34,10 @@ demo.level0.prototype = {
     },
     
 	create: function(){
+        //Set isAttacking and isPushing to false on level creation
+        isAttacking = false;
+        isPushing = false;
+        
         //Start Physics
         game.physics.startSystem(Phaser.Physics.ARCADE);
         
@@ -76,25 +82,25 @@ demo.level0.prototype = {
                 janitor.pushBox.body.enable = true;
                 switch (janitor.heading){
                     case 0:
-                        jan.animations.play('pushRight', 7, false);
+                        jan.animations.play('pushRight', 5, false);
                         trashDirection = 0;
                         break;
                     case 1:
-                        jan.animations.play('pushLeft', 7, false);
+                        jan.animations.play('pushLeft', 5, false);
                         trashDirection = 1;
                         break;
                     case 2:
-                        jan.animations.play('pushUp', 7, false);
+                        jan.animations.play('pushUp', 5, false);
                         trashDirection = 2;
                         break;
                     case 3:
-                        jan.animations.play('pushDown', 7, false);
+                        jan.animations.play('pushDown', 5, false);
                         trashDirection = 3;
                         break;
                 }
 
                 var pshTimer = game.time.create(true);
-                pshTimer.add(200, function (){
+                pshTimer.add(300, function (){
                     isPushing = false;
                     janitor.pushBox.body.enable = false;
                     janitor.pushBox.body.reset(0, 0);
@@ -111,21 +117,21 @@ demo.level0.prototype = {
                 janitor.attackBox.body.enable = true;
                 switch (janitor.heading){
                     case 0:
-                        jan.animations.play('attackRight', 7, false);
+                        jan.animations.play('attackRight', 5, false);
                         break;
                     case 1:
-                        jan.animations.play('attackLeft', 7, false);
+                        jan.animations.play('attackLeft', 5, false);
                         break;
                     case 2:
-                        jan.animations.play('attackUp', 7, false);
+                        jan.animations.play('attackUp', 5, false);
                         break;
                     case 3:
-                        jan.animations.play('attackDown', 7, false);
+                        jan.animations.play('attackDown', 5, false);
                         break;
                 }
                 
                 var atkTimer = game.time.create(true);
-                atkTimer.add(200, function(){
+                atkTimer.add(300, function(){
                     isAttacking = false;
                     janitor.attackBox.body.enable = false;
                     janitor.attackBox.body.reset(0, 0);
@@ -259,52 +265,51 @@ function setupUpdate(jan, trash, villain, blockLayer, goalLayer){
         }
     }
     
-    // Janitor movement
-    if(game.input.keyboard.isDown(Phaser.Keyboard.RIGHT)){
-        jan.body.velocity.y = 0;
-        jan.body.velocity.x = velocity;
-        jan.animations.play('walkRight', 7, false);
-        janitor.setHeading(0); 
-        //janitor.setBroomDirection(2);
-    }
-    else if(game.input.keyboard.isDown(Phaser.Keyboard.LEFT)){
-        jan.body.velocity.y = 0;
-        jan.body.velocity.x = velocity * -1;
-        jan.animations.play('walkLeft', 7, false);
-        janitor.setHeading(1);
-        //janitor.setBroomDirection(0);
-    }
-    else if(game.input.keyboard.isDown(Phaser.Keyboard.UP)){
-        jan.body.velocity.x = 0;
-        jan.body.velocity.y = velocity * -1;
-        jan.animations.play('walkUp', 7, false);
-        janitor.setHeading(2);
-        //janitor.setBroomDirection(1);
-    }
-    else if(game.input.keyboard.isDown(Phaser.Keyboard.DOWN)){
-        jan.body.velocity.x = 0;
-        jan.body.velocity.y = velocity;
-        jan.animations.play('walkDown', 7, false);
-        janitor.setHeading(3);
-        //janitor.setBroomDirection(3);
-    }
-    //  --When there's no movement, set the frame to where the janitor was last facing and zero out velocity
-    else{
-        //jan.animations.stop();    //Does this need to be here?
-        if (janitor.heading == 0){
-            jan.frame = 10;
+    //Janitor movement
+    //  --Only allow movement if not pushing or attacking
+    //  --This allows the animations to play out properly
+    if (!isAttacking && !isPushing){
+        if(game.input.keyboard.isDown(Phaser.Keyboard.RIGHT)){
+            jan.body.velocity.y = 0;
+            jan.body.velocity.x = velocity;
+            jan.animations.play('walkRight', 7, false);
+            janitor.setHeading(0); 
         }
-        else if (janitor.heading == 1){
-            jan.frame = 5;
+        else if(game.input.keyboard.isDown(Phaser.Keyboard.LEFT)){
+            jan.body.velocity.y = 0;
+            jan.body.velocity.x = velocity * -1;
+            jan.animations.play('walkLeft', 7, false);
+            janitor.setHeading(1);
         }
-        else if (janitor.heading == 2){
-            jan.frame = 15;
+        else if(game.input.keyboard.isDown(Phaser.Keyboard.UP)){
+            jan.body.velocity.x = 0;
+            jan.body.velocity.y = velocity * -1;
+            jan.animations.play('walkUp', 7, false);
+            janitor.setHeading(2);
         }
-        else if (janitor.heading == 3){
-            jan.frame = 0;
+        else if(game.input.keyboard.isDown(Phaser.Keyboard.DOWN)){
+            jan.body.velocity.x = 0;
+            jan.body.velocity.y = velocity;
+            jan.animations.play('walkDown', 7, false);
+            janitor.setHeading(3);
         }
-        jan.body.velocity.x = 0;
-        jan.body.velocity.y = 0;
+        //  --When there's no movement, set the frame to where the janitor was last facing and zero out velocity
+        else{
+            if (janitor.heading == 0){
+                jan.frame = 10;
+            }
+            else if (janitor.heading == 1){
+                jan.frame = 5;
+            }
+            else if (janitor.heading == 2){
+                jan.frame = 15;
+            }
+            else if (janitor.heading == 3){
+                jan.frame = 0;
+            }
+            jan.body.velocity.x = 0;
+            jan.body.velocity.y = 0;
+        }
     }
     
     //Trash movement
@@ -359,6 +364,10 @@ function setupUpdate(jan, trash, villain, blockLayer, goalLayer){
 
     //Restarting the Level
     if (game.input.keyboard.isDown(Phaser.Keyboard.R)){
+        //Set isPushing and isAttacking to false first
+        isAttacking = false;
+        isPushing = false;
+        
         totalMove = 0;
         var x = getCookie("level")
         game.state.start("level"+ x); 
@@ -400,6 +409,10 @@ function setupUpdate(jan, trash, villain, blockLayer, goalLayer){
     
     // Check for collision with janitor
     if(badHit){
+        //Set isPushing and isAttacking to false first
+        isPushing = false;
+        isAttacking = false;
+        
         jan.kill();
         bgMusic.stop();	// stop background music
         totalMove = 0;
