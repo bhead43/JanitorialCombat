@@ -17,7 +17,7 @@ var trashDirection = 0;
 demo.level0 = function(){};
 demo.level0.prototype = {
 	preload: function(){
-        game.load.tilemap('levelZero', 'assets/level1.json', null, Phaser.Tilemap.TILED_JSON); //New tilemap, smaller, different tileset used
+        game.load.tilemap('levelZero', 'assets/LevelZero.json', null, Phaser.Tilemap.TILED_JSON); //New tilemap, smaller, different tileset used
         //game.load.image('Floor Tiles', 'assets/protoTileSet.png');
 	game.load.image('Floor Tiles', 'assets/path (38).png');
         //game.load.image('Floor Tiles 2', 'assets/newTiles.png');
