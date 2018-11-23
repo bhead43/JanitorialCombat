@@ -3,7 +3,7 @@ var totalMove = 0;
 demo.level1 = function(){};
 demo.level1.prototype = {
 	preload: function(){
-    game.load.tilemap('levelOne', 'assets/level1.json', null, Phaser.Tilemap.TILED_JSON);	
+    game.load.tilemap('LevelOne', 'assets/level1.json', null, Phaser.Tilemap.TILED_JSON);	
 	game.load.image('Floor Tiles', 'assets/path (38).png');
 	game.load.image('Floor Tiles w Shadows', 'assets/shadow.png');
 	game.load.image('Block Tiles Ceiling', 'assets/path (34) (5).png');
