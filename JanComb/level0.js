@@ -19,13 +19,13 @@ demo.level0.prototype = {
 	preload: function(){
         game.load.tilemap('levelZero', 'assets/LevelZero.json', null, Phaser.Tilemap.TILED_JSON); //New tilemap, smaller, different tileset used
         //game.load.image('Floor Tiles', 'assets/protoTileSet.png');
-	game.load.image('Floor Tiles', 'assets/path (38).png');
+        game.load.image('Floor Tiles', 'assets/path (38).png');
         //game.load.image('Floor Tiles 2', 'assets/newTiles.png');
-	game.load.image('Floor Tiles w Shadows', 'assets/shadow.png');
+        game.load.image('Floor Tiles w Shadows', 'assets/shadow.png');
         //game.load.image('Goal Tiles', 'assets/goalTiles_TOGETHER.png');
-	game.load.image('Goal Tiles', 'assets/GOAL.png');
-	game.load.image('Block Tiles Ceiling', 'assets/path (34) (5).png');
-	game.load.image('Block Tiles Brick', 'assets/brick wall proto.png');
+        game.load.image('Goal Tiles', 'assets/GOAL.png');
+        game.load.image('Block Tiles Ceiling', 'assets/path (34) (5).png');
+        game.load.image('Block Tiles Brick', 'assets/brick wall proto.png');
         //game.load.spritesheet('jan', 'assets/characterSpriteSheetNEW.png', 230, 405);
         //game.load.spritesheet('jan', 'assets/Spritesheet_SUPERNEW.png', 98, 102, 20);
         game.load.atlasJSONHash('jan', 'assets/janSpritesheet.png', 'assets/janSpritesheet.json');
@@ -47,6 +47,8 @@ demo.level0.prototype = {
 	create: function(){
         //Start Physics
         game.physics.startSystem(Phaser.Physics.ARCADE);
+        isPushing = false;
+        isAttacking = false;
         
         //Add tilemap and layers to state
         var map = game.add.tilemap('levelZero');
@@ -60,8 +62,8 @@ demo.level0.prototype = {
         goalLayer = map.createLayer('Goal');
         
         //Set collision on the 'Blocks' layer
-        map.setCollisionBetween(2, 7, true, 'Blocks');
-        map.setCollisionBetween(4, 4, true, 'Goal');
+        map.setCollisionBetween(5, 6, true, 'Blocks');
+        map.setCollisionBetween(16, 16, true, 'Goal');
         
         // Everything janitor
         //  All done via a function (which can be used in any subsesquent levels as well)
@@ -97,27 +99,56 @@ demo.level0.prototype = {
                 janitor.pushBox.body.enable = true;
                 switch (janitor.heading){
                     case 0:
-                        jan.animations.play('pushRight', 7, false);
+                        jan.animations.play('pushRight', 5, false);
                         trashDirection = 0;
                         break;
                     case 1:
-                        jan.animations.play('pushLeft', 7, false);
+                        jan.animations.play('pushLeft', 5, false);
                         trashDirection = 1;
                         break;
                     case 2:
-                        jan.animations.play('pushUp', 7, false);
+                        jan.animations.play('pushUp', 5, false);
                         trashDirection = 2;
                         break;
                     case 3:
-                        jan.animations.play('pushDown', 7, false);
+                        jan.animations.play('pushDown', 5, false);
                         trashDirection = 3;
                         break;
                 }
 
                 var atkTimer = game.time.create(true);
-                atkTimer.add(2000, function (){
+                atkTimer.add(300, function (){
                     isPushing = false;
                     janitor.pushBox.body.enable = false;
+                }, this);
+                atkTimer.start();
+            }
+        });
+        
+        let A = game.input.keyboard.addKey(Phaser.Keyboard.A);
+        A.onDown.add(function() {
+            if (!isAttacking){
+                isAttacking = true;
+                janitor.attackBox.body.enable = true;
+                switch (janitor.heading){
+                    case 0:
+                        jan.animations.play('attackRight', 5, false);
+                        break;
+                    case 1:
+                        jan.animations.play('attackLeft', 5, false);
+                        break;
+                    case 2:
+                        jan.animations.play('attackUp', 5, false);
+                        break;
+                    case 3:
+                        jan.animations.play('attackDown', 5, false);
+                        break;
+                }
+
+                var atkTimer = game.time.create(true);
+                atkTimer.add(300, function (){
+                    isAttacking = false;
+                    janitor.attackBox.body.enable = false;
                 }, this);
                 atkTimer.start();
             }
@@ -143,32 +174,6 @@ demo.level0.prototype = {
     }
 };
 
-// Creates janitor
-//  --This isn't an object right now, and I don't think it needs to be one, but it might be cleaner if it was? Just a thought
-//  --NO LONGER IN USE!!! See the Janitor object at the bottom of the file
-function createJanitor(spawnX, spawnY){
-    var jan;
-    
-    //Create player, set scale and collision
-    jan = game.add.sprite(spawnX, spawnY,'jan');
-    jan.anchor.setTo(0.5,0.5);
-    jan.scale.setTo(0.25, 0.25);
-    game.physics.enable(jan);
-    jan.body.setSize(128, 128, 50, 270);
-    jan.body.collideWorldBounds = true;
-    
-    //Add animations
-    jan.animations.add('walkUp', [16, 15]);
-    jan.animations.add('walkDown', [1, 0]);
-    jan.animations.add('walkLeft', [6, 5]);
-    jan.animations.add('walkRight', [11, 10]);
-    jan.animations.add('pushUp', [18]);
-    jan.animations.add('pushDown', [3, 4]);
-    jan.animations.add('pushLeft', [8, 9]);
-    jan.animations.add('pushRight', [13, 14]);
-    
-    return jan;
-}
 
 // Creates villain
 function createMonster(spawnX, spawnY){
@@ -220,11 +225,11 @@ function setupUpdate(jan, trash, villain, blockLayer, goalLayer){
     game.physics.arcade.collide(trash.trash, blockLayer);
     game.physics.arcade.collide(trash.trash, goalLayer);
     game.physics.arcade.collide(villain, blockLayer);
-    //game.physics.arcade.collide(trash.trash, jan);
-//    game.physics.arcade.collide(trash.upChild, jan);
-//    game.physics.arcade.collide(trash.downChild, jan);
-//    game.physics.arcade.collide(trash.leftChild, jan);
-//    game.physics.arcade.collide(trash.rightChild, jan);
+    game.physics.arcade.collide(trash.trash, jan);
+    game.physics.arcade.collide(trash.upChild, jan);
+    game.physics.arcade.collide(trash.downChild, jan);
+    game.physics.arcade.collide(trash.leftChild, jan);
+    game.physics.arcade.collide(trash.rightChild, jan);
         
     // Trash collision with player
 //    var upCollide = game.physics.arcade.collide(jan, trash.upChild); 
@@ -232,7 +237,7 @@ function setupUpdate(jan, trash, villain, blockLayer, goalLayer){
 //    var leftCollide = game.physics.arcade.collide(jan, trash.leftChild);
 //    var rightCollide = game.physics.arcade.collide(jan, trash.rightChild);
     var pushTrash = game.physics.arcade.overlap(janitor.pushBox, trash.trash);
-    game.physics.arcade.overlap(janitor.attackBox, villain);
+    var attackHit = game.physics.arcade.overlap(janitor.attackBox, villain);
         
     // Trash collision with monster
     var upBadCollide = game.physics.arcade.collide(villain, trash.upChild);
@@ -248,70 +253,89 @@ function setupUpdate(jan, trash, villain, blockLayer, goalLayer){
         //Set the pushBox to go outwards
         switch(janitor.heading){
             case 0:
-                janitor.pushBox.body.setSize(64, 64, 32, -40);
+                janitor.pushBox.body.setSize(64, 64, 28, -15);
                 break;
             case 1:
-                janitor.pushBox.body.setSize(64, 64, -32, -40);
+                janitor.pushBox.body.setSize(64, 64, -58, -15);
                 break;
             case 2:
-                janitor.pushBox.body.setSize(64, 64, 0, -80);
+                janitor.pushBox.body.setSize(64, 64, -20, -80);
                 break;
             case 3:
-                janitor.pushBox.body.setSize(64, 64, 32, 40);
+                janitor.pushBox.body.setSize(64, 64, -20, 40);
+                break;
+        }
+    }
+    
+    if (isAttacking){
+        //Set the pushBox to go outwards
+        switch(janitor.heading){
+            case 0:
+                janitor.attackBox.body.setSize(64, 64, 28, -15);
+                break;
+            case 1:
+                janitor.attackBox.body.setSize(64, 64, -58, -15);
+                break;
+            case 2:
+                janitor.attackBox.body.setSize(64, 64, -20, -80);
+                break;
+            case 3:
+                janitor.attackBox.body.setSize(64, 64, -20, 40);
                 break;
         }
     }
     
     // Janitor movement
-    if(game.input.keyboard.isDown(Phaser.Keyboard.RIGHT)){
-        jan.body.velocity.y = 0;
-        jan.body.velocity.x = velocity;
-        jan.animations.play('walkRight', 7, false);
-        janitor.setHeading(0); 
-        //janitor.setBroomDirection(2);
-    }
-    else if(game.input.keyboard.isDown(Phaser.Keyboard.LEFT)){
-        jan.body.velocity.y = 0;
-        jan.body.velocity.x = velocity * -1;
-        jan.animations.play('walkLeft', 7, false);
-        janitor.setHeading(1);
-        //janitor.setBroomDirection(0);
-    }
-    else if(game.input.keyboard.isDown(Phaser.Keyboard.UP)){
-        jan.body.velocity.x = 0;
-        jan.body.velocity.y = velocity * -1;
-        jan.animations.play('walkUp', 7, false);
-        janitor.setHeading(2);
-        //janitor.setBroomDirection(1);
-    }
-    else if(game.input.keyboard.isDown(Phaser.Keyboard.DOWN)){
-        jan.body.velocity.x = 0;
-        jan.body.velocity.y = velocity;
-        jan.animations.play('walkDown', 7, false);
-        janitor.setHeading(3);
-        //janitor.setBroomDirection(3);
-    }
-    else{
-        jan.animations.stop();
-        if (janitor.heading == 0){
-            jan.frame = 10;
+    if (!isPushing && !isAttacking){
+        if(game.input.keyboard.isDown(Phaser.Keyboard.RIGHT)){
+            jan.body.velocity.y = 0;
+            jan.body.velocity.x = velocity;
+            jan.animations.play('walkRight', 7, false);
+            janitor.setHeading(0); 
+            //janitor.setBroomDirection(2);
         }
-        else if (janitor.heading == 1){
-            jan.frame = 5;
+        else if(game.input.keyboard.isDown(Phaser.Keyboard.LEFT)){
+            jan.body.velocity.y = 0;
+            jan.body.velocity.x = velocity * -1;
+            jan.animations.play('walkLeft', 7, false);
+            janitor.setHeading(1);
+            //janitor.setBroomDirection(0);
         }
-        else if (janitor.heading == 2){
-            jan.frame = 15;
+        else if(game.input.keyboard.isDown(Phaser.Keyboard.UP)){
+            jan.body.velocity.x = 0;
+            jan.body.velocity.y = velocity * -1;
+            jan.animations.play('walkUp', 7, false);
+            janitor.setHeading(2);
+            //janitor.setBroomDirection(1);
         }
-        else if (janitor.heading == 3){
-            jan.frame = 0;
+        else if(game.input.keyboard.isDown(Phaser.Keyboard.DOWN)){
+            jan.body.velocity.x = 0;
+            jan.body.velocity.y = velocity;
+            jan.animations.play('walkDown', 7, false);
+            janitor.setHeading(3);
+            //janitor.setBroomDirection(3);
         }
-//        jan.frame = 0
-//        currentAnim = jan.animations.currentAnim.name;
-//        while (jan.animations.currentAnim.isFinished)
-        jan.body.velocity.x = 0;
-        jan.body.velocity.y = 0;
+        else{
+            jan.animations.stop();
+            if (janitor.heading == 0){
+                jan.frame = 10;
+            }
+            else if (janitor.heading == 1){
+                jan.frame = 5;
+            }
+            else if (janitor.heading == 2){
+                jan.frame = 15;
+            }
+            else if (janitor.heading == 3){
+                jan.frame = 0;
+            }
+    //        jan.frame = 0
+    //        currentAnim = jan.animations.currentAnim.name;
+    //        while (jan.animations.currentAnim.isFinished)
+            jan.body.velocity.x = 0;
+            jan.body.velocity.y = 0;
+        }
     }
-    
     // Trash monster movement
     if(villain.body.velocity.y > 0){
         villain.animations.play('walkDown', 7, true);
@@ -326,50 +350,24 @@ function setupUpdate(jan, trash, villain, blockLayer, goalLayer){
         villain.animations.play('walkUp', 7, true);
     }
     
-    // Trash movement
-    // PUSH
-    // First check to see if the 'E' key is pressed...
-//    if(game.input.keyboard.isDown(Phaser.Keyboard.E)){
-//    // Now collisions
-//        if(upCollide){	// move trash down
-//            //jan.animations.play('pushDown', 1, false); 
-//  		    trash.trash.body.velocity.y = trashVelocity;
-//        }
-//        else if(downCollide){	// move trash up
-//            //jan.animations.play('pushUp', 3, false);
-//            trash.trash.body.velocity.y = trashVelocity * -1;
-//        }
-//        else if(leftCollide){	// move trash right
-//            //jan.animations.play('pushRight', 3, false);
-//            trash.trash.body.velocity.x = trashVelocity;
-//        }
-//        else if(rightCollide){	// move trash left
-//            //jan.animations.play('pushLeft', 3, false);
-//            trash.trash.body.velocity.x = trashVelocity * -1;
-//        }
-////        else{
-////            jan.animations.play('pushDown', 3, false);
-////        }
-//    }
-    //NEW PUSH SYSTEM
-    //if (game.input.keyboard.isDown(Phaser.Keyboard.D)){
-        //Check if the push hit the trash
-//        if(upCollide){	// move trash down
-//            //jan.animations.play('pushDown', 1, false); 
-//            trash.trash.body.velocity.y = trashVelocity;
-//        }
-//        else if(downCollide){	// move trash up
-//            //jan.animations.play('pushUp', 3, false);
-//            trash.trash.body.velocity.y = trashVelocity * -1;
-//        }
-//        else if(leftCollide){	// move trash right
-//            //jan.animations.play('pushRight', 3, false);
-//            trash.trash.body.velocity.x = trashVelocity;
-//        }
-//        else if(rightCollide){	// move trash left
-//            //jan.animations.play('pushLeft', 3, false);
-//            trash.trash.body.velocity.x = trashVelocity * -1;
-//        }
+    //Trash movement
+    //  --Push
+    if (pushTrash){
+        switch(trashDirection){
+            case 0:
+                trash.trash.body.velocity.x = trashVelocity;
+                break;
+            case 1:
+                trash.trash.body.velocity.x = trashVelocity * -1;
+                break;
+            case 2:
+                trash.trash.body.velocity.y = trashVelocity * -1;
+                break;
+            case 3:
+                trash.trash.body.velocity.y = trashVelocity;
+                break;  
+        }
+    }
         
     
 //    //ATTACKS (!!!)
@@ -390,9 +388,11 @@ function setupUpdate(jan, trash, villain, blockLayer, goalLayer){
 //            //janitor.returnPush();
 //        }
 //    }
-    //Push
-    //if (game.input.keyboard.isDown(Phaser.Keyboard.D)){
     
+    //Attack
+    if(attackHit){
+        monsterCounter = 72;
+    }
     // PULL
     // Check to see if the 'S' key is pressed...
     if(game.input.keyboard.isDown(Phaser.Keyboard.S)){
@@ -438,7 +438,7 @@ function setupUpdate(jan, trash, villain, blockLayer, goalLayer){
     //Check if the monster should be moving or not
     if (monsterCounter > 0){
         console.log(monsterCounter);
-        //villain.body.velocity = 0;
+        villain.body.velocity = 0;
         monsterCounter--;
     }
     if (monsterCounter == 0){
@@ -568,15 +568,15 @@ function Janitor(spawnX, spawnY){
         jan.animations.add('walkUp', [15, 16]);
         jan.animations.add('walkDown', [0, 1]);
         //Push animations   //Will need to do some fanangling to find out which frames are what now
-        jan.animations.add('pushRight', [2, 3]);
+        jan.animations.add('pushRight', [12, 13]);
         jan.animations.add('pushLeft', [7, 8]);
-        jan.animations.add('pushUp', [12, 13]);
-        jan.animations.add('pushDown', [17, 18]);
+        jan.animations.add('pushUp', [17, 18]);
+        jan.animations.add('pushDown', [2, 3]);
         //Attack animations
-        jan.animations.add('attackRight', [0, 4]);
+        jan.animations.add('attackRight', [10, 14]);
         jan.animations.add('attackLeft', [5, 9]);
-        jan.animations.add('attackUp', [10, 14]);
-        jan.animations.add('attackDown', [15, 19]);
+        jan.animations.add('attackUp', [15, 19]);
+        jan.animations.add('attackDown', [0, 4]);
         return jan;
     }
     
@@ -601,46 +601,6 @@ function Janitor(spawnX, spawnY){
         }
     }
     
-    //New plan: All this'll do is play animations for the broom. Nothing else.
-    this.push = function(){
-        
-    }
-    
-    this.returnPush = function(){
-        //Needs to return broom to original position.
-        this.broom.position.x = this.broomOriginalX;
-        this.broom.position.y = this.broomOriginalY;
-        //Allow for another push
-        //this.canPush = true;
-    }
-    
-    this.attack = function(heading){
-        switch(heading){
-            case 0:   //Facing LEFT
-                //Play some sort of attack animation here
-                this.broomOriginalX = this.broom.position.x;
-                this.broom.position.x -= 80;
-                //Find a way to add a delay here. Or just add animations for the visual effect to not be jarring
-                //this.broom.position.x += 15;
-                break;
-            case 1:   //Facing UP
-                this.broomOriginalY = this.broom.position.y;
-                this.broom.position.y -= 80;
-                //this.broom.position.y += 15;
-                break;
-            case 2:   //Facing RIGHT
-                this.broomOriginalX = this.broom.position.x;
-                this.broom.position.x += 80;
-                //this.broom.position.x -= 15;
-                break;
-            case 3:   //Facing DOWN
-                this.broomOriginalY = this.broom.position.y;
-                this.broom.position.y += 80;
-                //this.broom.position.y -= 15;
-                break;
-        }
-    }
-    
     this.janitor = this.createJanitor(spawnX, spawnY);
     
     //New way to handle hitbox stuff
@@ -655,16 +615,13 @@ function Janitor(spawnX, spawnY){
     this.pushBox.anchor.setTo(0.5, 0.5);
     
     this.pushBox.body.onOverlap = new Phaser.Signal();
-    //this.pushBox.body.onOverlap.add(this.push()); //That 'attackHit' is actually going to be the function for what happens when the attack actually hits. I think.
     this.pushBox.body.enable = false;   //Disable the body by default
     //  --Attack hitbox
     this.attackBox = this.hitboxes.create(0, 0, null);
     this.attackBox.anchor.setTo(0.5, 0.5);
     
     this.attackBox.body.onOverlap = new Phaser.Signal();
-    //this.attackBox.body.onOverlap.add(attackHit);
     this.attackBox.body.enable = false;
     
     this.heading = 0;   //Variable to hold the 'heading' of the janitor; 0 is facing left, 1 is up, 2 is right, 3 is down
-    this.canPush = true;    //Just to make sure you can't break things with the push
 }
