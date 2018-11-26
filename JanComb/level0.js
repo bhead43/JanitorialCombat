@@ -232,10 +232,10 @@ function setupUpdate(jan, trash, villain, blockLayer, goalLayer){
 //    game.physics.arcade.collide(trash.rightChild, jan);
         
     // Trash collision with player
-//    var upCollide = game.physics.arcade.collide(jan, trash.upChild); 
-//    var downCollide = game.physics.arcade.collide(jan, trash.downChild);
-//    var leftCollide = game.physics.arcade.collide(jan, trash.leftChild);
-//    var rightCollide = game.physics.arcade.collide(jan, trash.rightChild);
+    var upCollide = game.physics.arcade.collide(jan, trash.upChild); 
+    var downCollide = game.physics.arcade.collide(jan, trash.downChild);
+    var leftCollide = game.physics.arcade.collide(jan, trash.leftChild);
+    var rightCollide = game.physics.arcade.collide(jan, trash.rightChild);
     var pushTrash = game.physics.arcade.overlap(janitor.pushBox, trash.trash);
     var attackHit = game.physics.arcade.overlap(janitor.attackBox, villain);
         
@@ -574,10 +574,10 @@ function Janitor(spawnX, spawnY){
         jan.animations.add('pushUp', [17, 18]);
         jan.animations.add('pushDown', [2, 3]);
         //Attack animations
-        jan.animations.add('attackRight', [10, 14]);
-        jan.animations.add('attackLeft', [5, 9]);
-        jan.animations.add('attackUp', [15, 19]);
-        jan.animations.add('attackDown', [0, 4]);
+        jan.animations.add('attackRight', [14, 10]);
+        jan.animations.add('attackLeft', [9, 5]);
+        jan.animations.add('attackUp', [19, 15]);
+        jan.animations.add('attackDown', [4, 0]);
         return jan;
     }
     
