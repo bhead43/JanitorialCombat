@@ -443,7 +443,7 @@ function setupUpdate(jan, trash, villain, blockLayer, goalLayer){
     }
     if (monsterCounter == 0){
         //villain.body.velocity = 1;
-        //game.physics.arcade.moveToObject(villain, jan, 75);        
+        game.physics.arcade.moveToObject(villain, jan, 75);        
     }
     
     // Check for collision with janitor
