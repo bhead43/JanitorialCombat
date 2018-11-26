@@ -3,7 +3,7 @@ var totalMove = 0;
 demo.level1 = function(){};
 demo.level1.prototype = {
 	preload: function(){
-    game.load.tilemap('LevelOne', 'assets/level1.json', null, Phaser.Tilemap.TILED_JSON);	
+    game.load.tilemap('LevelOne', 'assets/levelOne.json', null, Phaser.Tilemap.TILED_JSON);	
 	game.load.image('Floor Tiles', 'assets/path (38).png');
 	game.load.image('Floor Tiles w Shadows', 'assets/shadow.png');
 	game.load.image('Block Tiles Ceiling', 'assets/path (34) (5).png');
@@ -25,7 +25,7 @@ demo.level1.prototype = {
         game.physics.startSystem(Phaser.Physics.ARCADE);
         
         // Tilemap and layers to state
-        map = game.add.tilemap('levelOne');
+        var map = game.add.tilemap('LevelOne');
         map.addTilesetImage('Floor Tiles');
         map.addTilesetImage('Floor Tiles w Shadows');
         map.addTilesetImage('Block Tiles Ceiling');
@@ -36,8 +36,12 @@ demo.level1.prototype = {
         goalLayer = map.createLayer('Goal');
         
         //Set collision on the 'Blocks' layer
-        map.setCollisionBetween(3, 5, true, 'Blocks');
-        map.setCollisionBetween(7, 7, true, 'Goal');
+        map.setCollisionBetween(9, 10, true, 'Blocks');
+        map.setCollisionBetween(3, 4, true, 'Goal');
+        
+        //Create janitor object
+        janitor = new Janitor(130, 130);
+        var jan = janitor.janitor;
         
         //Callback functions
         //  --Push callback function
@@ -108,9 +112,6 @@ demo.level1.prototype = {
         
         //Create trash object
         trash = new Trash(200, 150);
-        
-        //Create janitor object
-        janitor = new Janitor(130, 130);
         
         //Create monster
         villain = createMonster(300, 800);

@@ -226,10 +226,10 @@ function setupUpdate(jan, trash, villain, blockLayer, goalLayer){
     game.physics.arcade.collide(trash.trash, goalLayer);
     game.physics.arcade.collide(villain, blockLayer);
     game.physics.arcade.collide(trash.trash, jan);
-    game.physics.arcade.collide(trash.upChild, jan);
-    game.physics.arcade.collide(trash.downChild, jan);
-    game.physics.arcade.collide(trash.leftChild, jan);
-    game.physics.arcade.collide(trash.rightChild, jan);
+//    game.physics.arcade.collide(trash.upChild, jan);
+//    game.physics.arcade.collide(trash.downChild, jan);
+//    game.physics.arcade.collide(trash.leftChild, jan);
+//    game.physics.arcade.collide(trash.rightChild, jan);
         
     // Trash collision with player
 //    var upCollide = game.physics.arcade.collide(jan, trash.upChild); 
@@ -438,7 +438,7 @@ function setupUpdate(jan, trash, villain, blockLayer, goalLayer){
     //Check if the monster should be moving or not
     if (monsterCounter > 0){
         console.log(monsterCounter);
-        villain.body.velocity = 0;
+        villain.body.velocity.setTo(0, 0);
         monsterCounter--;
     }
     if (monsterCounter == 0){
@@ -501,6 +501,7 @@ function Trash(spawnX, spawnY){
     this.createTrash = function(x, y) {
         var trash = game.add.sprite(x, y, 'Trash');
         game.physics.enable(trash);
+        trash.body.immovable = true;
         trash.body.collideWorldBounds = true;
         
         return trash;
