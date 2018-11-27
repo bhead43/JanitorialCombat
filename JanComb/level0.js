@@ -97,6 +97,8 @@ demo.level0.prototype = {
             if (!isPushing){
                 isPushing = true;
                 janitor.pushBox.body.enable = true;
+                //Set Janitor's velocity to 0 before starting push
+                janitor.janitor.body.velocity.setTo(0, 0);
                 switch (janitor.heading){
                     case 0:
                         jan.animations.play('pushRight', 5, false);
@@ -130,6 +132,8 @@ demo.level0.prototype = {
             if (!isAttacking){
                 isAttacking = true;
                 janitor.attackBox.body.enable = true;
+                //Set Janitor's velocity to 0 before starting push
+                janitor.janitor.body.velocity.setTo(0, 0);
                 switch (janitor.heading){
                     case 0:
                         jan.animations.play('attackRight', 5, false);
