@@ -3,17 +3,17 @@ var totalMove = 0;
 demo.level1 = function(){};
 demo.level1.prototype = {
 	preload: function(){
-    game.load.tilemap('LevelOne', 'assets/levelOne.json', null, Phaser.Tilemap.TILED_JSON);	
-	game.load.image('Floor Tiles', 'assets/path (38).png');
-	game.load.image('Floor Tiles w Shadows', 'assets/shadow.png');
-	game.load.image('Block Tiles Ceiling', 'assets/path (34) (5).png');
-	game.load.image('Block Tiles Brick', 'assets/brick wall proto.png');
-	game.load.image('Goal Tiles', 'assets/GOAL.png');
-    game.load.atlasJSONHash('jan', 'assets/janSpritesheet.png', 'assets/janSpritesheet.json');    
-    game.load.image('Trash', 'assets/paperBallRESIZED.png');
-    game.load.spritesheet('villain', 'assets/villainSpritesheet.png', 300, 300);
-	game.load.audio('bgMusic', 'assets/audio/CrEEP.mp3');
-    game.load.audio('monSound', 'assets/audio/monsterSound.mp3');
+        game.load.tilemap('LevelOne', 'assets/levelOne.json', null, Phaser.Tilemap.TILED_JSON);	
+        game.load.image('Floor Tiles', 'assets/path (38).png');
+        game.load.image('Floor Tiles w Shadows', 'assets/shadow.png');
+        game.load.image('Block Tiles Ceiling', 'assets/path (34) (5).png');
+        game.load.image('Block Tiles Brick', 'assets/brick wall proto.png');
+        game.load.image('Goal Tiles', 'assets/GOAL.png');
+        game.load.atlasJSONHash('jan', 'assets/janSpritesheet.png', 'assets/janSpritesheet.json');    
+        game.load.image('Trash', 'assets/paperBallRESIZED.png');
+        game.load.spritesheet('villain', 'assets/villainSpritesheet.png', 300, 300);
+        game.load.audio('bgMusic', 'assets/audio/CrEEP.mp3');
+        game.load.audio('monSound', 'assets/audio/monsterSound.mp3');
     },
     
 	create: function(){
