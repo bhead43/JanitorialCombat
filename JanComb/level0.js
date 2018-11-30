@@ -223,6 +223,10 @@ function setupUpdate(jan, trash, villain, blockLayer, goalLayer){
     var hitGoal = game.physics.arcade.collide(trash.trash, goalLayer);
     var badHit = game.physics.arcade.collide(villain, jan);
     var hitWall = game.physics.arcade.collide(trash.trash, blockLayer);
+    
+    
+   
+    
         
     // Basic collisions
     game.physics.arcade.collide(jan, blockLayer);
@@ -288,6 +292,32 @@ function setupUpdate(jan, trash, villain, blockLayer, goalLayer){
                 break;
         }
     }
+    
+    
+    
+    
+        //BUGGS HOE!!
+        //trying to FIX BUGS
+    
+    var janHit = game.physics.arcade.collide(blockLayer, jan);
+    
+    var janX = jan.body.velocity.y = 0;
+    var janY = jan.body.velocity.x = 0;
+    
+    if (!janX && !janY){
+        game.physics.arcade.collide(blockLayer, jan);
+        }
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     
     // Janitor movement
     if (!isPushing && !isAttacking){
@@ -424,7 +454,7 @@ function setupUpdate(jan, trash, villain, blockLayer, goalLayer){
     //Restarting the Level
     if (game.input.keyboard.isDown(Phaser.Keyboard.R)){
         totalMove = 0;
-        bgMusic.stop();
+        
         var x = getCookie("level")
         game.state.start("level"+ x); 
         }
