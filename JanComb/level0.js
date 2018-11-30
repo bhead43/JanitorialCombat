@@ -133,7 +133,7 @@ demo.level0.prototype = {
                 isAttacking = true;
                 janitor.attackBox.body.enable = true;
                 //Set Janitor's velocity to 0 before starting push
-                janitor.janitor.body.velocity.setTo(0, 0);
+                janitor. janitor.body.velocity.setTo(0, 0);
                 switch (janitor.heading){
                     case 0:
                         jan.animations.play('attackRight', 5, false);
@@ -424,6 +424,7 @@ function setupUpdate(jan, trash, villain, blockLayer, goalLayer){
     //Restarting the Level
     if (game.input.keyboard.isDown(Phaser.Keyboard.R)){
         totalMove = 0;
+        bgMusic.stop();
         var x = getCookie("level")
         game.state.start("level"+ x); 
         }

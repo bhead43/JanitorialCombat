@@ -1,4 +1,5 @@
 var totalMove = 0;
+totalMove = 10;
 
 demo.level1 = function(){};
 demo.level1.prototype = {
@@ -38,6 +39,12 @@ demo.level1.prototype = {
         //Set collision on the 'Blocks' layer
         map.setCollisionBetween(9, 10, true, 'Blocks');
         map.setCollisionBetween(3, 4, true, 'Goal');
+        
+         //Create trash object
+        trash = new Trash(200, 150);
+        
+        //Create monster
+        villain = createMonster(300, 800);
         
         //Create janitor object
         janitor = new Janitor(130, 130);
@@ -110,11 +117,6 @@ demo.level1.prototype = {
             }
         });
         
-        //Create trash object
-        trash = new Trash(200, 150);
-        
-        //Create monster
-        villain = createMonster(300, 800);
 		
 	    //Audio
 	    // --Background music
