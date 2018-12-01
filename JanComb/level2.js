@@ -6,7 +6,7 @@ demo.level2.prototype = {
 	preload: function(){
         //Preload all assets needed
         //  --Load in tilemap and tilesets here
-        game.load.tilemap('LevelOne', 'assets/levelOne.json', null, Phaser.Tilemap.TILED_JSON);	
+        game.load.tilemap('LevelTwo', 'assets/levelTwo.json', null, Phaser.Tilemap.TILED_JSON);	
         game.load.image('Floor Tiles', 'assets/path (38).png');
         game.load.image('Floor Tiles w Shadows', 'assets/shadow.png');
         game.load.image('Block Tiles Ceiling', 'assets/path (34) (5).png');
@@ -31,7 +31,21 @@ demo.level2.prototype = {
         //Set up level map
         //  --Load in tilesets, create layers, set collision
         //  --MAKE SURE YOU USE 'blockLayer' and 'goalLayer' for those layers!!!
+        // Tilemap and layers to state
+        var map = game.add.tilemap('LevelTwo');
+        map.addTilesetImage('Floor Tiles');
+        map.addTilesetImage('Floor Tiles w Shadows');
+        map.addTilesetImage('Block Tiles Ceiling');
+        map.addTilesetImage('Block Tiles Brick');	
+        map.addTilesetImage('Goal Tiles');
+        baseLayer = map.createLayer('Floor');
+        blockLayer = map.createLayer('Blocks');
+        goalLayer = map.createLayer('Goal');
         
+        //Set collision on the 'Blocks' layer
+        map.setCollisionBetween(9, 10, true, 'Blocks');
+        map.setCollisionBetween(3, 4, true, 'Goal');
+		
         //Create janitor
         //  --Change the spawn position as needed
         janitor = new Janitor(130, 130);
