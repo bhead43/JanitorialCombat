@@ -30,7 +30,7 @@ demo.level3.prototype = {
         //  --Load in tilesets, create layers, set collision
         //  --MAKE SURE YOU USE 'blockLayer' and 'goalLayer' for those layers!!!
         // Tilemap and layers to state
-        var map = game.add.tilemap('LevelTwo');
+        var map = game.add.tilemap('LevelThree');
         map.addTilesetImage('Floor Tiles');
         map.addTilesetImage('Floor Tiles w Shadows');
         map.addTilesetImage('Block Tiles Ceiling');
