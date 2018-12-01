@@ -6,6 +6,12 @@ demo.level2.prototype = {
 	preload: function(){
         //Preload all assets needed
         //  --Load in tilemap and tilesets here
+        game.load.tilemap('LevelOne', 'assets/levelOne.json', null, Phaser.Tilemap.TILED_JSON);	
+        game.load.image('Floor Tiles', 'assets/path (38).png');
+        game.load.image('Floor Tiles w Shadows', 'assets/shadow.png');
+        game.load.image('Block Tiles Ceiling', 'assets/path (34) (5).png');
+        game.load.image('Block Tiles Brick', 'assets/brick wall proto.png');
+        game.load.image('Goal Tiles', 'assets/GOAL.png');
         
         //  --Load in spritesheets, art assets, and sound files
         game.load.atlasJSONHash('jan', 'assets/janSpritesheet.png', 'assets/janSpritesheet.json');    
