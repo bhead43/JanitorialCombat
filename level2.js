@@ -16,11 +16,11 @@ demo.level2.prototype = {
         game.physics.startSystem(Phaser.Physics.ARCADE);
         
         // Tilemap and layers to state
-        map = game.add.tilemap('levelOne');
+        map = game.add.tilemap('levelTwo');
         map.addTilesetImage('Floor Tiles');
         map.addTilesetImage('Floor Tiles 2');
         map.addTilesetImage('Goal Tiles');
-	    baseLayer = map.createLayer('Floor');
+	baseLayer = map.createLayer('Floor');
         blockLayer = map.createLayer('Blocks');
         goalLayer = map.createLayer('Goal');
         
