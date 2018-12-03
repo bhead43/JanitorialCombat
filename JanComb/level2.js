@@ -45,16 +45,16 @@ demo.level2.prototype = {
 		
         //Create janitor
         //  --Change the spawn position as needed
-        janitor = new Janitor(130, 130);
+        janitor = new Janitor(620, 130);
         var jan = janitor.janitor;
         
         //Create trash
         //  --Change the spawn position as needed
-        trash = new Trash(200, 200);
+        trash = new Trash(550, 200);
         
         //Create monster
         //  --Change the spawn position as needed
-        villain = createMonster(500, 500);
+        villain = createMonster(100, 500);
         
         //Callback funcitons for pushing and attacking
         //  --Push callback function
