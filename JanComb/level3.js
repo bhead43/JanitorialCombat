@@ -42,13 +42,8 @@ demo.level3.prototype = {
         
         //Set collision on the 'Blocks' layer
         map.setCollisionBetween(5, 6, true, 'Blocks');
-	map.setCollisionBetween(9, 10, true, 'Goal');
-        //map.setCollisionBetween(7, 7, true, 'Goal');
+        map.setCollisionBetween(9, 10, true, 'Goal');
 		
-        //Create janitor
-        //  --Change the spawn position as needed
-        janitor = new Janitor(130, 130);
-        var jan = janitor.janitor;
         
         //Create trash
         //  --Change the spawn position as needed
@@ -57,6 +52,11 @@ demo.level3.prototype = {
         //Create monster
         //  --Change the spawn position as needed
         villain = createMonster(500, 500);
+        
+        //Create janitor
+        //  --Change the spawn position as needed
+        janitor = new Janitor(130, 130);
+        var jan = janitor.janitor;
         
         //Callback funcitons for pushing and attacking
         //  --Push callback function

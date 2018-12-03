@@ -1,12 +1,10 @@
-//Before altering this, PLEASE copy/paste the code into level3.js (changing the stuff to level3 that you need to)
-//  --This is a clean template for making a new level
+demo.level4 = function(){};
+demo.level4.prototype = {
 
-demo.level2 = function(){};
-demo.level2.prototype = {
 	preload: function(){
         //Preload all assets needed
         //  --Load in tilemap and tilesets here
-        game.load.tilemap('LevelTwo', 'assets/levelTwo.json', null, Phaser.Tilemap.TILED_JSON);	
+        game.load.tilemap('LevelFour', 'assets/levelFour.json', null, Phaser.Tilemap.TILED_JSON);	
         game.load.image('Floor Tiles', 'assets/path (38).png');
         game.load.image('Floor Tiles w Shadows', 'assets/shadow.png');
         game.load.image('Block Tiles Ceiling', 'assets/path (34) (5).png');
@@ -28,8 +26,11 @@ demo.level2.prototype = {
         //Enable physics
         game.physics.startSystem(Phaser.Physics.ARCADE);
         
+        //Set up level map
+        //  --Load in tilesets, create layers, set collision
+        //  --MAKE SURE YOU USE 'blockLayer' and 'goalLayer' for those layers!!!
         // Tilemap and layers to state
-        var map = game.add.tilemap('LevelTwo');
+        var map = game.add.tilemap('LevelThree');
         map.addTilesetImage('Floor Tiles');
         map.addTilesetImage('Floor Tiles w Shadows');
         map.addTilesetImage('Block Tiles Ceiling');
@@ -41,20 +42,21 @@ demo.level2.prototype = {
         
         //Set collision on the 'Blocks' layer
         map.setCollisionBetween(5, 6, true, 'Blocks');
-        map.setCollisionBetween(7, 10, true, 'Goal');
+        map.setCollisionBetween(9, 10, true, 'Goal');
 		
         
         //Create trash
         //  --Change the spawn position as needed
-        trash = new Trash(150, 550);
+        trash = new Trash(200, 200);
         
         //Create monster
         //  --Change the spawn position as needed
-        villain = createMonster(100, 500);
+        villain = createMonster(500, 500);
         
+    
         //Create janitor
         //  --Change the spawn position as needed
-        janitor = new Janitor(150, 620);
+        janitor = new Janitor(130, 130);
         var jan = janitor.janitor;
         
         //Callback funcitons for pushing and attacking
@@ -135,7 +137,5 @@ demo.level2.prototype = {
     },
 	update: function(){
         setupUpdate(janitor, trash, villain, blockLayer, goalLayer);
-    },
-	render:function(){
-	}
+    }
 };
