@@ -45,7 +45,7 @@ demo.level2.prototype = {
 		
         //Create janitor
         //  --Change the spawn position as needed
-        janitor = new Janitor(135, 600);
+        janitor = new Janitor(135, 620);
         var jan = janitor.janitor;
         
         //Create trash
