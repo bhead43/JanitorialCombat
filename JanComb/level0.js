@@ -35,7 +35,7 @@ demo.level0.prototype = {
         game.load.audio('monSound', 'assets/audio/monsterSound.mp3');
         
         //Tutorial Sprite
-        game.load.image('Tutorial', 'assets/TutorialSpriteOne.png');
+        //game.load.image('Tutorial', 'assets/TutorialSpriteOne.png');
         
         //Placeholder sprite for broom
         game.load.image('broom', 'assets/broom_PLACEHOLDER.png');
