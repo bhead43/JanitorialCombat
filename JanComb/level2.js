@@ -28,9 +28,6 @@ demo.level2.prototype = {
         //Enable physics
         game.physics.startSystem(Phaser.Physics.ARCADE);
         
-        //Set up level map
-        //  --Load in tilesets, create layers, set collision
-        //  --MAKE SURE YOU USE 'blockLayer' and 'goalLayer' for those layers!!!
         // Tilemap and layers to state
         var map = game.add.tilemap('LevelTwo');
         map.addTilesetImage('Floor Tiles');
