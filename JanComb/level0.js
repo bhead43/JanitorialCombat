@@ -172,9 +172,9 @@ demo.level0.prototype = {
 //        game.debug.body(trash.upChild);
 //        game.debug.body(trash.downChild);
         
-        game.debug.body(janitor.janitor);
-        game.debug.body(janitor.pushBox);
-        game.debug.body(janitor.attackBox);
+        //game.debug.body(janitor.janitor);
+        //game.debug.body(janitor.pushBox);
+        //game.debug.body(janitor.attackBox);
     }
 };
 
