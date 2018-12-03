@@ -134,5 +134,7 @@ demo.level2.prototype = {
     },
 	update: function(){
         setupUpdate(janitor, trash, villain, blockLayer, goalLayer);
-    }
+    },
+	render:function(){
+	}
 };
