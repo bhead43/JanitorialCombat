@@ -40,7 +40,7 @@ demo.level2.prototype = {
         goalLayer = map.createLayer('Goal');
         
         //Set collision on the 'Blocks' layer
-        map.setCollisionBetween(9, 10, true, 'Blocks');
+        map.setCollisionBetween(5, 6, true, 'Blocks');
         map.setCollisionBetween(3, 4, true, 'Goal');
 		
         //Create janitor
