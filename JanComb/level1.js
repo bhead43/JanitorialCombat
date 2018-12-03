@@ -41,13 +41,13 @@ demo.level1.prototype = {
         map.setCollisionBetween(3, 4, true, 'Goal');
         
          //Create trash object
-        trash = new Trash(500, 170);
+        trash = new Trash(200, 150);
         
         //Create monster
         villain = createMonster(300, 800);
         
         //Create janitor object
-        janitor = new Janitor(430, 150);
+        janitor = new Janitor(130, 170);
         var jan = janitor.janitor;
         
         //Callback functions
