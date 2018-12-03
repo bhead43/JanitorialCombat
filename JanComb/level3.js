@@ -42,7 +42,7 @@ demo.level3.prototype = {
         
         //Set collision on the 'Blocks' layer
         map.setCollisionBetween(5, 6, true, 'Blocks');
-        map.setCollisionBetween(3, 4, true, 'Goal');
+        map.setCollisionBetween(7, 7, true, 'Goal');
 		
         //Create janitor
         //  --Change the spawn position as needed
