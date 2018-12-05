@@ -89,9 +89,6 @@ demo.level0.prototype = {
 	    game.time.events.loop(Phaser.Timer.SECOND * getRandomInt(4,10), playMonSound, this); // starts loop
         monSound = game.add.audio('monSound');
         
-        //Tutorial Sprite
-        var tutorial = game.add.sprite(0, 568, 'Tutorial');
-        
         let D = game.input.keyboard.addKey(Phaser.Keyboard.D);
         D.onDown.add(function() {
             if (!isPushing){
