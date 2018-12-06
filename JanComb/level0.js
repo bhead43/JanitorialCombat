@@ -14,6 +14,10 @@ var isPushing = false;
 var isAttacking = false;
 var trashDirection = 0;
 
+//Variable for pausing
+var pause;
+var isPaused = false;
+
 demo.level0 = function(){};
 demo.level0.prototype = {
 	preload: function(){
@@ -39,6 +43,9 @@ demo.level0.prototype = {
         
         //Placeholder sprite for broom
         game.load.image('broom', 'assets/broom_PLACEHOLDER.png');
+        
+        //Pause sprite
+        game.load.image('pause', 'assets/pauseScreen.png');
 		
 		
 		
@@ -155,6 +162,19 @@ demo.level0.prototype = {
             }
         }, this);
         
+        //Callback function to handle pausing
+        let P = game.input.keyboard.addKey(Phaser.Keyboard.P);
+        P.onDown.add(function() {
+            if (!isPaused){
+                isPaused = true;
+                pause = game.add.sprite(0, 0, 'pause');
+            }
+            else{
+                isPaused = false;
+                pause.destroy();
+            }
+        });
+        
     },
 	update: function(){
         //Variable to hold current animation
@@ -185,7 +205,7 @@ function createMonster(spawnX, spawnY){
     monster.anchor.setTo(0.5,0.5);
     monster.scale.setTo(0.2,0.2);
     game.physics.enable(monster);
-    monster.body.setSize(225, 225, 40, 75);
+    monster.body.setSize(175, 175, 40, 75);
     monster.body.collideWorldBounds = true;
     
     //Add animations
@@ -254,7 +274,7 @@ function setupUpdate(jan, trash, villain, blockLayer, goalLayer){
     //var broomMonsterCollide = game.physics.arcade.collide(villain, broom);
     
     //Check to see if we need to push
-    if (isPushing){
+    if (isPushing && !isPaused){
         //Set the pushBox to go outwards
         switch(janitor.heading){
             case 0:
@@ -272,7 +292,7 @@ function setupUpdate(jan, trash, villain, blockLayer, goalLayer){
         }
     }
     
-    if (isAttacking){
+    if (isAttacking && !isPaused){
         //Set the pushBox to go outwards
         switch(janitor.heading){
             case 0:
@@ -304,20 +324,9 @@ function setupUpdate(jan, trash, villain, blockLayer, goalLayer){
     if (!janX && !janY){
         game.physics.arcade.collide(blockLayer, jan);
         }
-
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
     
     // Janitor movement
-    if (!isPushing && !isAttacking){
+    if (!isPushing && !isAttacking && !isPaused){
         if(game.input.keyboard.isDown(Phaser.Keyboard.RIGHT)){
             jan.body.velocity.y = 0;
             jan.body.velocity.x = velocity;
@@ -383,7 +392,7 @@ function setupUpdate(jan, trash, villain, blockLayer, goalLayer){
     
     //Trash movement
     //  --Push
-    if (pushTrash){
+    if (pushTrash && !isPaused){
         switch(trashDirection){
             case 0:
                 trash.trash.body.velocity.x = trashVelocity;
@@ -426,7 +435,7 @@ function setupUpdate(jan, trash, villain, blockLayer, goalLayer){
     }
     // PULL
     // Check to see if the 'S' key is pressed...
-    if(game.input.keyboard.isDown(Phaser.Keyboard.S)){
+    if(game.input.keyboard.isDown(Phaser.Keyboard.S) && !isPaused){
         if(upCollide && totalMove < pullLimit){	// pull trash up
             trash.trash.position.y = trash.trash.position.y - 5;
             game.physics.arcade.collide(jan, blockLayer);
@@ -468,12 +477,14 @@ function setupUpdate(jan, trash, villain, blockLayer, goalLayer){
     // Monster actions
     // Moves trash monster continuously towards the janitor
     //Check if the monster should be moving or not
-    if (monsterCounter > 0){
+    if (monsterCounter > 0 || isPaused){
         console.log(monsterCounter);
         villain.body.velocity.setTo(0, 0);
-        monsterCounter--;
+        if(!isPaused){
+            monsterCounter--;
+        }
     }
-    if (monsterCounter == 0){
+    if (monsterCounter == 0 && !isPaused){
         //villain.body.velocity = 1;
         game.physics.arcade.moveToObject(villain, jan, 75);        
     }

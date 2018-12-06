@@ -188,7 +188,7 @@ function createMonster(spawnX, spawnY){
     monster.anchor.setTo(0.5,0.5);
     monster.scale.setTo(0.2,0.2);
     game.physics.enable(monster);
-    monster.body.setSize(225, 225, 40, 75);
+    monster.body.setSize(175, 175, 40, 75);
     monster.body.collideWorldBounds = true;
     
     //Add animations
