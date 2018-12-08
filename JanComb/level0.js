@@ -39,6 +39,7 @@ demo.level0.prototype = {
         game.load.audio('monSound', 'assets/audio/monsterSound.mp3');
 	game.load.audio('hitSound', 'assets/audio/hitSound.mp3');
 	//game.load.audio('walking', 'assets/audio/walkSound.mp3');
+	//game.load.audio('hitMonster', 'assets/audio/hitMonSound.mp3');
         
         //Tutorial Sprite
         //game.load.image('Tutorial', 'assets/TutorialSpriteOne.png');
@@ -93,7 +94,8 @@ demo.level0.prototype = {
 		
 	    // Audio stuff
 	hitSound = game.add.audio('hitSound');
-	walking = game.add.audio('walking');
+	//walking = game.add.audio('walking');
+	//hitMonster = game.add.audio('hitMonster');
 	    // Background
         bgMusic = game.add.audio('bgMusic');
         bgMusic.play();
