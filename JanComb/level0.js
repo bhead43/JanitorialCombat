@@ -38,6 +38,7 @@ demo.level0.prototype = {
         game.load.audio('bgMusic', 'assets/audio/CrEEP.mp3');
         game.load.audio('monSound', 'assets/audio/monsterSound.mp3');
 	game.load.audio('hitSound', 'assets/audio/hitSound.mp3');
+	//game.load.audio('walking', 'assets/audio/walkSound.mp3');
         
         //Tutorial Sprite
         //game.load.image('Tutorial', 'assets/TutorialSpriteOne.png');
@@ -85,11 +86,15 @@ demo.level0.prototype = {
 	    // All handled via a function (see bottom of file)
         villain = createMonster(300, 800);
         
-        //jan = createJanitor(130, 130) //OLD
-        janitor = new Janitor(130, 130);    //NEW
+        
+        janitor = new Janitor(130, 130);    
         var jan = janitor.janitor;
 		
+	if jan 
+		
 	    // Audio stuff
+	hitSound = game.add.audio('hitSound');
+	walking = game.add.audio('walking');
 	    // Background
         bgMusic = game.add.audio('bgMusic');
         bgMusic.play();
@@ -153,7 +158,7 @@ demo.level0.prototype = {
                         jan.animations.play('attackDown', 5, false);
                         break;
                 }
-
+		hitSound.play();
                 var atkTimer = game.time.create(true);
                 atkTimer.add(300, function (){
                     isAttacking = false;
