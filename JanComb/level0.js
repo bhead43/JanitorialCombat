@@ -90,7 +90,6 @@ demo.level0.prototype = {
         janitor = new Janitor(130, 130);    
         var jan = janitor.janitor;
 		
-	if jan 
 		
 	    // Audio stuff
 	hitSound = game.add.audio('hitSound');
