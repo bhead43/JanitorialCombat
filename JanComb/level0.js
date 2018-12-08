@@ -37,6 +37,7 @@ demo.level0.prototype = {
         game.load.spritesheet('villain', 'assets/villainSpritesheet.png', 300, 300);
         game.load.audio('bgMusic', 'assets/audio/CrEEP.mp3');
         game.load.audio('monSound', 'assets/audio/monsterSound.mp3');
+	game.load.audio('hitSound', 'assets/audio/hitSound.mp3');
         
         //Tutorial Sprite
         //game.load.image('Tutorial', 'assets/TutorialSpriteOne.png');
