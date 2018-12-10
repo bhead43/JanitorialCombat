@@ -15,9 +15,11 @@ demo.level1.prototype = {
         game.load.spritesheet('villain', 'assets/villainSpritesheet.png', 300, 300);
         game.load.audio('bgMusic', 'assets/audio/CrEEP.mp3');
         game.load.audio('monSound', 'assets/audio/monsterSound.mp3');
-	game.load.audio('hitSound', 'assets/audio/hitSound.mp3');
-	game.load.audio('trashSound', 'assets/audio/trashSound.mp3');
-	game.load.audio('killByMon', 'assets/audio/chewDeathSound.mp3');
+        game.load.audio('hitSound', 'assets/audio/hitSound.mp3');
+        game.load.audio('trashSound', 'assets/audio/trashSound.mp3');
+        game.load.audio('killByMon', 'assets/audio/chewDeathSound.mp3');
+        
+        game.load.image('pause', 'assets/pauseScreen.png');
     },
     
 	create: function(){
@@ -117,6 +119,21 @@ demo.level1.prototype = {
                     janitor.attackBox.body.reset(0, 0);
                 }, this);
                 atkTimer.start();
+            }
+        });
+        
+        //Callback function to handle pausing
+        let P = game.input.keyboard.addKey(Phaser.Keyboard.P);
+        P.onDown.add(function() {
+            if (!isPaused){
+                isPaused = true;
+                bgMusic.stop();
+                pause = game.add.sprite(0, 0, 'pause');
+            }
+            else{
+                isPaused = false;
+                bgMusic.play();
+                pause.destroy();
             }
         });
         

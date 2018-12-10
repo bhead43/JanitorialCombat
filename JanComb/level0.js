@@ -14,6 +14,7 @@ var pullLimit = 40;
 var isPushing = false;
 var isAttacking = false;
 var trashDirection = 0;
+var attackDirection = 0;
 
 //Variable for pausing
 var pause;
@@ -146,15 +147,19 @@ demo.level0.prototype = {
                 switch (janitor.heading){
                     case 0:
                         jan.animations.play('attackRight', 5, false);
+                        attackDirection = 0;
                         break;
                     case 1:
                         jan.animations.play('attackLeft', 5, false);
+                        attackDirection = 1;
                         break;
                     case 2:
                         jan.animations.play('attackUp', 5, false);
+                        attackDirection = 2;
                         break;
                     case 3:
                         jan.animations.play('attackDown', 5, false);
+                        attackDirection = 3;
                         break;
                 }
 		hitSound.play();
@@ -439,6 +444,21 @@ function setupUpdate(jan, trash, villain, blockLayer, goalLayer){
     //Attack
     if(attackHit){
         monsterCounter = 72;
+        switch(attackDirection){
+            case 0:
+                //Push his ass to the right
+                villain.body.position.x += 30;
+                break;
+            case 1:
+                villain.body.position.x -= 30;
+                break;
+            case 2:
+                villain.body.position.y -= 30;
+                break;
+            case 3:
+                villain.body.position.y += 30;
+                break;
+        }
     }
     // PULL
     // Check to see if the 'S' key is pressed...

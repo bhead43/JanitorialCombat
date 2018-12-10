@@ -10,4 +10,4 @@ game.state.add('level4', demo.level4);
 game.state.add('gameOver', demo.gameOver);
 game.state.add('nextLevel', demo.nextLevel); 
 //game.state.start('titleLevel');
-game.state.start('level4');
+game.state.start('titleLevel');
