@@ -39,7 +39,7 @@ demo.level0.prototype = {
         game.load.audio('bgMusic', 'assets/audio/CrEEP.mp3');
         game.load.audio('monSound', 'assets/audio/monsterSound.mp3');
 	game.load.audio('hitSound', 'assets/audio/hitSound.mp3');
-	//game.load.audio('walking', 'assets/audio/walkSound.mp3');
+	game.load.audio('trashSound', 'assets/audio/trashSound.mp3');
 	game.load.audio('killByMon', 'assets/audio/chewDeathSound.mp3');
         
         //Tutorial Sprite
@@ -92,7 +92,7 @@ demo.level0.prototype = {
 		
 	    // Audio stuff
 	hitSound = game.add.audio('hitSound');
-	//walking = game.add.audio('walking');
+	trashSound = game.add.audio('trashSound');
 	killByMon = game.add.audio('killByMon');
 	    // Background
         bgMusic = game.add.audio('bgMusic');
@@ -126,7 +126,7 @@ demo.level0.prototype = {
                         trashDirection = 3;
                         break;
                 }
-
+		trashSound.play();
                 var atkTimer = game.time.create(true);
                 atkTimer.add(300, function (){
                     isPushing = false;
