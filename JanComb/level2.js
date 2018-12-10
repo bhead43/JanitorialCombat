@@ -19,6 +19,9 @@ demo.level2.prototype = {
         game.load.spritesheet('villain', 'assets/villainSpritesheet.png', 300, 300);
         game.load.audio('bgMusic', 'assets/audio/CrEEP.mp3');
         game.load.audio('monSound', 'assets/audio/monsterSound.mp3');
+	game.load.audio('hitSound', 'assets/audio/hitSound.mp3');
+	game.load.audio('trashSound', 'assets/audio/trashSound.mp3');
+	game.load.audio('killByMon', 'assets/audio/chewDeathSound.mp3');
     },
 	create: function(){
         //Set isAttacking and isPushing to false to prevent movement locking
