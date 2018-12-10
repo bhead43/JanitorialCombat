@@ -467,7 +467,7 @@ function setupUpdate(jan, trash, villain, blockLayer, goalLayer){
     //Restarting the Level
     if (game.input.keyboard.isDown(Phaser.Keyboard.R)){
         totalMove = 0;
-        bgMusic.stop();
+        bgMusic.stop(); 
         var x = getCookie("level")
         game.state.start("level"+ x); 
         }

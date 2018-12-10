@@ -5,8 +5,10 @@ demo.gameOver = function(){};
 demo.gameOver.prototype = {
 	preload: function(){
         game.load.image('GameOver', 'assets/GameOverScreen.png');
-    },
+      
 	create: function(){
+        
+        
         var gameOver = game.add.sprite(0, 0, 'GameOver');
         
         let R = game.input.keyboard.addKey(Phaser.Keyboard.R);
