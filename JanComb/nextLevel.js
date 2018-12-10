@@ -9,6 +9,10 @@ demo.nextLevel.prototype = {
         game.load.image('NextLevel', 'assets/NextLevelScreen.png');
 	},
 	create: function(){
+        if(getCookie('level') == 4){
+            game.state.start('complete');
+        }
+        
         var nextLevel = game.add.sprite(0, 0, 'NextLevel');		
 		lvlComp = game.add.audio('lvlComp');
         lvlComp.play();

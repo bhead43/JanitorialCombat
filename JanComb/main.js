@@ -9,5 +9,6 @@ game.state.add('level3', demo.level3);
 game.state.add('level4', demo.level4);
 game.state.add('gameOver', demo.gameOver);
 game.state.add('nextLevel', demo.nextLevel); 
+game.state.add('complete', demo.complete);
 //game.state.start('titleLevel');
 game.state.start('titleLevel');
