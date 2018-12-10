@@ -122,8 +122,12 @@ demo.level1.prototype = {
         
 		
 	    //Audio
-	    // --Background music
-	    bgMusic = game.add.audio('bgMusic');
+	hitSound = game.add.audio('hitSound');
+	trashSound = game.add.audio('trashSound');
+	killByMon = game.add.audio('killByMon');
+	
+	 // --Background music
+	bgMusic = game.add.audio('bgMusic');
         bgMusic.play();
         //  --Monster sound effects
 	    game.time.events.loop(Phaser.Timer.SECOND * getRandomInt(4,10), playMonSound, this);
