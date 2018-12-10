@@ -86,7 +86,7 @@ demo.level3.prototype = {
                         trashDirection = 3;
                         break;
                 }
-
+		trashSound.play();
                 var pshTimer = game.time.create(true);
                 pshTimer.add(300, function (){
                     isPushing = false;
@@ -117,7 +117,7 @@ demo.level3.prototype = {
                         jan.animations.play('attackDown', 5, false);
                         break;
                 }
-                
+                hitSound.play();
                 var atkTimer = game.time.create(true);
                 atkTimer.add(300, function(){
                     isAttacking = false;
