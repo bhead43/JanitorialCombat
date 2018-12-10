@@ -9,7 +9,7 @@ demo.nextLevel.prototype = {
         game.load.image('NextLevel', 'assets/NextLevelScreen.png');
 	},
 	create: function(){
-        if(getCookie('level') == 4){
+        if(getCookie('level') == 3){
             game.state.start('complete');
         }
         
