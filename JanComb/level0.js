@@ -1,5 +1,6 @@
-document.cookie = "level = 0"; 
+document.cookie = "level = 0";
 var y = getCookie('level')
+
 
 var blockLayer, goalLayer, jan, trash, stateText, villain;
 var upChild, downChild, leftChild, rightChild;  //Children for the trash object
@@ -43,14 +44,11 @@ demo.level0.prototype = {
         
         //Tutorial Sprite
         //game.load.image('Tutorial', 'assets/TutorialSpriteOne.png');
-        
         //Placeholder sprite for broom
         game.load.image('broom', 'assets/broom_PLACEHOLDER.png');
         
         //Pause sprite
         game.load.image('pause', 'assets/pauseScreen.png');
-		
-		
 		
     },
     
@@ -174,10 +172,12 @@ demo.level0.prototype = {
         P.onDown.add(function() {
             if (!isPaused){
                 isPaused = true;
+                bgMusic.stop();
                 pause = game.add.sprite(0, 0, 'pause');
             }
             else{
                 isPaused = false;
+                bgMusic.play();
                 pause.destroy();
             }
         });
@@ -467,7 +467,7 @@ function setupUpdate(jan, trash, villain, blockLayer, goalLayer){
     //Restarting the Level
     if (game.input.keyboard.isDown(Phaser.Keyboard.R)){
         totalMove = 0;
-        
+        bgMusic.stop();
         var x = getCookie("level")
         game.state.start("level"+ x); 
         }
@@ -603,6 +603,9 @@ function Trash(spawnX, spawnY){
 //  --It's worth noting that this uses an entirely new spritesheet for the janitor, as the current sheet has the broom included in the model.
 //  --Also worth noting that this will change a lot of the logic in the update loop, as it'll be looking to the broom for reference instead of hte janitor as a whole. This *should* result in a bit more precision with hitboxes, but it could very well break some stuff.
 //  --To sum this all up: this is a pretty big change to the game logic, so if things start breaking, look here first.
+
+
+
 function Janitor(spawnX, spawnY){
     //Functions to create janitor and broom
     this.createJanitor = function(x, y){
@@ -613,17 +616,23 @@ function Janitor(spawnX, spawnY){
         game.physics.enable(jan);
         jan.body.setSize(28, 28, 12, 32);    //Tweak this after setting up animations
         jan.body.collideWorldBounds = true;
+        
+        
         //Add animations v2
         //Walking animations
         jan.animations.add('walkRight', [10, 11]);
         jan.animations.add('walkLeft', [5, 6]);
         jan.animations.add('walkUp', [15, 16]);
         jan.animations.add('walkDown', [0, 1]);
+        
+        
         //Push animations   //Will need to do some fanangling to find out which frames are what now
         jan.animations.add('pushRight', [12, 13]);
         jan.animations.add('pushLeft', [7, 8]);
         jan.animations.add('pushUp', [17, 18]);
         jan.animations.add('pushDown', [2, 3]);
+        
+        
         //Attack animations
         jan.animations.add('attackRight', [14, 10]);
         jan.animations.add('attackLeft', [9, 5]);
