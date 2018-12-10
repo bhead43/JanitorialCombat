@@ -128,6 +128,9 @@ demo.level2.prototype = {
         });
         
         //Audio
+	hitSound = game.add.audio('hitSound');
+	trashSound = game.add.audio('trashSound');
+	killByMon = game.add.audio('killByMon');
 	    // --Background music
 	    bgMusic = game.add.audio('bgMusic');
         bgMusic.play();
